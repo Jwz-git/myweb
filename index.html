@@ -1,13 +1,79 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jwz's Blog</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
-</html>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" sizes="256x256" href="/src/assets/image/icon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jwz's Blog</title>
+</head>
+
+<body>
+  <!-- 新增进度条容器 -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  
+  <div id="building"></div>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+
+  <!-- 添加加载进度控制脚本 -->
+  <script>
+    // 模拟加载进度
+    let progress = 0;
+    const progressBar = document.getElementById('progressBar');
+    const progressInterval = setInterval(() => {
+      progress += Math.random() * 15;
+      progressBar.style.width = Math.min(progress, 100) + '%';
+      if (progress >= 100) {
+        clearInterval(progressInterval);
+        document.querySelector('.progress-container').style.display = 'none';
+      }
+    }, 200);
+  </script>
+</body>
+
+<style>
+/* 新增进度条样式 */
+.progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 9999;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #42b883;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+  
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#building {
+    background: url("/src/assets/image/total.jpg");
+    width: 100%; /* 修改为百分比适配 */
+    height: 100%; /* 修改为百分比适配 */
+    position: fixed;
+    top: 0;      /* 新增定位 */
+    left: 0;     /* 新增定位 */
+    background-size: cover; /* 改用cover属性 */
+    z-index: -1;
+}
+
+/* 确保app容器没有边距 */
+#app {
+    margin: 0;
+    padding: 0;
+}
+</style>
