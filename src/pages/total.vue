@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-        <!-- 标题区域 -->
         <div class="welcome-section">
             <h1 class="blog-title">
                 Welcome to My Blog
@@ -8,12 +7,11 @@
             <div class="divider"></div>
         </div>
 
-        <!-- 导航链接 -->
         <RouterLink to="/Home" class="enter-link" active-class="active">
             <span class="enter-home">
                 进入首页
             </span>
-        <i class="arrow-icon"></i>
+            <i class="arrow-icon"></i>
         </RouterLink>
     </div>
 </template>
@@ -44,28 +42,29 @@
     margin: 0 0 1.5rem;
     position: relative;
     display: inline-block;
-    animation: float 3s ease-in-out infinite; /* 新增浮动动画 */
+    animation: float 3s ease-in-out infinite;
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
 
-.divider {
-    width: 80px;
-    height: 2px;
-    background: linear-gradient(90deg, 
-        transparent 0%, 
-        #3498db 50%, 
-        transparent 100%);
-    margin: 0 auto;
-    animation: flow 2s linear infinite;
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 @keyframes flow {
-    from { background-position: -200% 0; }
-    to { background-position: 200% 0; }
+    from {
+        background-position: -200% 0;
+    }
+
+    to {
+        background-position: 200% 0;
+    }
 }
 
 .blog-title::after {
@@ -75,97 +74,100 @@
     left: 15%;
     width: 70%;
     height: 3px;
-    background: #3498db;
+    background: #5db2eb;
     border-radius: 3px;
 }
 
 .divider {
     width: 80px;
     height: 2px;
-    background: #3498db;
+    background: #5db2eb;
     margin: 0 auto;
 }
 
 .enter-link {
+    position: relative;
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     gap: 0.8rem;
     padding: 0.9rem 2.2rem;
-    background: #3498db;
+    background: transparent;
     color: white;
     text-decoration: none;
     border-radius: 30px;
     font-size: 1.1rem;
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease 0.1s;
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    z-index: 1;
+}
+
+.enter-link::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        rgba(255,255,255,0.3) 25%,
+        transparent 50%,
+        rgba(255,255,255,0.3) 75%
+    );
+    animation: flow 3s linear infinite;
+    z-index: -1;
+}
+
+.enter-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 30px;
+    border: 2px solid transparent;
+    animation: borderGlow 2s ease-in-out infinite;
+    filter: blur(2px);
+}
+
+@keyframes borderGlow {
+    0%, 100% { 
+        border-color: rgba(255,255,255,0.3);
+        box-shadow: 0 0 8px rgba(93, 178, 235, 0.5);
+    }
+    50% {
+        border-color: rgba(255,255,255,0.8);
+        box-shadow: 0 0 20px rgba(93, 178, 235, 0.9);
+    }
 }
 
 .enter-link:hover {
-    background: #58b0eb;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
-}
-
-.enter-link:active {
-    transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(52, 152, 219, 0.3);
-}
-
-.arrow-icon {
-    width: 18px;
-    height: 18px;
-    border-right: 2px solid white;
-    border-bottom: 2px solid white;
-    transform: rotate(-45deg);
-    transition: transform 0.3s ease;
+    background-size: 200% auto;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.5);
 }
 
 .enter-link:hover .arrow-icon {
-    transform: rotate(-45deg) translateX(5px) translateY(5px);
-}
-
-.active {
-    background: #2980b9;
+    transform: rotate(-45deg) translateX(8px) translateY(8px);
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1));
 }
 
 .enter-home {
+    position: relative;
     font-family: 'Playfair Display', SimSun;
-    font-size: large;
-    font-weight: bolder;
+    font-size: 1.2rem;
+    text-shadow: 
+        0 0 8px rgba(255,255,255,0.5),
+        1px 1px 3px rgba(0,0,0,0.3),
+        0 0 6px rgba(255,255,255,0.4),
+        2px 2px 6px rgba(0,0,0,0.25);
+    transition: text-shadow 0.3s ease;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-    .blog-title {
-        font-size: 2.2rem;
-    }
-
-    .enter-link {
-        padding: 0.8rem 1.8rem;
-        font-size: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .blog-title {
-        font-size: 1.8rem;
-    }
-
-    .welcome-section {
-        margin-bottom: 2rem;
-    }
+.enter-link:hover .enter-home {
+    text-shadow: 
+        2px 2px 3px rgba(0,0,0,0.3),
+        0 0 6px rgba(255,255,255,0.5),
+        3px 3px 6px rgba(0,0,0,0.2);
 }
 </style>
