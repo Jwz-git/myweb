@@ -110,12 +110,10 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: linear-gradient(
-        45deg,
-        rgba(255,255,255,0.3) 25%,
-        transparent 50%,
-        rgba(255,255,255,0.3) 75%
-    );
+    background: linear-gradient(45deg,
+            rgba(255, 255, 255, 0.3) 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.3) 75%);
     animation: flow 3s linear infinite;
     z-index: -1;
 }
@@ -131,12 +129,15 @@
 }
 
 @keyframes borderGlow {
-    0%, 100% { 
-        border-color: rgba(255,255,255,0.3);
+
+    0%,
+    100% {
+        border-color: rgba(255, 255, 255, 0.3);
         box-shadow: 0 0 8px rgba(93, 178, 235, 0.5);
     }
+
     50% {
-        border-color: rgba(255,255,255,0.8);
+        border-color: rgba(255, 255, 255, 0.8);
         box-shadow: 0 0 20px rgba(93, 178, 235, 0.9);
     }
 }
@@ -149,25 +150,25 @@
 
 .enter-link:hover .arrow-icon {
     transform: rotate(-45deg) translateX(8px) translateY(8px);
-    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1));
+    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.1));
 }
 
 .enter-home {
     position: relative;
     font-family: 'Playfair Display', SimSun;
     font-size: 1.2rem;
-    text-shadow: 
-        0 0 8px rgba(255,255,255,0.5),
-        1px 1px 3px rgba(0,0,0,0.3),
-        0 0 6px rgba(255,255,255,0.4),
-        2px 2px 6px rgba(0,0,0,0.25);
+    text-shadow:
+        0 0 8px rgba(255, 255, 255, 0.5),
+        1px 1px 3px rgba(0, 0, 0, 0.3),
+        0 0 6px rgba(255, 255, 255, 0.4),
+        2px 2px 6px rgba(0, 0, 0, 0.25);
     transition: text-shadow 0.3s ease;
 }
 
 .enter-link:hover .enter-home {
-    text-shadow: 
-        2px 2px 3px rgba(0,0,0,0.3),
-        0 0 6px rgba(255,255,255,0.5),
-        3px 3px 6px rgba(0,0,0,0.2);
+    text-shadow:
+        2px 2px 3px rgba(0, 0, 0, 0.3),
+        0 0 6px rgba(255, 255, 255, 0.5),
+        3px 3px 6px rgba(0, 0, 0, 0.2);
 }
 </style>

@@ -70,7 +70,7 @@ import NavBar from '../components/NavBar.vue'
 
 .btn {
   font-weight: bolder;
-  font-family:SimSun;
+  font-family: SimSun;
   color: aquamarine;
   position: relative;
   overflow: hidden;
@@ -85,19 +85,22 @@ import NavBar from '../components/NavBar.vue'
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent 25%,
-    rgba(52, 152, 219, 0.8) 50%,
-    transparent 75%
-  );
+  background: linear-gradient(45deg,
+      transparent 25%,
+      rgba(52, 152, 219, 0.8) 50%,
+      transparent 75%);
   animation: flow 6s linear infinite;
   z-index: -1;
 }
 
 @keyframes flow {
-  0% { transform: rotate(0deg) translateX(-25%); }
-  100% { transform: rotate(360deg) translateX(25%); }
+  0% {
+    transform: rotate(0deg) translateX(-25%);
+  }
+
+  100% {
+    transform: rotate(360deg) translateX(25%);
+  }
 }
 
 .btn:hover .bi {
@@ -138,7 +141,7 @@ import NavBar from '../components/NavBar.vue'
     padding: 0.6rem 1.2rem;
     font-size: 1rem;
   }
-  
+
   .btn:hover .bi {
     transform: scale(1.1) rotate(10deg);
   }

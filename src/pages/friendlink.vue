@@ -1,6 +1,6 @@
 <template>
     <NavBar />
-    <div class="friendlink-container">
+    <div class="friendlink-container stroll">
         <div class="row justify-content-center">
             <div v-for="(link, index) in friendLinks" :key="index"
                 class="col-12 mb-3 animate__animated animate__fadeInUp" :style="`animation-delay: ${index * 0.1}s`">
@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="button-container">
-            <BackToHome />
+            <Back />
         </div>
     </div>
 </template>
@@ -30,21 +30,55 @@ const friendLinks = [
         name: "ℱluorine's Blog",
         url: "https://lemoon1206.github.io",
         description: "技术笔记 | 学习感悟 | 心得分享",
-        avatar: "https://avatars.githubusercontent.com/u/199727471?v=4"
+        avatar: "src/assets/image/199727471.jpg"
     },
     {
         name: "Away's Blog",
         url: "https://awayc.github.io",
         description: "前端开发 | 交互设计 | 技术漫谈",
-        avatar: "https://awayc.github.io/img/Away.6660bd31.jpg"
+        avatar: "src/assets/image/Away.6660bd31.jpg"
     }
 ]
 
 import NavBar from '../components/NavBar.vue'
-import BackToHome from '../components/BackToHome.vue'
+import Back from '../components/Back.vue'
 </script>
 
 <style scoped>
+.stroll {
+    padding: 0;
+    height: 100vh;
+    overflow-y: auto;
+    scroll-behavior: auto;
+    padding: 6rem 1rem 2rem;
+}
+
+.stroll::-webkit-scrollbar
+{
+    width:3px;
+    height:16px;
+    background-color:#383333;
+}
+
+.stroll::-webkit-scrollbar-track
+{
+    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius:10px;
+    background-color:rgb(27, 23, 23);
+}
+
+.stroll::-webkit-scrollbar-thumb
+{
+    border-radius:10px;
+    background-color:#4e5153;
+}
+
+.stroll::-webkit-scrollbar-thumb:hover
+{
+    border-radius:10px;
+    background-color:#acb3b7;
+}
+
 .friendlink-container {
     min-height: 100vh;
     padding: 6rem 1rem;
@@ -81,6 +115,7 @@ import BackToHome from '../components/BackToHome.vue'
         height: 60px;
         margin-top: -30px;
     }
+
     .friend-card {
         width: 95%;
         max-width: 100%;
@@ -100,5 +135,4 @@ import BackToHome from '../components/BackToHome.vue'
     display: flex;
     justify-content: center;
 }
-
 </style>
