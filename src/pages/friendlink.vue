@@ -30,13 +30,13 @@ const friendLinks = [
         name: "ℱluorine's Blog",
         url: "https://lemoon1206.github.io",
         description: "技术笔记 | 学习感悟 | 心得分享",
-        avatar: "src/assets/image/199727471.jpg"
+        avatar: "https://avatars.githubusercontent.com/u/199727471?v=4"
     },
     {
         name: "Away's Blog",
         url: "https://awayc.github.io",
         description: "前端开发 | 交互设计 | 技术漫谈",
-        avatar: "src/assets/image/Away.6660bd31.jpg"
+        avatar: "https://awayc.github.io/img/Away.6660bd31.jpg"
     }
 ]
 
