@@ -10,8 +10,9 @@
                         <div class="text-center flex-grow-1">
                             <h5 class="card-title mb-2">{{ link.name }}</h5>
                             <p class="card-text text-muted small mb-3">{{ link.description }}</p>
-                            <a :href="link.url" target="_blank" class="btn btn-outline-primary btn-sm">
-                                访问博客 <i class="bi bi-box-arrow-up-right ms-1"></i>
+                            <a :href="link.url" target="_blank" class="btn btn-outline-primary btn-sm" title="访问博客">
+
+                                访问博客
                             </a>
                         </div>
                     </div>
@@ -89,11 +90,16 @@ import Back from '../components/Back.vue'
     width: 52%;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid rgba(52, 152, 219, 0.1);
+    margin: 0 auto;
 }
 
 .friend-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(52, 152, 219, 0.15);
+}
+
+.friend-card .card-body {
+    padding: 1.5rem;
 }
 
 .avatar {
@@ -105,8 +111,13 @@ import Back from '../components/Back.vue'
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
 }
 
-.friend-card .card-body {
-    padding: 1.5rem;
+.button-container {
+    margin-top: auto;
+    width: 100%;
+    max-width: 800px;
+    margin: 2rem auto 0;
+    display: flex;
+    justify-content: center;
 }
 
 @media (max-width: 768px) {
@@ -120,19 +131,5 @@ import Back from '../components/Back.vue'
         width: 95%;
         max-width: 100%;
     }
-}
-
-.friend-card {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.button-container {
-    margin-top: auto;
-    width: 100%;
-    max-width: 800px;
-    margin: 2rem auto 0;
-    display: flex;
-    justify-content: center;
 }
 </style>

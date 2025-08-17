@@ -11,19 +11,16 @@
     <nav class="nav flex-column col-10 col-sm-8 col-md-6 col-lg-4 mx-auto">
       <RouterLink to="/Article"
         class="nav-link btn btn-outline-primary mb-3 shadow-sm transition-all duration-300 hover:scale-105">
-        <i class="bi bi-journal-text me-2"></i>
         文章目录
       </RouterLink>
 
       <RouterLink to="/FriendLink"
         class="nav-link btn btn-outline-success mb-3 shadow-sm transition-all duration-300 hover:scale-105">
-        <i class="bi bi-people-fill me-2"></i>
         友情链接
       </RouterLink>
 
       <RouterLink to="/About"
         class="nav-link btn btn-outline-info shadow-sm transition-all duration-300 hover:scale-105">
-        <i class="bi bi-info-circle me-2"></i>
         关于本站
       </RouterLink>
     </nav>
@@ -40,6 +37,7 @@ import NavBar from '../components/NavBar.vue'
 }
 
 .blog-title {
+  font-weight: normal;
   font-family: 'Playfair Display', serif;
   color: #fefefe;
   position: relative;
@@ -69,6 +67,7 @@ import NavBar from '../components/NavBar.vue'
 }
 
 .btn {
+  font-size: large;
   font-weight: bolder;
   font-family: SimSun;
   color: aquamarine;
@@ -129,21 +128,6 @@ import NavBar from '../components/NavBar.vue'
 
   .btn::before {
     animation-duration: 8s;
-  }
-}
-
-@media (max-width: 576px) {
-  .blog-title {
-    font-size: 1.8rem;
-  }
-
-  .btn {
-    padding: 0.6rem 1.2rem;
-    font-size: 1rem;
-  }
-
-  .btn:hover .bi {
-    transform: scale(1.1) rotate(10deg);
   }
 }
 </style>

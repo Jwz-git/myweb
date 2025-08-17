@@ -1,5 +1,5 @@
 <template>
-    <RouterLink :to="to" class="custom-btn" active-class="active" :style="{ '--main-color': mainColor }">
+    <RouterLink :to="to" class="custom-btn" active-class="active" :style="{ '--main-color': mainColor }" :title="text">
         <i class="btn-icon" v-if="showIcon"></i>
         <span class="btn-text">{{ text }}</span>
     </RouterLink>

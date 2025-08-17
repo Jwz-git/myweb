@@ -74,7 +74,7 @@ import Back from '../components/Back.vue'
   background: rgba(255, 255, 255, 0.1);
   padding: 2rem;
   border-radius: 12px;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(2px);
   width: 50%;
   max-width: 1200px;
   margin: 0 auto;

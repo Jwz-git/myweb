@@ -18,7 +18,20 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.0",
-    "vite": "^7.0.4",
+    "vite": "^7.1.2",
     "vue-router": "^4.5.1"
-  }
+  },
+  "description": "我也不清楚import了哪些，需要安装哪些库，照着报错安装吧",
+  "main": "vite.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jwz-git/myweb.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jwz-git/myweb/issues"
+  },
+  "homepage": "https://github.com/Jwz-git/myweb#readme"
 }

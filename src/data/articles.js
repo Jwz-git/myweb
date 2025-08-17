@@ -10,7 +10,7 @@ export const articles = [
     id: 2,
     title: '待定的一些事',
     date: 'July 20th,2025',
-    image: 'src/assets/image/2.jpg',
+    image: 'https://raw.githubusercontent.com/Jwz-git/myweb/refs/heads/main/src/assets/image/2.jpg',
     mdPath: '/md/待定.md'
   },
 ];

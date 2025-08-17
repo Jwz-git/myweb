@@ -7,7 +7,7 @@
           <li v-for="article in articles" :key="article.id" class="article-item">
             <div>
               <h3 class="article-title">
-                <RouterLink :to="`/Article/${article.id}`" class="article-link">
+                <RouterLink :to="`/Article/${article.id}`" class="article-link" :title="article.title">
                   {{ article.title }}
                 </RouterLink>
               </h3>
@@ -15,7 +15,9 @@
                 <span>{{ article.date }}</span>
               </div>
             </div>
-            <img :src="article.image" alt="article image" class="article-image">
+            <RouterLink :to="`/Article/${article.id}`" class="article-link">
+              <img :src="article.image" alt="article image" class="article-image" title="阅读本文">
+            </RouterLink>
           </li>
         </ul>
       </div>
@@ -110,10 +112,9 @@ export default {
   background: rgba(255, 255, 255, 0.1);
   padding: 2rem;
   border-radius: 12px;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(2px);
   max-width: 800px;
   margin: 0 auto;
-  animation: fadeIn 1s ease-out;
 }
 
 .article-list {
@@ -148,24 +149,14 @@ export default {
 }
 
 .article-meta {
-  color: #9e9e9e;
+  color: #7eb1c7;
   font-size: 0.9rem;
   display: flex;
   gap: 1rem;
 }
 
-@media (max-width: 768px) {
-  .article-item {
-    padding: 1rem;
-  }
-
-  .article-title {
-    font-size: 1.1rem;
-  }
-}
-
 .article-image {
-  width: 150px;
+  width: 140px;
   height: 120px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -178,5 +169,23 @@ export default {
   margin: 2rem auto 0;
   display: flex;
   justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .article-item {
+    padding: 1rem;
+  }
+
+  .article-title {
+    font-size: 1.1rem;
+  }
+  
+  .content-card{
+    width: 100%;
+  }
+  .article-image{
+    width: 110px;
+    height: 100px;
+  }
 }
 </style>

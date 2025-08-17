@@ -156,15 +156,10 @@ onMounted(async () => {
     justify-content: center;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@media (max-width: 768px) {
+  .nav-link {
+    margin: 0.5rem 0;
+    text-align: center;
+  }
 }
 </style>
