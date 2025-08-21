@@ -16,7 +16,7 @@
               </div>
             </div>
             <RouterLink :to="`/Article/${article.id}`" class="article-link">
-              <img :src="article.image" alt="article image" class="article-image" title="阅读本文">
+              <img :src="article.image" alt="图片加载失败" class="article-image" title="阅读本文">
             </RouterLink>
           </li>
         </ul>
@@ -39,7 +39,7 @@ import { articles } from '../data/articles.js'
 export default {
   data() {
     return {
-      articles: articles
+      articles: articles.reverse()
     }
   }
 }

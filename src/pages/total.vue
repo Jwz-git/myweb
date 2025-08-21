@@ -8,7 +8,7 @@
         </div>
 
         <RouterLink to="/Home" class="enter-link" active-class="active" title="进入首页">
-            <span class="enter-home" >
+            <span class="enter-home">
                 进入首页
             </span>
             <i class="arrow-icon"></i>

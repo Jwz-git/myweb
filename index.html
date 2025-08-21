@@ -9,16 +9,16 @@
 </head>
 
 <body>
-  <!-- 新增进度条容器 -->
+  <!-- 进度条容器 -->
   <div class="progress-container">
     <div class="progress-bar" id="progressBar"></div>
   </div>
-  
+
   <div id="building"></div>
   <div id="app"></div>
   <script type="module" src="/src/main.js"></script>
 
-  <!-- 添加加载进度控制脚本 -->
+  <!-- 加载进度控制脚本 -->
   <script>
     // 模拟加载进度
     let progress = 0;
@@ -35,45 +35,46 @@
 </body>
 
 <style>
-/* 新增进度条样式 */
-.progress-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: rgba(255, 255, 255, 0.2);
-  z-index: 9999;
-}
+  /* 进度条样式 */
+  .progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    z-index: 9999;
+  }
 
-.progress-bar {
-  height: 100%;
-  background: #42b883;
-  width: 0%;
-  transition: width 0.3s ease;
-}
+  .progress-bar {
+    height: 100%;
+    background: #42b883;
+    width: 0%;
+    transition: width 0.3s ease;
+  }
 
-  
-html, body {
+
+  html,
+  body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-}
+  }
 
-#building {
+  #building {
     background: url("/src/assets/image/total.jpg");
-    width: 100%; /* 修改为百分比适配 */
-    height: 100%; /* 修改为百分比适配 */
+    width: 100%;
+    height: 100%;
     position: fixed;
-    top: 0;      /* 新增定位 */
-    left: 0;     /* 新增定位 */
-    background-size: cover; /* 改用cover属性 */
+    top: 0;
+    left: 0;
+    background-size: cover;
     z-index: -1;
-}
+  }
 
-/* 确保app容器没有边距 */
-#app {
+  /* 确保app容器没有边距 */
+  #app {
     margin: 0;
     padding: 0;
-}
+  }
 </style>

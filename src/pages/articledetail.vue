@@ -61,30 +61,26 @@ onMounted(async () => {
     padding: 6rem 1rem 2rem;
 }
 
-.stroll::-webkit-scrollbar
-{
-    width:3px;
-    height:16px;
-    background-color:#383333;
+.stroll::-webkit-scrollbar {
+    width: 3px;
+    height: 16px;
+    background-color: #383333;
 }
 
-.stroll::-webkit-scrollbar-track
-{
-    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
-    border-radius:10px;
-    background-color:rgb(27, 23, 23);
+.stroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: rgb(27, 23, 23);
 }
 
-.stroll::-webkit-scrollbar-thumb
-{
-    border-radius:10px;
-    background-color:#4e5153;
+.stroll::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #4e5153;
 }
 
-.stroll::-webkit-scrollbar-thumb:hover
-{
-    border-radius:10px;
-    background-color:#acb3b7;
+.stroll::-webkit-scrollbar-thumb:hover {
+    border-radius: 10px;
+    background-color: #acb3b7;
 }
 
 .title-container {
@@ -106,11 +102,11 @@ onMounted(async () => {
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(2px);
     border-radius: 12px;
     padding: 1rem 2rem 1rem 2rem;
     margin: 0 auto;
-    max-width: 800px;
+    max-width: 70%;
     animation: fadeIn 0.6s ease-out;
 }
 
@@ -120,7 +116,7 @@ onMounted(async () => {
     font-size: 2rem;
     color: #e0e0e0;
     margin-bottom: 1.5rem;
-    background: linear-gradient(120deg, aqua 0%, #7af0ad 100%);
+    background: linear-gradient(120deg, rgb(255, 255, 255) 0%, #7af0ad 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -157,9 +153,15 @@ onMounted(async () => {
 }
 
 @media (max-width: 768px) {
-  .nav-link {
-    margin: 0.5rem 0;
-    text-align: center;
-  }
+    .nav-link {
+        margin: 0.5rem 0;
+        text-align: center;
+    }
+}
+
+@media (max-width: 900px) {
+    .content-card {
+        max-width: 100%;
+    }
 }
 </style>

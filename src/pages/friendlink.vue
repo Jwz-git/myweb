@@ -6,12 +6,11 @@
                 class="col-12 mb-3 animate__animated animate__fadeInUp" :style="`animation-delay: ${index * 0.1}s`">
                 <div class="friend-card card h-100 shadow-sm">
                     <div class="card-body d-flex flex-column align-items-center">
-                        <img :src="link.avatar" class="avatar rounded-circle mb-3" alt="avatar">
+                        <img :src="link.avatar" class="avatar rounded-circle mb-3" alt="图片加载失败">
                         <div class="text-center flex-grow-1">
                             <h5 class="card-title mb-2">{{ link.name }}</h5>
                             <p class="card-text text-muted small mb-3">{{ link.description }}</p>
                             <a :href="link.url" target="_blank" class="btn btn-outline-primary btn-sm" title="访问博客">
-
                                 访问博客
                             </a>
                         </div>
@@ -54,30 +53,26 @@ import Back from '../components/Back.vue'
     padding: 6rem 1rem 2rem;
 }
 
-.stroll::-webkit-scrollbar
-{
-    width:3px;
-    height:16px;
-    background-color:#383333;
+.stroll::-webkit-scrollbar {
+    width: 3px;
+    height: 16px;
+    background-color: #383333;
 }
 
-.stroll::-webkit-scrollbar-track
-{
-    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
-    border-radius:10px;
-    background-color:rgb(27, 23, 23);
+.stroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: rgb(27, 23, 23);
 }
 
-.stroll::-webkit-scrollbar-thumb
-{
-    border-radius:10px;
-    background-color:#4e5153;
+.stroll::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #4e5153;
 }
 
-.stroll::-webkit-scrollbar-thumb:hover
-{
-    border-radius:10px;
-    background-color:#acb3b7;
+.stroll::-webkit-scrollbar-thumb:hover {
+    border-radius: 10px;
+    background-color: #acb3b7;
 }
 
 .friendlink-container {
