@@ -11,6 +11,7 @@
                             <h5 class="card-title mb-2">{{ link.name }}</h5>
                             <p class="card-text text-muted small mb-3">{{ link.description }}</p>
                             <a :href="link.url" target="_blank" class="btn btn-outline-primary btn-sm" title="访问博客">
+                                <i class="bi bi-box-arrow-up-right me-1"></i>
                                 访问博客
                             </a>
                         </div>

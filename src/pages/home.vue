@@ -28,16 +28,19 @@
     <nav class="nav flex-column col-10 col-sm-8 col-md-6 col-lg-4 mx-auto">
       <RouterLink to="/Article"
         class="nav-link btn btn-outline-primary mb-3 shadow-sm transition-all duration-300 hover:scale-105">
+        <i class="bi bi-journal-text me-1"></i>
         文章目录
       </RouterLink>
 
       <RouterLink to="/FriendLink"
         class="nav-link btn btn-outline-success mb-3 shadow-sm transition-all duration-300 hover:scale-105">
+        <i class="bi bi-people me-1"></i>
         友情链接
       </RouterLink>
 
       <RouterLink to="/About"
         class="nav-link btn btn-outline-info shadow-sm transition-all duration-300 hover:scale-105">
+        <i class="bi bi-info-circle me-1"></i>
         关于本站
       </RouterLink>
     </nav>
