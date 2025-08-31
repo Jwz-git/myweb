@@ -119,10 +119,9 @@ onMounted(async () => {
 
 .content-card {
     padding: 0;
-    height: calc(120vh - 240px);
+    height: auto;
     scroll-behavior: smooth;
-    min-height: 70%;
-    overflow-y: auto;
+    min-height: 70vh;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
     background: rgba(255, 255, 255, 0.1);
@@ -190,7 +189,7 @@ onMounted(async () => {
     color: #d0d0d0;
     line-height: 1.8;
     font-size: 1.1rem;
-    margin-bottom: 4rem;
+    /* margin-bottom: 4rem; */
     white-space: pre-wrap;
     overflow-x: auto;
     max-width: 100%;
@@ -235,7 +234,13 @@ onMounted(async () => {
 @media (max-width: 900px) {
     .content-card {
         max-width: 100%;
-        margin: -7% auto;
+        margin: -8% auto;
+    }
+
+    .article-title{
+        width: 200%;
+        margin: auto auto auto -50%;
+
     }
 
     .tag {

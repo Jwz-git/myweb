@@ -4,12 +4,11 @@
     <div class="container">
       <div class="content-card">
         <ul class="article-list">
-          <li v-for="article in articles" :key="article.id" class="article-item" @click="goToArticle(article.id)">
+          <li v-for="article in articles" :key="article.id" class="article-item" @click="goToArticle(article.id)"
+            title="阅读本文">
             <div>
               <h3 class="article-title">
-                <RouterLink :to="`/Article/${article.id}`" class="article-link" :title="article.title">
-                  {{ article.title }}
-                </RouterLink>
+                {{ article.title }}
               </h3>
 
               <div class="article-tags">
@@ -37,9 +36,7 @@
                 </span>
               </div>
             </div>
-            <RouterLink :to="`/Article/${article.id}`" class="article-link">
-              <img :src="article.image" alt="图片加载失败" class="article-image" title="阅读本文">
-            </RouterLink>
+            <img :src="article.image" alt="图片加载失败" class="article-image">
           </li>
         </ul>
       </div>
@@ -152,6 +149,22 @@ const goToArticle = (id) => {
   justify-content: space-between;
 }
 
+.article-item::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, rgb(221, 243, 115) 0%, #7af0ad 100%);
+  transition: width 0.3s ease;
+  z-index: -1;
+}
+
+.article-item:hover::after {
+  width: 100%;
+}
+
 .article-item:hover {
   background: rgba(255, 255, 255, 0.1);
   transform: translateY(-3px);
@@ -159,6 +172,12 @@ const goToArticle = (id) => {
 }
 
 .article-title {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  background: linear-gradient(120deg, aqua 0%, #7af0ad 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   font-family: SimSun;
   font-weight: bolder;
   color: #e0e0e0;
@@ -199,6 +218,13 @@ const goToArticle = (id) => {
 }
 
 .article-image {
+  color: #e0e0e0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  background: linear-gradient(120deg, aqua 0%, #7af0ad 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   width: 140px;
   height: 120px;
   border-radius: 8px;

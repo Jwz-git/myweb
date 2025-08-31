@@ -56,6 +56,7 @@
 }
 
 .nav-link {
+  text-align: center;
   position: relative;
   margin: 0 0.8rem;
   padding: 0.5rem 1rem !important;
@@ -73,10 +74,15 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.copyright {
+  font-size: 0.85rem;
+  color: #ffffff;
+  text-align: center;
+}
+
 @media (max-width: 768px) {
   .nav-link {
     margin: 0.5rem 0;
-    text-align: center;
   }
 }
 </style>
