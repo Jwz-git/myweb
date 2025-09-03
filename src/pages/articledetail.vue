@@ -59,7 +59,7 @@ const article = ref(articles.find(a => a.id === parseInt(articleId)) || {
 const articleContent = ref('');
 
 const md = new MarkdownIt({
-    html: true,
+    html: true
 });
 
 onMounted(async () => {
