@@ -51,6 +51,7 @@
 import NavBar from '../components/NavBar.vue'
 </script>
 
+
 <style scoped>
 .welcome-section {
   margin-bottom: 2rem;
