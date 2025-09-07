@@ -14,6 +14,7 @@
     "bootstrap": "^5.3.7",
     "bootstrap-icons": "^1.13.1",
     "gsap": "^3.13.0",
+    "live2d-widget": "^3.1.4",
     "markdown-it": "^14.1.0",
     "marked": "^16.1.1",
     "vue": "^3.5.17"
