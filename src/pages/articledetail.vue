@@ -45,6 +45,13 @@ import NavBar from '../components/NavBar.vue'
 import Back from '../components/Back.vue'
 import MarkdownIt from 'markdown-it';
 import { ref, onMounted } from 'vue';
+import hljs from 'highlight.js'
+import 'highlight.js/styles/github-dark.css'
+import markdownItKatex from 'markdown-it-katex'
+
+// import 'katex/dist/katex.min.css'  // 引入KaTeX的CSS样式
+
+
 
 const route = useRoute()
 const articleId = route.params.id
@@ -59,14 +66,39 @@ const article = ref(articles.find(a => a.id === parseInt(articleId)) || {
 const articleContent = ref('');
 
 const md = new MarkdownIt({
-    html: true
+    html: true,
+    xhtmlOut: true,
+    breaks: true,
+    linkify: false,
+    typographer: false,
+    highlight: function (str, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+            try {
+                // 使用highlightAuto自动检测语言
+                const result = hljs.highlightAuto(str, [lang]);
+                return `<pre class="hljs"><code class="language-${lang}">${result.value}</code></pre>`;
+            } catch (__) {}
+        }
+        
+        // 如果没有指定语言或语言不支持，仍然进行基本的HTML转义
+        return `<pre class="hljs"><code>${md.utils.escapeHtml(str)}</code></pre>`;
+    }
 });
+
+md.use(markdownItKatex);
 
 onMounted(async () => {
     try {
         const response = await fetch(article.value.mdPath);
         const mdText = await response.text();
         articleContent.value = md.render(mdText);
+        
+        // 在渲染完成后，重新高亮所有代码块
+        setTimeout(() => {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+        }, 0);
     } catch (error) {
         console.error('加载 Markdown 文件出错:', error);
     }
@@ -124,10 +156,10 @@ onMounted(async () => {
     min-height: 70vh;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgb(34, 44, 55);
     backdrop-filter: blur(2px);
     border-radius: 12px;
-    padding: 1rem 2rem 1rem 2rem;
+    padding: 2rem 2rem 1rem 2rem;
     margin: -3% auto 0 auto;
     max-width: 60%;
     animation: fadeIn 0.6s ease-out;

@@ -127,7 +127,7 @@ const getEventCoordinates = (e) => {
 // 拖动开始
 const startDrag = (e) => {
     // 防止默认行为，避免页面滚动
-    if (e.target.closest('.volume-control')) {
+    if (e.target.closest('.volume-control') || e.target.closest('.progress-container')) {
         return;
     }
 
@@ -230,10 +230,14 @@ onMounted(() => {
     document.addEventListener('touchmove', onDrag, { passive: false });
     document.addEventListener('touchend', stopDrag);
     
-    // 页面加载时自动播放
+    // 页面加载时自动播放（添加等待音频加载完成的逻辑）
     if (audioPlayer.value) {
-        audioPlayer.value.play()
-        isPlaying.value = true
+        audioPlayer.value.oncanplay = () => {
+            audioPlayer.value.play();
+            isPlaying.value = true;
+        };
+        // 确保音频开始加载
+        audioPlayer.value.load();
     }
 })
 

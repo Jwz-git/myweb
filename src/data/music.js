@@ -48,7 +48,7 @@ const songs = ref([
         artist: '',
         cover: 'https://p2.music.126.net/z150EpOTNipDBOMNnAJr6A==/109951169783176506.jpg',
         url: '/src/assets/music/孤高曼波.mp3'
-    },
+    }
 ]);
 
 export { songs };

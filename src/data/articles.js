@@ -12,7 +12,7 @@ const articles = [
     title: '待定的一些事',
     tags: ['待定', '长期'],
     date: '2025-07-20',
-    image: 'https://raw.githubusercontent.com/Jwz-git/myweb/refs/heads/main/src/assets/image/2.jpg',
+    image: 'http://mms2.baidu.com/it/u=3658191921,63871985&fm=253&app=138&f=JPEG?w=380&h=380',
     mdPath: '/md/待定的一些事.md'
   },
   {
@@ -30,6 +30,14 @@ const articles = [
     date: '2025-09-02',
     image: 'https://picx.zhimg.com/80/v2-1793a19198c26e8c0722232bf53089e7_720w.webp?source=2c26e567',
     mdPath: '/md/为什么会有短学期.md'
+  },
+  {
+    id: 5,
+    title: 'CMake学习笔记',
+    tags: ['学习', '笔记'],
+    date: '2025-10-10',
+    image: 'https://ts3.tc.mm.bing.net/th/id/OSAAS.33CB75329B822E2CF49DD5CC0D40E9DD?w=72&h=72&c=17&rs=1&o=6&cb=12&dpr=1.3&pid=TechQna',
+    mdPath: '/md/CMake学习笔记.md'
   },
 ].reverse();
 
