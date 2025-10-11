@@ -4,7 +4,7 @@ const articles = [
     title: '一些想法',
     tags: ['思考', '碎碎念'],
     date: '2025-07-20',
-    image: 'https://avatars.githubusercontent.com/u/209489342?v=4',
+    image: 'http://mms0.baidu.com/it/u=3282084242,1819497074&fm=253&app=120&f=JPEG?w=500&h=500',
     mdPath: '/md/一些想法.md'
   },
   {

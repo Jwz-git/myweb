@@ -20,7 +20,7 @@
     "markdown-it": "^14.1.0",
     "markdown-it-katex": "^2.0.3",
     "marked": "^16.4.0",
-    "vue": "^3.5.17",
+    "vue": "^3.5.22",
     "vue-markdown": "^2.2.4"
   },
   "devDependencies": {

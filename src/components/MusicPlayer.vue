@@ -9,6 +9,19 @@
                 <i class="bi" :class="isFolded ? 'bi-chevron-down' : 'bi-chevron-up'" style="color: white;"></i>
             </button>
         </div>
+        
+        <!-- 折叠状态下的简化显示 -->
+        <div class="folded-content" v-if="isFolded">
+            <div class="folded-song-info">
+                {{ currentSong.title || '未知' }} - {{ currentSong.artist || '未知' }}
+            </div>
+            <div class="folded-controls">
+                <button class="control-btn" @click="togglePlay">
+                    <i class="bi bi-pause-fill" v-if="isPlaying"></i>
+                    <i class="bi bi-play-fill" v-else></i>
+                </button>
+            </div>
+        </div>
 
         <!-- 播放器内容区 -->
         <div class="player-content" v-if="!isFolded">
@@ -26,19 +39,6 @@
                     <i class="bi bi-play-fill" v-else></i>
                 </button>
                 <button class="control-btn" @click="nextSong"><i class="bi bi-skip-end-fill"></i></button>
-            </div>
-        </div>
-
-        <!-- 折叠状态下的简化显示 -->
-        <div class="folded-content" v-if="isFolded">
-            <div class="folded-song-info">
-                {{ currentSong.title || '未知' }} - {{ currentSong.artist || '未知' }}
-            </div>
-            <div class="folded-controls">
-                <button class="control-btn" @click="togglePlay">
-                    <i class="bi bi-pause-fill" v-if="isPlaying"></i>
-                    <i class="bi bi-play-fill" v-else></i>
-                </button>
             </div>
         </div>
 
@@ -233,6 +233,7 @@ onMounted(() => {
     // 页面加载时自动播放（添加等待音频加载完成的逻辑）
     if (audioPlayer.value) {
         audioPlayer.value.oncanplay = () => {
+            audioPlayer.value.volume = volume.value;
             audioPlayer.value.play();
             isPlaying.value = true;
         };
@@ -284,13 +285,13 @@ const formatTime = (seconds) => {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`
 }
 
-const volume = ref(1) // 初始音量为1 (最大)
+const volume = ref(0.25) // 初始音量为0.25
 
 const setVolume = (e) => {
     const newVolume = parseFloat(e.target.value)
     volume.value = newVolume
     if (audioPlayer.value) {
-        audioPlayer.value.volume = newVolume
+        audioPlayer.value.volume = volume.value
     }
 }
 
@@ -307,6 +308,7 @@ onUnmounted(() => {
         audioPlayer.value = null;
     }
 })
+
 </script>
 
 <style scoped>
@@ -377,6 +379,7 @@ audio {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: auto;
 }
 
 .album-cover {
