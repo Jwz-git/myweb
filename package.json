@@ -10,6 +10,7 @@
     "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
+    "@iktakahiro/markdown-it-katex": "^4.0.1",
     "animate.css": "^4.1.1",
     "bootstrap": "^5.3.7",
     "bootstrap-icons": "^1.13.1",

@@ -46,10 +46,12 @@ import Back from '../components/Back.vue'
 import MarkdownIt from 'markdown-it';
 import { ref, onMounted } from 'vue';
 import hljs from 'highlight.js'
-import 'highlight.js/styles/github-dark.css'
-import markdownItKatex from 'markdown-it-katex'
 
-// import 'katex/dist/katex.min.css'  // 引入KaTeX的CSS样式
+// 数学公式渲染
+import 'highlight.js/styles/github-dark.css'
+import markdownItKatex from '@iktakahiro/markdown-it-katex'
+// import markdownItKatex from 'markdown-it-katex'
+import 'katex/dist/katex.min.css'
 
 
 
@@ -85,6 +87,7 @@ const md = new MarkdownIt({
     }
 });
 
+// 启用KaTeX插件，设置数学公式库
 md.use(markdownItKatex);
 
 onMounted(async () => {
