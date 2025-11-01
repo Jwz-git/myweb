@@ -5,7 +5,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import { createApp } from "vue"
 import App from "./App.vue"
 import router from "./modules/router.js"
-import {gsap} from 'gsap'
+import { gsap } from 'gsap'
 import 'animate.css'
 
 import { L2Dwidget } from 'live2d-widget'
@@ -14,6 +14,7 @@ const app = createApp(App)
 
 app.use(router)
 
+//右下角小人
 // 添加路由守卫
 router.beforeEach((to, from, next) => {
   // 如果目标页面是total页面，隐藏Live2D
@@ -35,7 +36,7 @@ router.beforeEach((to, from, next) => {
           "width": 150,
           "height": 300,
           "hOffset": 0,
-          "vOffset": -20
+          "vOffset": -20,
         },
         "mobile": {
           "show": true,

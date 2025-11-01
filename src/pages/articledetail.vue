@@ -27,7 +27,6 @@
                 <span>{{ article.date }}</span>
             </div>
         </div>
-        <!-- <div class="container"> -->
         <div class="content-card">
             <div class="article-content" v-html="articleContent"></div>
         </div>
@@ -35,7 +34,6 @@
         <div class="button-container">
             <Back text="返回" to="/Article" />
         </div>
-        <!-- </div> -->
     </div>
 </template>
 
@@ -50,7 +48,6 @@ import hljs from 'highlight.js'
 // 数学公式渲染
 import 'highlight.js/styles/github-dark.css'
 import markdownItKatex from '@iktakahiro/markdown-it-katex'
-// import markdownItKatex from 'markdown-it-katex'
 import 'katex/dist/katex.min.css'
 
 

@@ -1,7 +1,7 @@
 <template>
     <div class="music-player" :class="{ 'playing': isPlaying, 'folded': isFolded }"
-        :style="{ right: playerPosition.right + 'px', bottom: playerPosition.bottom + 'px' }" @mousedown="startDrag"
-        @touchstart="startDrag">
+        :style="{ left: playerPosition.left + 'px', bottom: playerPosition.bottom + 'px' }" @mousedown="startDrag"
+         @touchstart="startDrag">
         <!-- 播放器头部 -->
         <div class="player-header">
             <span class="player-title">🎵 音乐播放器</span>
@@ -9,7 +9,7 @@
                 <i class="bi" :class="isFolded ? 'bi-chevron-down' : 'bi-chevron-up'" style="color: white;"></i>
             </button>
         </div>
-        
+
         <!-- 折叠状态下的简化显示 -->
         <div class="folded-content" v-if="isFolded">
             <div class="folded-song-info">
@@ -65,7 +65,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { songs } from '../data/music.js'
 
 // 播放器状态
@@ -73,12 +73,12 @@ const isPlaying = ref(false)
 const currentTime = ref(0)
 const duration = ref(0)
 const progress = ref(0)
-const isFolded = ref(false) // 新增折叠状态
+const isFolded = ref(true) // 新增折叠状态
 
 // 拖动相关
 const isDragging = ref(false)
 const dragStart = ref({ x: 0, y: 0 })
-const playerPosition = ref({ right: 20, bottom: 320 }) // 初始位置
+const playerPosition = ref({ left: 20, bottom: 50 }) // 初始位置改为左下角
 
 // audio元素引用
 const audioPlayer = ref(null)
@@ -90,7 +90,7 @@ const currentSong = ref(songs.value[0])
 const prevSong = () => {
     currentSongIndex.value = (currentSongIndex.value - 1 + songs.value.length) % songs.value.length
     currentSong.value = songs.value[currentSongIndex.value]
-    
+
     // 等待音频加载完成后播放
     if (audioPlayer.value) {
         audioPlayer.value.load()
@@ -104,7 +104,7 @@ const prevSong = () => {
 const nextSong = () => {
     currentSongIndex.value = (currentSongIndex.value + 1) % songs.value.length
     currentSong.value = songs.value[currentSongIndex.value]
-    
+
     // 等待音频加载完成后播放
     if (audioPlayer.value) {
         audioPlayer.value.load()
@@ -167,12 +167,12 @@ const onDrag = (e) => {
     const playerWidth = 200;
     const playerHeight = isFolded.value ? 80 : 200; // 根据实际情况调整
 
-    // 更新播放器位置，限制所有边界
-    playerPosition.value.right = Math.max(
-        20, // 最小右边距
+    // 更新播放器位置，限制所有边界（使用left定位）
+    playerPosition.value.left = Math.max(
+        20, // 最小左边距
         Math.min(
-            windowWidth - playerWidth - 20, // 最大右边距（左边界限制）
-            playerPosition.value.right - dx
+            windowWidth - playerWidth - 20, // 最大左边距（右边界限制）
+            playerPosition.value.left + dx
         )
     );
 
@@ -229,7 +229,7 @@ onMounted(() => {
     document.addEventListener('mouseup', stopDrag);
     document.addEventListener('touchmove', onDrag, { passive: false });
     document.addEventListener('touchend', stopDrag);
-    
+
     // 页面加载时自动播放（添加等待音频加载完成的逻辑）
     if (audioPlayer.value) {
         audioPlayer.value.oncanplay = () => {
@@ -315,7 +315,7 @@ onUnmounted(() => {
 /* 播放器主容器 */
 .music-player {
     position: fixed;
-    width: 200px;
+    width: 12rem;
     background: rgba(0, 0, 0, 0.8);
     border-radius: 10px;
     backdrop-filter: blur(10px);
@@ -554,6 +554,7 @@ audio {
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }
@@ -569,7 +570,7 @@ audio {
 }
 
 .music-player.playing .album-cover img {
-    animation: rotate 12s linear infinite;
+    animation: rotate 15s linear infinite;
 }
 
 /* 响应式设计 - 手机界面 */

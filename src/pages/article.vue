@@ -7,17 +7,17 @@
           <li v-for="article in articles" :key="article.id" class="article-item" @click="goToArticle(article.id)"
             title="阅读本文">
             <div>
-              <h3 class="article-title">
+              <h3 class="article-title" @click="stopBubble(event)">
                 {{ article.title }}
               </h3>
 
-              <div class="article-tags">
+              <div class="article-tags" @click="stopBubble(event)">
                 <span v-for="tag in article.tags" :key="tag" class="tag">
                   {{ tag }}
                 </span>
               </div>
 
-              <div class="article-meta">
+              <div class="article-meta" @click="stopBubble(event)">
                 <span>
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="24"
                     height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
@@ -57,6 +57,15 @@ const router = useRouter()
 // 点击卡片跳转方法
 const goToArticle = (id) => {
   router.push(`/Article/${id}`)
+}
+
+function stopBubble(event) {
+  event = event || window.event; // 兼容旧浏览器
+  if (event.stopPropagation) {
+    event.stopPropagation(); // 标准浏览器
+  } else {
+    event.cancelBubble = true; // IE旧版本（可选，现代浏览器无需）
+  }
 }
 </script>
 
@@ -166,6 +175,7 @@ const goToArticle = (id) => {
 }
 
 .article-item:hover {
+  cursor: pointer;
   background: rgba(255, 255, 255, 0.1);
   transform: translateY(-3px);
   box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
@@ -183,6 +193,12 @@ const goToArticle = (id) => {
   color: #e0e0e0;
   font-size: 1.2rem;
   margin-bottom: 0.8rem;
+}
+
+.article-title:hover {
+  cursor: default;
+  transform: translateY(-2px);
+  font-size: 1.3rem;
 }
 
 /* 标签样式 */
@@ -205,17 +221,21 @@ const goToArticle = (id) => {
 }
 
 .tag:hover {
+  cursor: default;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(122, 240, 173, 0.3);
   background: linear-gradient(145deg, rgba(92, 219, 149, 0.3) 0%, rgba(52, 152, 219, 0.3) 100%);
+  font-size: 0.95rem;
 }
 
 .article-meta {
+  cursor: default;
   color: #7ebac7;
-  font-size: 0.9rem;
+  font-size: 1rem;
   display: flex;
   gap: 1rem;
 }
+
 
 .article-image {
   color: #e0e0e0;
@@ -229,6 +249,11 @@ const goToArticle = (id) => {
   height: 120px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.article-image:hover {
+  width: 150px;
+  height: 130px;
 }
 
 .button-container {

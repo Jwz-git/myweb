@@ -145,15 +145,12 @@ import NavBar from '../components/NavBar.vue'
 .web-link {
   display: inline-block;
   padding: 0.25rem;
-  /* 减小内边距 */
   border-radius: 50%;
-  /* 保持圆形 */
   transition: background-color 0.3s ease;
 }
 
 .web-link:hover {
   background-color: rgba(255, 255, 255, 0.1);
-  /* 添加悬停效果 */
   transform: scale(1.1);
 }
 
