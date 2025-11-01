@@ -22,25 +22,30 @@ const songs = ref([
     {
         title: '愿与愁',
         artist: '林俊杰',
-        cover: 'https://ts4.tc.mm.bing.net/th/id/OIP-C.6KMeiNw5BUEXi6cAFWN2DwHaHa?r=0&cb=thfc1ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3',
+        cover: 'https://ts4.tc.mm.bing.net/th/id/OIP-C.6KMeiNw5BUEXi6cAFWN2DwHaHa?r=0&cb=thfc1ucfi'+
+        'mg=1&rs=1&pid=ImgDetMain&o=7&rm=3',
         url: '/music/愿与愁-林俊杰.mp3'
     },
     {
         title: '乌鸦',
         artist: '许嵩',
-        cover: 'https://ts2.tc.mm.bing.net/th/id/OIP-C.zG4CKdHHG0RpCCxdoje66gHaHa?r=0&cb=thfc1ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3',
+        cover: 'https://ts2.tc.mm.bing.net/th/id/OIP-C.zG4CKdHHG0RpCCxdoje66gHaHa?r=0&cb=thfc1ucfi'+
+        'mg=1&rs=1&pid=ImgDetMain&o=7&rm=3',
         url: '/music/乌鸦-许嵩.mp3'
     },
     {
         title: '改变自己',
         artist: '王力宏',
-        cover: 'https://ts1.tc.mm.bing.net/th/id/R-C.5366514c2d60601a5fc7afd965ce2e38?rik=BNC7CoP37X9WpA&riu=http%3a%2f%2fp2.music.126.net%2flHab-TuxFpGuCCv661i7eg%3d%3d%2f109951163095170102.jpg&ehk=o7%2b%2bi23C4VfyGAuDfD95MP2RsI%2fzR8%2bm9%2fH1qSDvIL0%3d&risl=&pid=ImgRaw&r=0',
+        cover: 'https://ts1.tc.mm.bing.net/th/id/R-C.5366514c2d60601a5fc7afd965ce2e38?rik=BNC7Co'+
+        'P37X9WpA&riu=http%3a%2f%2fp2.music.126.net%2flHab-TuxFpGuCCv661i7eg%3d%3d%2f109951163095170'+
+        '102.jpg&ehk=o7%2b%2bi23C4VfyGAuDfD95MP2RsI%2fzR8%2bm9%2fH1qSDvIL0%3d&risl=&pid=ImgRaw&r=0',
         url: '/music/改变自己-王力宏.mp3'
     },
     {
         title: '春风吹',
         artist: '方大同',
-        cover: 'https://ts1.tc.mm.bing.net/th/id/OIP-C.wTH5phSDHyTNq51DwS7JKwHaHa?r=0&cb=thfc1ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3',
+        cover: 'https://ts1.tc.mm.bing.net/th/id/OIP-C.wTH5phSDHyTNq51DwS7JKwHaHa?r=0&cb=thfc1ucfi'+
+        'mg=1&rs=1&pid=ImgDetMain&o=7&rm=3',
         url: '/music/春风吹-方大同.mp3'
     },
     {

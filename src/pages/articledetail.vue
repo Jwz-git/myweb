@@ -44,17 +44,17 @@ import Back from '../components/Back.vue'
 import MarkdownIt from 'markdown-it';
 import { ref, onMounted } from 'vue';
 import hljs from 'highlight.js'
+import CodeCopy from '../components/CodeCopy.vue'
+// 新增：导入Vue3动态创建组件的工具
+import { createVNode, render } from 'vue'
 
 // 数学公式渲染
 import 'highlight.js/styles/github-dark.css'
 import markdownItKatex from '@iktakahiro/markdown-it-katex'
 import 'katex/dist/katex.min.css'
 
-
-
 const route = useRoute()
 const articleId = route.params.id
-
 import { articles } from '../data/articles.js'
 
 const article = ref(articles.find(a => a.id === parseInt(articleId)) || {
@@ -73,31 +73,49 @@ const md = new MarkdownIt({
     highlight: function (str, lang) {
         if (lang && hljs.getLanguage(lang)) {
             try {
-                // 使用highlightAuto自动检测语言
                 const result = hljs.highlightAuto(str, [lang]);
                 return `<pre class="hljs"><code class="language-${lang}">${result.value}</code></pre>`;
-            } catch (__) {}
+            } catch (__) { }
         }
-        
-        // 如果没有指定语言或语言不支持，仍然进行基本的HTML转义
         return `<pre class="hljs"><code>${md.utils.escapeHtml(str)}</code></pre>`;
     }
 });
 
-// 启用KaTeX插件，设置数学公式库
 md.use(markdownItKatex);
+
+//为代码块添加复制按钮
+const addCopyButtons = () => {
+    setTimeout(() => {
+        document.querySelectorAll('pre.hljs').forEach(el => {
+            // 避免重复添加
+            if (el.classList.contains('code-copy-added')) return
+
+            // 创建CodeCopy组件实例
+            const vnode = createVNode(CodeCopy, {
+                code: el.innerText, // 传递代码内容
+            })
+            // 渲染组件
+            render(vnode, document.createElement('div'))
+            // 添加到代码块
+            el.appendChild(vnode.el)
+            el.classList.add('code-copy-added')
+        })
+    }, 0)
+}
 
 onMounted(async () => {
     try {
         const response = await fetch(article.value.mdPath);
         const mdText = await response.text();
         articleContent.value = md.render(mdText);
-        
-        // 在渲染完成后，重新高亮所有代码块
+
+        // 高亮代码后添加复制按钮
         setTimeout(() => {
             document.querySelectorAll('pre code').forEach((block) => {
                 hljs.highlightElement(block);
             });
+            // 调用添加复制按钮的方法
+            addCopyButtons()
         }, 0);
     } catch (error) {
         console.error('加载 Markdown 文件出错:', error);
@@ -141,13 +159,6 @@ onMounted(async () => {
     height: 10vh;
     padding: 6rem;
 }
-
-/* .container {
-    margin-top: -3rem;
-    padding: 0;
-    height: calc(120vh - 240px);
-    scroll-behavior: smooth;
-} */
 
 .content-card {
     padding: 0;
@@ -236,6 +247,23 @@ onMounted(async () => {
     justify-content: center;
 }
 
+/* 新增代码块相关样式 */
+::v-deep .code-copy-added {
+    position: relative;
+    padding-top: 30px;
+    /* 给复制按钮预留空间 */
+}
+
+/* 调整复制按钮hover显示 */
+::v-deep .code-copy-added .copy-btn {
+    opacity: 1;
+}
+
+/* 修复复制成功提示位置 */
+::v-deep .copy-success-text {
+    right: 30px;
+}
+
 @media (max-width: 768px) {
     .nav-link {
         margin: 0.5rem 0;
@@ -269,7 +297,7 @@ onMounted(async () => {
         margin: -8% auto;
     }
 
-    .article-title{
+    .article-title {
         width: 200%;
         margin: auto auto auto -50%;
 
