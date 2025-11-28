@@ -5,7 +5,6 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import { createApp } from "vue"
 import App from "./App.vue"
 import router from "./modules/router.js"
-import { gsap } from 'gsap'
 import 'animate.css'
 
 import { L2Dwidget } from 'live2d-widget'

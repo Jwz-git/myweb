@@ -248,19 +248,19 @@ onMounted(async () => {
 }
 
 /* 新增代码块相关样式 */
-::v-deep .code-copy-added {
+:deep(.code-copy-added) {
     position: relative;
     padding-top: 30px;
     /* 给复制按钮预留空间 */
 }
 
 /* 调整复制按钮hover显示 */
-::v-deep .code-copy-added .copy-btn {
+:deep(.code-copy-added .copy-btn) {
     opacity: 1;
 }
 
 /* 修复复制成功提示位置 */
-::v-deep .copy-success-text {
+:deep(.copy-success-text) {
     right: 30px;
 }
 

@@ -201,12 +201,12 @@ export default {
 }
 
 /* 确保在代码块中正确显示 */
-::v-deep pre.hljs {
+:deep(pre.hljs) {
     position: relative !important; // 强制生效，避免被其他样式覆盖
     padding-top: 40px !important; // 预留按钮空间（根据按钮大小调整）
 }
 
-::v-deep pre.hljs .copy-content {
+:deep(pre.hljs .copy-content) {
     position: absolute;
     top: 5px;
     right: 5px;

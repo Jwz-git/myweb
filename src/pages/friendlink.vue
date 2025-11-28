@@ -10,9 +10,11 @@
                         <div class="text-center flex-grow-1">
                             <h5 class="card-title mb-2">{{ link.name }}</h5>
                             <p class="card-text text-muted small mb-3">{{ link.description }}</p>
-                            <a :href="link.url" target="_blank" class="btn btn-outline-primary btn-sm" title="访问博客">
-                                <i class="bi bi-box-arrow-up-right me-1"></i>
-                                访问博客
+                            <a :href="link.url" target="_blank" title="访问博客">
+                                <button>
+                                    <i class="bi bi-box-arrow-up-right me-1"></i>
+                                    访问博客
+                                </button>
                             </a>
                         </div>
                     </div>
@@ -93,13 +95,36 @@ import Back from '../components/Back.vue'
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
 }
 
-.button-container {
-    margin-top: auto;
-    width: 100%;
-    max-width: 800px;
-    margin: 2rem auto 0;
-    display: flex;
-    justify-content: center;
+button {
+    width: 9em;
+    height: 3em;
+    border-radius: 30em;
+    font-size: 15px;
+    font-family: inherit;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: 6px 6px 12px #c5c5c5,
+        -6px -6px 12px #ffffff;
+}
+
+button::before {
+    content: '';
+    width: 0;
+    height: 3em;
+    border-radius: 30em;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to right, #0fd850 0%, #f9f047 100%);
+    transition: .5s ease;
+    display: block;
+    z-index: -1;
+}
+
+button:hover::before {
+    width: 9em;
 }
 
 @media (max-width: 768px) {

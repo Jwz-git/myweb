@@ -1,7 +1,21 @@
 <template>
-    <RouterLink :to="to" class="custom-btn" active-class="active" :style="{ '--main-color': mainColor }" :title="text">
-        <i class="btn-icon" v-if="showIcon"></i>
-        <span class="btn-text">{{ text }}</span>
+    <RouterLink :to="to" class="custom-btn" :title="text">
+        <button class="button">
+            <div class="state">
+                <p>
+                    <span style="--i:0"> <i class="btn-icon" v-if="showIcon"></i></span>
+                    <span style="--i:0"><a class="temp">6</a></span>
+                    <span style="--i:1">{{ text[0] }}</span>
+                    <span style="--i:2">{{ text[1] }}</span>
+                    <span style="--i:3">{{ text[2] }}</span>
+                    <span style="--i:4">{{ text[3] }}</span>
+                    <span style="--i:5">{{ text[4] }}</span>
+                    <span style="--i:6">{{ text[5] }}</span>
+                    <span style="--i:7">{{ text[6] }}</span>
+                    <span style="--i:8">{{ text[8] }}</span>
+                </p>
+            </div>
+        </button>
     </RouterLink>
 </template>
 
@@ -29,97 +43,238 @@ export default {
 </script>
 
 <style scoped>
+.temp {
+    opacity: 0;
+}
+
 .custom-btn {
-    position: relative;
     overflow: hidden;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0.9rem 2.2rem;
-    background: transparent;
-    color: white;
     text-decoration: none;
     border-radius: 30px;
-    font-size: 1.1rem;
-    font-weight: 500;
-    transition: all 0.3s ease 0.1s;
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
     z-index: 1;
-}
-
-.custom-btn::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg,
-            rgba(255, 255, 255, 0.3) 25%,
-            transparent 50%,
-            rgba(255, 255, 255, 0.3) 75%);
-    animation: flow 3s linear infinite;
-    z-index: -1;
-}
-
-.custom-btn::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 30px;
-    border: 2px solid transparent;
-    animation: borderGlow 2s ease-in-out infinite;
-    filter: blur(2px);
-}
-
-.btn-text {
-    font-family: SimSun;
-    font-weight: bold;
-    position: relative;
-    font-family: 'Playfair Display', SimSun;
-    font-size: 1.2rem;
-    text-shadow:
-        0 0 8px rgba(255, 255, 255, 0.5),
-        1px 1px 3px rgba(0, 0, 0, 0.3),
-        0 0 6px rgba(255, 255, 255, 0.4),
-        2px 2px 6px rgba(0, 0, 0, 0.25);
-    transition: text-shadow 0.3s ease;
-}
-
-.btn-icon {
-    width: 18px;
-    height: 18px;
     position: relative;
 }
 
 .btn-icon::before {
     content: '<';
-    color: white;
     font-size: 1.4rem;
     font-weight: bold;
     position: absolute;
-    top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
 }
 
-.custom-btn:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 8px 20px var(--main-color, rgba(52, 152, 255, 0.5));
+.button {
+    --primary: #ff5569;
+    --neutral-1: #f7f8f7;
+    --neutral-2: #e7e7e7;
+    --radius: 14px;
+
+    cursor: pointer;
+    border-radius: var(--radius);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    border: none;
+    box-shadow: 0 0.5px 0.5px 1px rgba(255, 255, 255, 0.2),
+        0 10px 20px rgba(0, 0, 0, 0.2), 0 4px 5px 0px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+    padding: 20px;
+    font-family: "Galano Grotesque", Poppins, Montserrat, sans-serif;
+    font-style: normal;
+    font-size: 18px;
+    font-weight: 600;
 }
 
-.custom-btn:hover .btn-text {
-    text-shadow:
-        2px 2px 3px rgba(0, 0, 0, 0.3),
-        0 0 6px rgba(255, 255, 255, 0.5),
-        3px 3px 6px rgba(0, 0, 0, 0.2);
+.button:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
+        0 15px 30px rgba(0, 0, 0, 0.3), 0 10px 3px -3px rgba(0, 0, 0, 0.04);
 }
 
-.custom-btn:hover .btn-icon::before {
-    transform: translate(-50%, -50%) translateX(-8px);
-    filter: drop-shadow(-2px 2px 2px rgba(0, 0, 0, 0.1));
-    transition: transform 0.3s ease, filter 0.3s ease;
+.button:hover::after {
+    transform: scale(1.05, 1.1);
+    box-shadow: inset 0 -1px 3px 0 rgba(255, 255, 255, 1);
+}
+
+.button::before {
+    content: "";
+    inset: 7px 6px 6px 6px;
+    position: absolute;
+    background: linear-gradient(to top, var(--neutral-1), var(--neutral-2));
+    border-radius: 30px;
+    filter: blur(0.5px);
+    z-index: 2;
+}
+
+.state p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.state p span {
+    display: block;
+    opacity: 0;
+    animation: slideDown 0.8s ease forwards calc(var(--i) * 0.03s);
+}
+
+.button:hover p span {
+    opacity: 1;
+    animation: wave 0.5s ease forwards calc(var(--i) * 0.02s);
+}
+
+@keyframes wave {
+    30% {
+        opacity: 1;
+        transform: translateY(4px) translateX(0) rotate(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-3px) translateX(0) rotate(0);
+        color: var(--primary);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) translateX(0) rotate(0);
+    }
+}
+
+@keyframes slideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px) translateX(5px) rotate(-90deg);
+        color: var(--primary);
+        filter: blur(5px);
+    }
+
+    30% {
+        opacity: 1;
+        transform: translateY(4px) translateX(0) rotate(0);
+        filter: blur(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-3px) translateX(0) rotate(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) translateX(0) rotate(0);
+    }
+}
+
+@keyframes disapear {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(5px) translateY(20px);
+        color: var(--primary);
+        filter: blur(5px);
+    }
+}
+
+@keyframes takeOff {
+    0% {
+        opacity: 1;
+    }
+
+    60% {
+        opacity: 1;
+        transform: translateX(70px) rotate(45deg) scale(2);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(160px) rotate(45deg) scale(0);
+    }
+}
+
+@keyframes land {
+    0% {
+        transform: translateX(-60px) translateY(30px) rotate(-50deg) scale(2);
+        opacity: 0;
+        filter: blur(3px);
+    }
+
+    100% {
+        transform: translateX(0) translateY(0) rotate(0);
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+@keyframes contrail {
+    0% {
+        width: 0;
+        opacity: 1;
+    }
+
+    8% {
+        width: 15px;
+    }
+
+    60% {
+        opacity: 0.7;
+        width: 80px;
+    }
+
+    100% {
+        opacity: 0;
+        width: 160px;
+    }
+}
+
+.state {
+    z-index: 2;
+    display: flex;
+    position: relative;
+}
+
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+        transform: scale(4) rotate(-40deg);
+        color: var(--primary);
+        filter: blur(4px);
+    }
+
+    30% {
+        opacity: 1;
+        transform: scale(0.6);
+        filter: blur(1px);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+        filter: blur(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 @keyframes flow {

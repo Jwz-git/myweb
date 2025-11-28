@@ -1,5 +1,3 @@
-CMake是用来编译C++项目，将C++源代码文件转化为可执行文件的工具。
-
 CMake的使用方法（举例说明）：
 1. 创建build和src两个文件夹，build存放中间文件，src存放源代码文件
 2. 首先在src中创建main.cpp和CMakeLists.txt，在CMakeLists.txt文件中添加以下代码
