@@ -116,16 +116,6 @@ export default {
 
 }
 
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
 .state p span {
     display: block;
     opacity: 0;
@@ -180,124 +170,9 @@ export default {
     }
 }
 
-@keyframes disapear {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-        transform: translateX(5px) translateY(20px);
-        color: var(--primary);
-        filter: blur(5px);
-    }
-}
-
-@keyframes takeOff {
-    0% {
-        opacity: 1;
-    }
-
-    60% {
-        opacity: 1;
-        transform: translateX(70px) rotate(45deg) scale(2);
-    }
-
-    100% {
-        opacity: 0;
-        transform: translateX(160px) rotate(45deg) scale(0);
-    }
-}
-
-@keyframes land {
-    0% {
-        transform: translateX(-60px) translateY(30px) rotate(-50deg) scale(2);
-        opacity: 0;
-        filter: blur(3px);
-    }
-
-    100% {
-        transform: translateX(0) translateY(0) rotate(0);
-        opacity: 1;
-        filter: blur(0);
-    }
-}
-
-@keyframes contrail {
-    0% {
-        width: 0;
-        opacity: 1;
-    }
-
-    8% {
-        width: 15px;
-    }
-
-    60% {
-        opacity: 0.7;
-        width: 80px;
-    }
-
-    100% {
-        opacity: 0;
-        width: 160px;
-    }
-}
-
 .state {
     z-index: 2;
     display: flex;
     position: relative;
-}
-
-
-@keyframes appear {
-    0% {
-        opacity: 0;
-        transform: scale(4) rotate(-40deg);
-        color: var(--primary);
-        filter: blur(4px);
-    }
-
-    30% {
-        opacity: 1;
-        transform: scale(0.6);
-        filter: blur(1px);
-    }
-
-    50% {
-        opacity: 1;
-        transform: scale(1.2);
-        filter: blur(0);
-    }
-
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-@keyframes flow {
-    from {
-        background-position: -200% 0;
-    }
-
-    to {
-        background-position: 200% 0;
-    }
-}
-
-@keyframes borderGlow {
-
-    0%,
-    100% {
-        border-color: rgba(255, 255, 255, 0.3);
-        box-shadow: 0 0 8px var(--main-color, rgba(93, 178, 235, 0.5));
-    }
-
-    50% {
-        border-color: rgba(255, 255, 255, 0.8);
-        box-shadow: 0 0 20px var(--main-color, rgba(93, 178, 235, 0.9));
-    }
 }
 </style>

@@ -127,6 +127,12 @@ button:hover::before {
     width: 9em;
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
 @media (max-width: 768px) {
     .avatar {
         width: 60px;

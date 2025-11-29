@@ -11,7 +11,6 @@
             <span class="enter-home">
                 进入首页
             </span>
-            <i class="arrow-icon"></i>
         </RouterLink>
     </div>
 </template>
@@ -146,11 +145,6 @@
     background-size: 200% auto;
     transform: translateY(-3px) scale(1.05);
     box-shadow: 0 8px 20px rgba(52, 152, 219, 0.5);
-}
-
-.enter-link:hover .arrow-icon {
-    transform: rotate(-45deg) translateX(8px) translateY(8px);
-    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.1));
 }
 
 .enter-home {
