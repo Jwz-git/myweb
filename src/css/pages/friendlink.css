@@ -1,0 +1,170 @@
+.friendlink-container {
+    min-height: 100vh;
+    padding: 6rem 1rem;
+}
+
+.friend-card {
+    position: relative;
+    width: 52%;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(93, 178, 235, 0.2);
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(34, 44, 55, 0.8) 0%, rgba(26, 38, 57, 0.8) 100%);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.friend-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(93, 178, 235, 0.1), transparent);
+    transition: left 0.6s ease;
+    z-index: 0;
+}
+
+.friend-card:hover::before {
+    left: 100%;
+}
+
+.friend-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(93, 178, 235, 0.25), 0 0 50px rgba(93, 178, 235, 0.1);
+    border-color: rgba(93, 178, 235, 0.4);
+}
+
+.friend-card .card-body {
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+    background: rgba(34, 44, 55, 0.6);
+}
+
+.avatar {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border: 3px solid rgba(93, 178, 235, 0.8);
+    box-shadow: 0 0 0 3px rgba(93, 178, 235, 0.2), 0 6px 20px rgba(93, 178, 235, 0.3);
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #5db2eb, #7af0ad);
+    padding: 3px;
+    border-radius: 50% !important;
+}
+
+.friend-card:hover .avatar {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 4px rgba(93, 178, 235, 0.3), 0 8px 25px rgba(93, 178, 235, 0.4);
+}
+
+.card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(93, 178, 235, 0.5);
+    transition: all 0.3s ease;
+}
+
+.friend-card:hover .card-title {
+    color: #5db2eb;
+    text-shadow: 0 0 15px rgba(93, 178, 235, 0.8);
+}
+
+.card-text {
+    font-size: 0.95rem;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+    transition: all 0.3s ease;
+}
+
+.friend-card:hover .card-text {
+    color: #ffffff;
+}
+
+.friend-card button {
+    width: 9em !important;
+    height: 3em !important;
+    border-radius: 30em !important;
+    font-size: 15px !important;
+    font-family: inherit !important;
+    border: none !important;
+    position: relative !important;
+    overflow: hidden !important;
+    z-index: 1 !important;
+    box-shadow: none !important;
+}
+
+.friend-card button::before {
+    content: '' !important;
+    width: 0 !important;
+    height: 3em !important;
+    border-radius: 30em !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    background-image: linear-gradient(to right, #0fd850 0%, #f9f047 100%) !important;
+    transition: .5s ease !important;
+    display: block !important;
+    z-index: -1 !important;
+}
+
+.friend-card button:hover::before {
+    width: 9em !important;
+}
+
+button {
+    width: 9em;
+    height: 3em;
+    border-radius: 30em;
+    font-size: 15px;
+    font-family: inherit;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: none;
+}
+
+button::before {
+    content: '';
+    width: 0;
+    height: 3em;
+    border-radius: 30em;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to right, #0fd850 0%, #f9f047 100%);
+    transition: .5s ease;
+    display: block;
+    z-index: -1;
+}
+
+button:hover::before {
+    width: 9em;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .avatar {
+        width: 60px;
+        height: 60px;
+        margin-top: -30px;
+    }
+
+    .friend-card {
+        width: 80%;
+        max-width: 100%;
+    }
+}

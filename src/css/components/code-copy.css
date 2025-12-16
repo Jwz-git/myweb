@@ -1,0 +1,64 @@
+.copy-content {
+    position: absolute; /* 相对于 pre.hljs（定位容器） */
+    top: 0;
+    right: 0;
+    width: auto; /* 避免继承 100% 宽度导致占位问题 */
+}
+
+.icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    fill: rgb(6, 244, 204);
+}
+
+.success-icon {
+    fill: #4CAF50 !important;
+    width: 1.4rem;
+    height: 1.4rem;
+}
+
+.copy-btn {
+    user-select: none;
+    opacity: 0;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 10;
+
+    /* 添加Flex布局实现图标居中 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.copy-btn:active {
+    background: rgba(255, 255, 255, 0.35);
+    transform: scale(0.95);
+}
+
+/* 移除原来的复制成功文字样式 */
+.copy-success-text {
+    display: none;
+}
+
+/* 确保在代码块中正确显示 */
+:deep(pre.hljs) {
+    position: relative !important; /* 强制生效，避免被其他样式覆盖 */
+    padding-top: 40px !important; /* 预留按钮空间（根据按钮大小调整） */
+}
+
+:deep(pre.hljs .copy-content) {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: auto;
+    height: auto;
+}

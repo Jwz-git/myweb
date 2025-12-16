@@ -1,0 +1,42 @@
+.navbar {
+  padding: 0.8rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.navbar-brand {
+  font-family: 'Microsoft Yahei', sans-serif;
+  font-weight: 500;
+  font-size: 1.2rem;
+  letter-spacing: 0.05em;
+}
+
+.nav-link {
+  text-align: center;
+  position: relative;
+  margin: 0 0.8rem;
+  padding: 0.5rem 1rem !important;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-link:not(.active):hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.active {
+  background: linear-gradient(45deg, #6378c7, #3498db);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.copyright {
+  font-size: 0.85rem;
+  color: #ffffff;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .nav-link {
+    margin: 0.5rem 0;
+  }
+}

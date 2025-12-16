@@ -1,7 +1,29 @@
 <template>
-  <router-view class="main-content" />
-  <MusicPlayer v-if="$route.path !== '/'" />
+    <div class="particle" v-for="n in 8" :key="n" :style="{
+        left: `${Math.random() * 100}%`, animationDelay:
+            `${Math.random() * 8}s`, animationDuration: `${6 + Math.random() * 4}s`
+    }">
+    </div>
+  <div class="app-container">
+    <router-view class="main-content" />
+    <!-- 装饰性粒子 - 所有页面共享 -->
+    <div class="particle" v-for="n in 8" :key="n" :style="{ left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 8}s`, animationDuration: `${6 + Math.random() * 4}s` }"></div>
+    <MusicPlayer v-if="$route.path !== '/'" />
+  </div>
 </template>
+
+<style scoped>
+.app-container {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* 确保粒子在main-content上方但在其他内容下方 */
+.particle {
+    z-index: 1;
+}
+</style>
 
 <script setup>
 import MusicPlayer from './components/MusicPlayer.vue'
@@ -11,9 +33,3 @@ import { useRoute } from 'vue-router'
 const $route = useRoute()
 </script>
 
-<style>
-.main-content {
-  padding-top: 80px;
-  min-height: calc(100vh - 80px);
-}
-</style>

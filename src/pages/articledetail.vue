@@ -1,6 +1,6 @@
 <template>
     <NavBar />
-    <div class="stroll">
+    <div class="scroll">
         <div class="title-container" style="transform: translateY(-5rem);">
             <h1 class="article-title">
                 {{ article.title }}
@@ -85,22 +85,32 @@ md.use(markdownItKatex);
 
 //为代码块添加复制按钮
 const addCopyButtons = () => {
-    setTimeout(() => {
-        document.querySelectorAll('pre.hljs').forEach(el => {
-            // 避免重复添加
-            if (el.classList.contains('code-copy-added')) return
-
-            // 创建CodeCopy组件实例
-            const vnode = createVNode(CodeCopy, {
-                code: el.innerText, // 传递代码内容
-            })
-            // 渲染组件
-            render(vnode, document.createElement('div'))
-            // 添加到代码块
-            el.appendChild(vnode.el)
-            el.classList.add('code-copy-added')
-        })
-    }, 0)
+    // 直接在markdown-it的highlight函数中添加复制按钮HTML，避免二次DOM操作
+    const preElements = document.querySelectorAll('pre.hljs:not(.code-copy-added)');
+    preElements.forEach(el => {
+        // 创建复制按钮HTML
+        const copyButtonHTML = `
+            <div class="copy-content">
+                <div class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('pre').innerText).then(() => {
+                    const btn = this;
+                    btn.innerHTML = '<svg class="icon success-icon" viewBox="0 0 1024 1024"><path d="M953.472 174.976L385.152 759.168l-275.328-282.794667-53.290667 50.346667L385.194667 857.6l616.021333-632.32z" fill="#4CAF50"></path></svg>';
+                    setTimeout(() => {
+                        btn.innerHTML = '<svg class="icon" viewBox="0 0 1024 1024"><path d="M96.1 575.7a32.2 32.1 0 1 0 64.4 0 32.2 32.1 0 1 0-64.4 0Z" fill="aqua"></path><path d="M742.1 450.7l-269.5-2.1c-14.3-0.1-26 13.8-26 31s11.7 31.3 26 31.4l269.5 2.1c14.3 0.1 26-13.8 26-31s-11.7-31.3-26-31.4zM742.1 577.7l-269.5-2.1c-14.3-0.1-26 13.8-26 31s11.7 31.3 26 31.4l269.5 2.1c14.3 0.2 26-13.8 26-31s-11.7-31.3-26-31.4z" fill="aqua"></path><path d="M736.1 63.9H417c-70.4 0-128 57.6-128 128h-64.9c-70.4 0-128 57.6-128 128v128c-0.1 17.7 14.4 32 32.2 32 17.8 0 32.2-14.4 32.2-32.1V320c0-35.2 28.8-64 64-64H289v447.8c0 70.4 57.6 128 128 128h255.1c-0.1 35.2-28.8 63.8-64 63.8H224.5c-35.2 0-64-28.8-64-64V703.5c0-17.7-14.4-32.1-32.2-32.1-17.8 0-32.3 14.4-32.3 32.1v128.3c0 70.4 57.6 128 128 128h384.1c70.4 0 128-57.6 128-128h65c70.4 0 128-57.6 128-128V255.9l-193-192z m0.1 63.4l127.7 128.3H800c-35.2 0-64-28.8-64-64v-64.3h0.2z m64 641H416.1c-35.2 0-64-28.8-64-64v-513c0-35.2 28.8-64 64-64H671V191c0 70.4 57.6 128 128 128h65.2v385.3c0 35.2-28.8 64-64 64z" fill="aqua"></path></svg>';
+                    }, 2000);
+                })">
+                    <svg class="icon" viewBox="0 0 1024 1024">
+                        <path d="M96.1 575.7a32.2 32.1 0 1 0 64.4 0 32.2 32.1 0 1 0-64.4 0Z" fill="aqua"></path>
+                        <path d="M742.1 450.7l-269.5-2.1c-14.3-0.1-26 13.8-26 31s11.7 31.3 26 31.4l269.5 2.1c14.3 0.1 26-13.8 26-31s-11.7-31.3-26-31.4zM742.1 577.7l-269.5-2.1c-14.3-0.1-26 13.8-26 31s11.7 31.3 26 31.4l269.5 2.1c14.3 0.2 26-13.8 26-31s-11.7-31.3-26-31.4z" fill="aqua"></path>
+                        <path d="M736.1 63.9H417c-70.4 0-128 57.6-128 128h-64.9c-70.4 0-128 57.6-128 128v128c-0.1 17.7 14.4 32 32.2 32 17.8 0 32.2-14.4 32.2-32.1V320c0-35.2 28.8-64 64-64H289v447.8c0 70.4 57.6 128 128 128h255.1c-0.1 35.2-28.8 63.8-64 63.8H224.5c-35.2 0-64-28.8-64-64V703.5c0-17.7-14.4-32.1-32.2-32.1-17.8 0-32.3 14.4-32.3 32.1v128.3c0 70.4 57.6 128 128 128h384.1c70.4 0 128-57.6 128-128h65c70.4 0 128-57.6 128-128V255.9l-193-192z m0.1 63.4l127.7 128.3H800c-35.2 0-64-28.8-64-64v-64.3h0.2z m64 641H416.1c-35.2 0-64-28.8-64-64v-513c0-35.2 28.8-64 64-64H671V191c0 70.4 57.6 128 128 128h65.2v385.3c0 35.2-28.8 64-64 64z" fill="aqua"></path>
+                    </svg>
+                </div>
+            </div>
+        `;
+        
+        // 直接插入HTML，避免创建Vue组件实例
+        el.insertAdjacentHTML('beforeend', copyButtonHTML);
+        el.classList.add('code-copy-added');
+    });
 }
 
 onMounted(async () => {
@@ -109,14 +119,8 @@ onMounted(async () => {
         const mdText = await response.text();
         articleContent.value = md.render(mdText);
 
-        // 高亮代码后添加复制按钮
-        setTimeout(() => {
-            document.querySelectorAll('pre code').forEach((block) => {
-                hljs.highlightElement(block);
-            });
-            // 调用添加复制按钮的方法
-            addCopyButtons()
-        }, 0);
+        // 直接添加复制按钮，无需再次高亮
+        addCopyButtons();
     } catch (error) {
         console.error('加载 Markdown 文件出错:', error);
     }
@@ -124,193 +128,5 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.stroll {
-    padding: 0;
-    height: 100vh;
-    overflow-y: auto;
-    scroll-behavior: auto;
-    padding: 6rem 1rem 2rem;
-}
-
-.stroll::-webkit-scrollbar {
-    width: 3px;
-    height: 16px;
-    background-color: #383333;
-}
-
-.stroll::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    background-color: rgb(27, 23, 23);
-}
-
-.stroll::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: #4e5153;
-}
-
-.stroll::-webkit-scrollbar-thumb:hover {
-    border-radius: 10px;
-    background-color: #acb3b7;
-}
-
-.title-container {
-    transform: translateY(-5rem);
-    height: 10vh;
-    padding: 6rem;
-}
-
-.content-card {
-    padding: 0;
-    height: auto;
-    scroll-behavior: smooth;
-    min-height: 70vh;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
-    background: rgb(34, 44, 55);
-    backdrop-filter: blur(2px);
-    border-radius: 12px;
-    padding: 2rem 2rem 1rem 2rem;
-    margin: -3% auto 0 auto;
-    max-width: 60%;
-    animation: fadeIn 0.6s ease-out;
-}
-
-.article-title {
-    font-weight: bolder;
-    font-family: SimSun;
-    font-size: 2rem;
-    color: #e0e0e0;
-    margin-bottom: 1.5rem;
-    background: linear-gradient(120deg, rgb(255, 255, 255) 0%, #7af0ad 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-align: center;
-}
-
-/* 标签样式 */
-.article-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 3%;
-    margin: 12px 0;
-    justify-content: center;
-}
-
-.tag {
-    margin: -1%;
-    text-align: center;
-    background: linear-gradient(145deg, rgba(92, 219, 149, 0.2) 0%, rgba(52, 152, 219, 0.2) 100%);
-    color: #7af0ad;
-    padding: 2px 10px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(122, 240, 173, 0.3);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.tag:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(122, 240, 173, 0.3);
-    background: linear-gradient(145deg, rgba(92, 219, 149, 0.3) 0%, rgba(52, 152, 219, 0.3) 100%);
-}
-
-.article-meta {
-    margin: 2% auto;
-    text-align: center;
-    color: #9e9e9e;
-    margin-bottom: 2rem;
-    display: flex;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    justify-content: center;
-}
-
-.article-content {
-    color: #d0d0d0;
-    line-height: 1.8;
-    font-size: 1.1rem;
-    /* margin-bottom: 4rem; */
-    white-space: pre-wrap;
-    overflow-x: auto;
-    max-width: 100%;
-}
-
-.button-container {
-    margin-top: 2rem;
-    width: 100%;
-    max-width: 800px;
-    margin: 2rem auto 0;
-    display: flex;
-    justify-content: center;
-}
-
-/* 新增代码块相关样式 */
-:deep(.code-copy-added) {
-    position: relative;
-    padding-top: 30px;
-    /* 给复制按钮预留空间 */
-}
-
-/* 调整复制按钮hover显示 */
-:deep(.code-copy-added .copy-btn) {
-    opacity: 1;
-}
-
-/* 修复复制成功提示位置 */
-:deep(.copy-success-text) {
-    right: 30px;
-}
-
-@media (max-width: 768px) {
-    .nav-link {
-        margin: 0.5rem 0;
-        text-align: center;
-    }
-
-    .content-card {
-        max-width: 100%;
-        margin: -10% auto;
-    }
-
-    .tag {
-        padding: 3px 10px;
-        font-size: 0.8rem;
-    }
-
-    .article-tags {
-        gap: 13%;
-    }
-
-    .article-meta {
-        gap: 5%;
-
-    }
-
-}
-
-@media (max-width: 900px) {
-    .content-card {
-        max-width: 100%;
-        margin: -8% auto;
-    }
-
-    .article-title {
-        width: 200%;
-        margin: auto auto auto -50%;
-
-    }
-
-    .tag {
-        padding: 3px 10px;
-        font-size: 0.8rem;
-    }
-
-    .article-tags {
-        gap: 5%;
-    }
-
-}
+@import '../css/pages/article-detail.css';
 </style>

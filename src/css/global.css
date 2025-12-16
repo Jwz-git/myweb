@@ -1,0 +1,43 @@
+.main-content {
+  padding-top: 80px;
+  min-height: calc(100vh - 80px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 装饰性粒子效果 */
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(93, 178, 235, 0.6);
+    border-radius: 50%;
+    animation: particleFloat 6s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* 小屏幕优化 */
+@media (max-width: 576px) {
+    .particle {
+        width: 3px;
+        height: 3px;
+    }
+}

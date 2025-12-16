@@ -1,0 +1,30 @@
+.scroll {
+  padding: 0;
+  height: 100vh;
+  overflow-y: auto;
+  scroll-behavior: auto;
+  padding: 6rem 0 2rem;
+  width: 100%;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 3px;
+  height: 16px;
+  background-color: #383333;
+}
+
+.scroll::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: rgb(27, 23, 23);
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #4e5153;
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+  border-radius: 10px;
+  background-color: #acb3b7;
+}
