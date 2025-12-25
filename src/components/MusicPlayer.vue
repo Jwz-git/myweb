@@ -185,23 +185,23 @@ const onDrag = (e) => {
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
 
-    // 获取播放器尺寸（固定高度，不再根据折叠状态变化）
-    const playerWidth = 200;
+    // 动态计算播放器尺寸，适应不同屏幕
+    const playerWidth = window.innerWidth < 768 ? Math.min(300, windowWidth * 0.9) : 200;
     const playerHeight = 180; // 固定高度
 
     // 更新播放器位置，限制所有边界（使用left定位）
     playerPosition.value.left = Math.max(
-        20, // 最小左边距
+        10, // 最小左边距，移动端更小
         Math.min(
-            windowWidth - playerWidth - 20, // 最大左边距（右边界限制）
+            windowWidth - playerWidth - 10, // 最大左边距（右边界限制）
             playerPosition.value.left + dx
         )
     );
 
     playerPosition.value.bottom = Math.max(
-        20, // 最小下边距
+        10, // 最小下边距，移动端更小
         Math.min(
-            windowHeight - playerHeight - 20, // 最大下边距（上边界限制）
+            windowHeight - playerHeight - 10, // 最大下边距（上边界限制）
             playerPosition.value.bottom - dy
         )
     );
@@ -267,6 +267,9 @@ onMounted(() => {
     document.addEventListener('mouseup', stopDrag);
     document.addEventListener('touchmove', onDrag, { passive: false });
     document.addEventListener('touchend', stopDrag);
+
+    // 初始化音量滑块样式
+    updateVolumeSliderProgress();
 
     // 初始化音频设置
     if (audioPlayer.value) {
@@ -347,15 +350,21 @@ const setProgress = (e) => {
 
     const progressBar = e.target.closest('.progress-bar')
     const rect = progressBar.getBoundingClientRect()
-    const percent = (e.clientX - rect.left) / rect.width
+    
+    // 获取正确的触摸或鼠标位置
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX
+    const percent = (clientX - rect.left) / rect.width
+
+    // 限制百分比在0-1之间
+    const clampedPercent = Math.max(0, Math.min(1, percent))
 
     // 设置音频播放位置
-    const newTime = percent * duration.value
+    const newTime = clampedPercent * duration.value
     audioPlayer.value.currentTime = newTime
 
     // 更新状态
     currentTime.value = newTime
-    progress.value = percent * 100
+    progress.value = clampedPercent * 100
 }
 
 // 音频事件处理
@@ -383,12 +392,23 @@ const formatTime = (seconds) => {
 
 const volume = ref(0.25) // 初始音量为0.25
 
+// 更新音量滑块的CSS变量
+const updateVolumeSliderProgress = () => {
+    const volumeSlider = document.querySelector('.volume-slider')
+    if (volumeSlider) {
+        const progressPercent = volume.value * 100
+        volumeSlider.style.setProperty('--volume-progress', `${progressPercent}%`)
+    }
+}
+
 const setVolume = (e) => {
     const newVolume = parseFloat(e.target.value)
     volume.value = newVolume
     if (audioPlayer.value) {
         audioPlayer.value.volume = volume.value
     }
+    // 更新滑块进度样式
+    updateVolumeSliderProgress()
 }
 
 onUnmounted(() => {

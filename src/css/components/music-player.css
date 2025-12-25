@@ -167,63 +167,269 @@ audio {
 
 .volume-slider {
     flex: 1;
-    height: 4px;
+    height: 6px;
     background: rgba(255, 255, 255, 0.2);
-    border-radius: 2px;
+    border-radius: 3px;
     outline: none;
     width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* WebKit browsers (Chrome, Safari) */
+.volume-slider::-webkit-slider-runnable-track {
+    height: 6px;
+    background: linear-gradient(to right, #1db954 0%, #1db954 var(--volume-progress, 25%), rgba(255, 255, 255, 0.2) var(--volume-progress, 25%), rgba(255, 255, 255, 0.2) 100%);
+    border-radius: 3px;
+    transition: all 0.2s ease;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: #ffffff;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.volume-slider::-webkit-slider-thumb:active {
+    transform: scale(1.3);
+    background: #1db954;
+}
+
+/* Firefox */
+.volume-slider::-moz-range-track {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.volume-slider::-moz-range-progress {
+    height: 6px;
+    background: #1db954;
+    border-radius: 3px 0 0 3px;
+    transition: all 0.2s ease;
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: #ffffff;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+}
+
+.volume-slider::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.volume-slider::-moz-range-thumb:active {
+    transform: scale(1.3);
+    background: #1db954;
+}
+
+/* Edge */
+.volume-slider::-ms-track {
+    height: 6px;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+    border-radius: 3px;
+}
+
+.volume-slider::-ms-fill-lower {
+    background: #1db954;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+}
+
+.volume-slider::-ms-fill-upper {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    transition: all 0.2s ease;
+}
+
+.volume-slider::-ms-thumb {
+    width: 14px;
+    height: 14px;
+    background: #ffffff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+    margin-top: 0;
+}
+
+.volume-slider::-ms-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.volume-slider::-ms-thumb:active {
+    transform: scale(1.3);
+    background: #1db954;
+}
+
+.volume-slider:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.volume-slider:hover::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, #1db954 0%, #1db954 var(--volume-progress, 25%), rgba(255, 255, 255, 0.3) var(--volume-progress, 25%), rgba(255, 255, 255, 0.3) 100%);
+}
+
+.volume-slider:hover::-moz-range-track {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.volume-slider:hover::-ms-fill-upper {
+    background: rgba(255, 255, 255, 0.3);
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
+    .player-content{
+        height: 5rem;
+    }
     .music-player {
-        width: 90vw;
-        max-width: 300px;
+        height: auto;
+        width: 12rem;
+        max-width: 320px;
+    }
+
+    .top-section {
+        gap: 6px;
+        margin-bottom: 8px;
+        padding: 0 4px;
     }
 
     .album-cover img {
-        width: 30px;
-        height: 30px;
-        border-radius: 4px;
+        width: 32px;
+        height: 32px;
+        border-radius: 5px;
     }
 
     .song-title {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .song-artist {
-        font-size: 10px;
+        font-size: 11px;
+    }
+
+    .player-controls {
+        gap: 10px;
+        height: 1rem;
     }
 
     .control-btn {
-        width: 28px;
-        height: 28px;
+        width: 32px;
+        height: 32px;
+        font-size: 15px;
+    }
+
+    .play-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+    }
+
+    .progress-container {
+        gap: 6px;
+        padding: 0 8px;
+        margin-bottom: 4px;
+    }
+
+    .time {
+        font-size: 9px;
+    }
+
+    .progress-bar {
+        height: 5px;
+    }
+
+    .progress {
+        height: 100%;
+    }
+
+    .volume-control {
+        width: calc(100% - 16px);
+        padding: 0 8px 8px;
+    }
+
+    .volume-slider {
+        height: 6px;
+        touch-action: manipulation;
+    }
+
+    .player-content {
+        padding: 10px;
+    }
+
+    /* 优化触摸交互 */
+    .control-btn {
+        touch-action: manipulation;
+    }
+
+    .progress-bar {
+        touch-action: manipulation;
+    }
+
+    /* 增强触摸区域 */
+    .progress-bar:active .progress {
+        height: 100%;
+    }
+
+    .volume-slider:active::-webkit-slider-runnable-track {
+        height: 6px;
+    }
+
+    .volume-slider:active::-moz-range-track {
+        height: 6px;
+    }
+}
+
+/* 超小屏幕适配 */
+@media (max-width: 320px) {
+    .music-player {
+        width: 98vw;
+    }
+
+    .player-controls {
+        gap: 8px;
+    }
+
+    .control-btn {
+        width: 30px;
+        height: 30px;
         font-size: 14px;
     }
 
     .play-btn {
         width: 36px;
         height: 36px;
-        font-size: 18px;
-    }
-
-    .progress-bar {
-        height: 3px;
-    }
-
-    .volume-slider {
-        height: 3px;
-    }
-
-    .player-content {
-        padding: 8px;
-    }
-
-    .progress-area {
-        padding: 8px 0;
-    }
-
-    .volume-area {
-        padding: 8px 0;
+        font-size: 16px;
     }
 }

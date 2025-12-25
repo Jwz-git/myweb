@@ -1,7 +1,7 @@
 <template>
     <NavBar />
     <div class="scroll">
-        <div class="title-container" style="transform: translateY(-5rem);">
+        <div class="title-container">
             <h1 class="article-title">
                 {{ article.title }}
             </h1>
@@ -27,8 +27,27 @@
                 <span>{{ article.date }}</span>
             </div>
         </div>
-        <div class="content-card">
-            <div class="article-content" v-html="articleContent"></div>
+        
+        <div class="article-detail-container">
+            <!-- 文章目录 -->
+            <div class="toc-container" v-if="toc.length > 0">
+                <div class="toc-title">目录</div>
+                <ul class="toc-list">
+                    <li 
+                        v-for="(item, index) in toc" 
+                        :key="index" 
+                        :class="['toc-item', `toc-level-${item.level}`, { active: activeTocIndex === index }]"
+                        @click="scrollToSection(item.id)"
+                    >
+                        {{ item.text }}
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- 文章内容 -->
+            <div class="content-card">
+                <div class="article-content" v-html="articleContent"></div>
+            </div>
         </div>
 
         <div class="button-container">
@@ -42,7 +61,7 @@ import { useRoute } from 'vue-router'
 import NavBar from '../components/NavBar.vue'
 import Back from '../components/Back.vue'
 import MarkdownIt from 'markdown-it';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import hljs from 'highlight.js'
 import CodeCopy from '../components/CodeCopy.vue'
 // 新增：导入Vue3动态创建组件的工具
@@ -63,6 +82,14 @@ const article = ref(articles.find(a => a.id === parseInt(articleId)) || {
 })
 
 const articleContent = ref('');
+const toc = ref([]); // 目录数据
+const activeTocIndex = ref(0); // 当前激活的目录项索引
+let observer = null; // 用于监听滚动的IntersectionObserver
+
+// 生成唯一ID的函数
+const generateId = (text) => {
+    return text.toLowerCase().replace(/[^a-zA-Z0-9]+/g, '-');
+};
 
 const md = new MarkdownIt({
     html: true,
@@ -73,15 +100,50 @@ const md = new MarkdownIt({
     highlight: function (str, lang) {
         if (lang && hljs.getLanguage(lang)) {
             try {
-                const result = hljs.highlightAuto(str, [lang]);
+                // 使用指定语言高亮
+                const result = hljs.highlight(str, { language: lang });
                 return `<pre class="hljs"><code class="language-${lang}">${result.value}</code></pre>`;
-            } catch (__) { }
+            } catch (__) {
+                console.error('Highlight error:', __);
+            }
         }
+        // 没有指定语言或高亮失败，使用自动高亮
+        try {
+            const result = hljs.highlightAuto(str);
+            return `<pre class="hljs"><code>${result.value}</code></pre>`;
+        } catch (__) {
+            console.error('Auto highlight error:', __);
+        }
+        // 最终降级方案
         return `<pre class="hljs"><code>${md.utils.escapeHtml(str)}</code></pre>`;
     }
 });
 
 md.use(markdownItKatex);
+
+// 自定义Markdown渲染规则，为标题添加ID
+md.renderer.rules.heading_open = function (tokens, idx, options, env, self) {
+    const token = tokens[idx];
+    const level = parseInt(token.tag.slice(1)); // h1 -> 1, h2 -> 2
+    const nextToken = tokens[idx + 1];
+    
+    if (nextToken && nextToken.type === 'inline') {
+        const text = md.utils.escapeHtml(nextToken.content);
+        const id = generateId(text);
+        token.attrSet('id', id);
+        
+        // 存储目录数据
+        if (!env.toc) env.toc = [];
+        env.toc.push({
+            level,
+            text,
+            id
+        });
+    }
+    
+    // 使用默认渲染器或直接渲染
+    return self.renderToken(tokens, idx, options);
+};
 
 //为代码块添加复制按钮
 const addCopyButtons = () => {
@@ -111,19 +173,89 @@ const addCopyButtons = () => {
         el.insertAdjacentHTML('beforeend', copyButtonHTML);
         el.classList.add('code-copy-added');
     });
-}
+};
+
+// 生成目录并监听滚动
+const generateTocAndSetupObserver = () => {
+    // 清除旧的observer
+    if (observer) {
+        observer.disconnect();
+        observer = null;
+    }
+    
+    // 获取所有标题元素
+    const headings = document.querySelectorAll('.article-content h1, .article-content h2, .article-content h3, .article-content h4, .article-content h5, .article-content h6');
+    
+    if (headings.length === 0) {
+        toc.value = [];
+        return;
+    }
+    
+    // 设置IntersectionObserver来监听标题可见性
+    observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                // 找到当前可见标题在目录中的索引
+                const headingId = entry.target.id;
+                const index = toc.value.findIndex(item => item.id === headingId);
+                if (index !== -1) {
+                    activeTocIndex.value = index;
+                }
+            }
+        });
+    }, {
+        rootMargin: '-20% 0px -70% 0px', // 调整触发阈值
+        threshold: 0.1
+    });
+    
+    // 观察每个标题
+    headings.forEach(heading => {
+        observer.observe(heading);
+    });
+};
+
+// 滚动到指定章节
+const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+        const offsetTop = element.offsetTop;
+        const container = document.querySelector('.scroll');
+        container.scrollTo({
+            top: offsetTop - 100, // 顶部留100px的边距
+            behavior: 'smooth'
+        });
+    }
+};
 
 onMounted(async () => {
     try {
         const response = await fetch(article.value.mdPath);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const mdText = await response.text();
-        articleContent.value = md.render(mdText);
-
-        // 直接添加复制按钮，无需再次高亮
+        
+        // 渲染Markdown并获取目录数据
+        const env = {};
+        articleContent.value = md.render(mdText, env);
+        toc.value = env.toc || [];
+        
+        // 直接添加复制按钮
         addCopyButtons();
+        
+        // 生成目录并设置滚动监听
+        generateTocAndSetupObserver();
     } catch (error) {
         console.error('加载 Markdown 文件出错:', error);
+        articleContent.value = `<div style="color: red; padding: 2rem;">加载文章失败：${error.message}</div>`;
     }
+});
+
+// 监听文章内容变化，重新生成目录
+watch(articleContent, () => {
+    generateTocAndSetupObserver();
 });
 </script>
 

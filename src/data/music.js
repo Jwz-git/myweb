@@ -16,7 +16,7 @@ const songs = ref([
     {
         title: 'Cruel Summer',
         artist: 'Taylor Swift',
-        cover: 'https://img.rapzh.com/rapgod.swiftcarrot.com/d75ab2fd22b3cf7999c7445f3b73f1e255e2a59b_400x400.jpg',
+        cover: 'https://ts1.tc.mm.bing.net/th/id/OIP-C.NW9iqW5GsPqVCKee8-BinwAAAA?w=108&h=108&c=1&bgcl=6aee15&r=0&o=7&cb=ucfimg1&dpr=1.3&pid=ImgRC&rm=3&ucfimg=1',
         url: '/music/Cruel Summer-Taylor Swift.mp3'
     },
     {
