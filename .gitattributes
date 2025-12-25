@@ -1,13 +1,13 @@
 # 文本文件使用 LF 行尾
-*.vue text eol=lf linguist-language=Vue
-*.js text eol=lf
-*.css text eol=lf
-*.md text eol=lf
-*.json text eol=lf
-*.html text eol=lf
-*.config.js text eol=lf
-*.yml text eol=lf
-*.yaml text eol=lf
+*.vue text eol=lf linguist-language=Vue linguist-detectable=true
+*.js text eol=lf linguist-detectable=true
+*.css text eol=lf linguist-detectable=true linguist-weight=0.1
+*.md text eol=lf linguist-detectable=false
+*.json text eol=lf linguist-detectable=false
+*.html text eol=lf linguist-detectable=false
+*.config.js text eol=lf linguist-detectable=true
+*.yml text eol=lf linguist-detectable=false
+*.yaml text eol=lf linguist-detectable=false
 
 # 二进制文件
 *.jpg binary
@@ -21,8 +21,8 @@
 *.ico binary
 
 # 配置文件
-package.json text eol=lf
-vite.config.js text eol=lf
+package.json text eol=lf linguist-detectable=false
+vite.config.js text eol=lf linguist-detectable=true
 
 # Git LFS 配置（如果需要）
 # 大文件可以考虑使用 Git LFS
@@ -34,13 +34,11 @@ vite.config.js text eol=lf
 # 确保 .gitattributes 本身也使用 LF 行尾
 .gitattributes text eol=lf
 
-# GitHub Linguist 配置
-# 确保 Vue 文件被正确识别
-*.vue linguist-detectable=true
-*.js linguist-detectable=true
-*.css linguist-detectable=true
-
-# 可以选择性调整某些文件的语言权重或排除
-# 如果有其他语言文件不想被计算，可以使用以下配置
-# *.md linguist-detectable=false
-# public/ linguist-detectable=false
+# GitHub Linguist 配置优化
+# 提高 Vue 文件的识别优先级
+*.vue linguist-language=Vue
+# 降低 CSS 文件的权重，避免 CSS 成为主要语言
+*.css linguist-weight=0.1
+# 排除非核心文件的语言统计
+public/ linguist-detectable=false
+README.md linguist-detectable=false
