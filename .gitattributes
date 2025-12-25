@@ -1,15 +1,12 @@
-# 文本文件使用 LF 行尾
-*.vue text eol=lf linguist-language=Vue linguist-detectable=true
+*.vue text eol=lf linguist-language=Vue linguist-detectable=true linguist-weight=2
 *.js text eol=lf linguist-detectable=true
-*.css text eol=lf linguist-detectable=true linguist-weight=0.1
+*.css text eol=lf linguist-detectable=true linguist-weight=0.05
 *.md text eol=lf linguist-detectable=false
 *.json text eol=lf linguist-detectable=false
 *.html text eol=lf linguist-detectable=false
 *.config.js text eol=lf linguist-detectable=true
 *.yml text eol=lf linguist-detectable=false
 *.yaml text eol=lf linguist-detectable=false
-
-# 二进制文件
 *.jpg binary
 *.jpeg binary
 *.png binary
@@ -19,26 +16,18 @@
 *.wav binary
 *.ogg binary
 *.ico binary
-
-# 配置文件
 package.json text eol=lf linguist-detectable=false
 vite.config.js text eol=lf linguist-detectable=true
-
-# Git LFS 配置（如果需要）
-# 大文件可以考虑使用 Git LFS
-# *.mp3 filter=lfs diff=lfs merge=lfs -text
-
-# Vue 文件的 diff 处理
 *.vue diff=vue
-
-# 确保 .gitattributes 本身也使用 LF 行尾
 .gitattributes text eol=lf
-
-# GitHub Linguist 配置优化
-# 提高 Vue 文件的识别优先级
 *.vue linguist-language=Vue
-# 降低 CSS 文件的权重，避免 CSS 成为主要语言
-*.css linguist-weight=0.1
-# 排除非核心文件的语言统计
+*.css linguist-weight=0.05
+dist/ *.css linguist-detectable=false
+public/ *.css linguist-detectable=false
+assets/css/vendor/ *.css linguist-detectable=false
 public/ linguist-detectable=false
 README.md linguist-detectable=false
+docs/ linguist-detectable=false
+build/ linguist-detectable=false
+dist/ linguist-detectable=false
+node_modules/ linguist-detectable=false
