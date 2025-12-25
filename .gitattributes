@@ -1,11 +1,11 @@
 # 文本文件使用 LF 行尾
 *.vue text eol=lf linguist-language=Vue
-*.js text eol=lf linguist-language=Vue
-*.css text eol=lf linguist-language=Vue
+*.js text eol=lf
+*.css text eol=lf
 *.md text eol=lf
 *.json text eol=lf
 *.html text eol=lf
-*.config.js text eol=lf linguist-language=Vue
+*.config.js text eol=lf
 *.yml text eol=lf
 *.yaml text eol=lf
 
@@ -22,7 +22,7 @@
 
 # 配置文件
 package.json text eol=lf
-vite.config.js text eol=lf linguist-language=Vue
+vite.config.js text eol=lf
 
 # Git LFS 配置（如果需要）
 # 大文件可以考虑使用 Git LFS
@@ -34,11 +34,11 @@ vite.config.js text eol=lf linguist-language=Vue
 # 确保 .gitattributes 本身也使用 LF 行尾
 .gitattributes text eol=lf
 
-# GitHub Linguist 配置 - 优先识别为 Vue 项目
-# 将项目主要语言识别为 Vue
+# GitHub Linguist 配置
+# 确保 Vue 文件被正确识别
 *.vue linguist-detectable=true
-*.js linguist-detectable=true linguist-language=Vue
-*.css linguist-detectable=true linguist-language=Vue
+*.js linguist-detectable=true
+*.css linguist-detectable=true
 
 # 可以选择性调整某些文件的语言权重或排除
 # 如果有其他语言文件不想被计算，可以使用以下配置
