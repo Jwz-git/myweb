@@ -1,14 +1,15 @@
 <template>
-    <div class="particle" v-for="n in 8" :key="n" :style="{
+    <!-- 装饰性粒子 - 在404页面不显示 -->
+    <div v-if="$route.name !== '404'" class="particle" v-for="n in 8" :key="n" :style="{
         left: `${Math.random() * 100}%`, animationDelay:
             `${Math.random() * 8}s`, animationDuration: `${6 + Math.random() * 4}s`
     }">
     </div>
   <div class="app-container">
     <router-view class="main-content" />
-    <!-- 装饰性粒子 - 所有页面共享 -->
-    <div class="particle" v-for="n in 8" :key="n" :style="{ left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 8}s`, animationDuration: `${6 + Math.random() * 4}s` }"></div>
-    <MusicPlayer v-if="$route.path !== '/'" />
+    <!-- 装饰性粒子 - 所有页面共享，404页面不显示 -->
+    <div v-if="$route.name !== '404'" class="particle" v-for="n in 8" :key="n" :style="{ left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 8}s`, animationDuration: `${6 + Math.random() * 4}s` }"></div>
+    <MusicPlayer v-if="$route.path !== '/' && $route.name !== '404'" />
   </div>
 </template>
 

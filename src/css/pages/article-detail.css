@@ -149,7 +149,7 @@
 .article-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 3%;
+    gap: 0.625rem;
     margin: 0.75rem 0;
     justify-content: center;
 }

@@ -18,14 +18,14 @@ app.use(router)
 //右下角小人
 // 添加路由守卫
 router.beforeEach((to, from, next) => {
-  // 如果目标页面是total页面，隐藏Live2D
-  if (to.name === '起始页') {
+  // 如果目标页面是起始页或404页面，隐藏Live2D
+  if (to.name === '起始页' || to.name === '404') {
     // 如果Live2D已经初始化，则隐藏
     if (window.L2Dwidget) {
       window.L2Dwidget.hide();
     }
   } else {
-    // 如果不是total页面且Live2D未初始化，则初始化
+    // 如果不是起始页或404页面且Live2D未初始化，则初始化
     if (!window.L2Dwidget) {
       L2Dwidget.init({
         "model": {

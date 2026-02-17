@@ -31,6 +31,11 @@ const routes = [
         name: '文章详情',
         component: () => import('../pages/articledetail.vue'),
     },
+    {
+        path: '/:pathMatch(.*)*',
+        name: '404',
+        component: () => import('../pages/404.vue'),
+    },
 ]
 
 const router = createRouter({

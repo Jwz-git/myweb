@@ -17,11 +17,11 @@ const articles = [
   },
   {
     id: 3,
-    title: '七夕学习体验(PySide6学习初体验)',
-    tags: ['感想', '"无能"'],
+    title: '七夕学习体验(PySide6)',
+    tags: ['感想', '"无能"','碎碎念'],
     date: '2025-08-29',
     image: '/image/3.webp',
-    mdPath: '/md/七夕学习体验(PySide6学习初体验).md'
+    mdPath: '/md/七夕学习体验(PySide6).md'
   },
   {
     id: 4,
@@ -38,6 +38,14 @@ const articles = [
     date: '2025-10-10',
     image: '/image/5.png',
     mdPath: '/md/CMake学习笔记.md'
+  },
+  {
+    id: 6,
+    title: '情人节学习总结',
+    tags: ['总结', '"无能"','碎碎念'],
+    date: '2026-02-17',
+    image: '/image/6.png',
+    mdPath: '/md/情人节学习总结.md'
   },
 ].reverse();
 

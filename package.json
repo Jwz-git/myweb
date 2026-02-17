@@ -15,6 +15,7 @@
     "bootstrap": "^5.3.7",
     "bootstrap-icons": "^1.13.1",
     "clipboard": "^2.0.11",
+    "gitalk": "^1.8.0",
     "highlight.js": "^11.11.1",
     "katex": "^0.16.23",
     "live2d-widget": "^3.1.4",
