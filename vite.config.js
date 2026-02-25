@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [vue()],
-    base: './',
+    base: '/myweb/',
     resolve: {
       alias: {
         '@': resolve(__dirname, 'src'),
