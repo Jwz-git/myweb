@@ -35,8 +35,24 @@ jobs:
     
     - name: Deploy to GitHub Pages
       run: |
-        git remote set-url origin https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-        npm run deploy
+        # Update remote URL with token
+        git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+        
+        # Create gh-pages branch if it doesn't exist
+        git checkout -B gh-pages
+        
+        # Remove all files except dist
+        git rm -rf .
+        
+        # Copy dist files to root
+        cp -r dist/* .
+        
+        # Add and commit changes
+        git add .
+        git commit -m "Deploy to GitHub Pages"
+        
+        # Push to gh-pages branch
+        git push -f origin gh-pages
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_REPOSITORY: ${{ github.repository }}
