@@ -75,7 +75,7 @@ const pageSize = ref(5)
 
 // 点击卡片跳转方法
 const goToArticle = (id) => {
-  router.push(`/Article/${id}`)
+  router.push(`/article/${id}`)
 }
 
 // 搜索过滤文章

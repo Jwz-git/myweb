@@ -14,7 +14,7 @@ const friendLinks = [
     {
         name: "Reyar's Blog",
         url: "https://reyar.top/",
-        description: "music composition | 游戏开发 | 学习记录",
+        description: "音乐制作 | 游戏开发 | 学习记录",
         avatar: "/myweb/image/Reyar.png"
     }
 ] 

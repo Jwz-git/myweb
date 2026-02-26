@@ -19,10 +19,10 @@
 
 .copy-btn {
     user-select: none;
-    opacity: 0;
+    opacity: 1;
     position: absolute;
-    right: 2px;
-    top: 2px;
+    right: 12px;
+    top: 12px;
     width: 36px;
     height: 36px;
     cursor: pointer;
@@ -53,6 +53,8 @@
 :deep(pre.hljs) {
     position: relative !important; /* 强制生效，避免被其他样式覆盖 */
     padding-top: 40px !important; /* 预留按钮空间（根据按钮大小调整） */
+    border-radius: 8px !important; /* 添加圆角 */
+    overflow: hidden !important; /* 确保圆角生效 */
 }
 
 :deep(pre.hljs .copy-content) {

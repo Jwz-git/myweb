@@ -7,7 +7,7 @@
             <div class="divider"></div>
         </div>
 
-        <RouterLink to="/Home" class="enter-link" active-class="active" title="进入首页">
+        <RouterLink to="/home" class="enter-link" active-class="active" title="进入首页">
             <span class="enter-home">
                 进入首页
             </span>

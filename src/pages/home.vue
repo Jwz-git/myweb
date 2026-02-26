@@ -42,21 +42,21 @@
     </div>
 
     <nav class="web-lists">
-      <RouterLink to="/Article">
+      <RouterLink to="/article">
         <button>
           <i class="bi bi-journal-text me-1"></i>
           文章目录
         </button>
       </RouterLink>
 
-      <RouterLink to="/FriendLink">
+      <RouterLink to="/friendlink">
         <button>
           <i class="bi bi-people me-1"></i>
           友情链接
         </button>
       </RouterLink>
 
-      <RouterLink to="/About">
+      <RouterLink to="/about">
         <button>
           <i class="bi bi-info-circle me-1"></i>
           关于本站

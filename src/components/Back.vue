@@ -28,7 +28,7 @@ export default {
         },
         to: {
             type: String,
-            default: '/Home'
+            default: '/home'
         },
         mainColor: {
             type: String,
