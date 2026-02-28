@@ -45,7 +45,7 @@ CMake的使用方法（举例说明）：
 	
 	# 将输入文件替换再输出成文件,input在src中，output会出现在build中
 	# 替换规则：会将 @VAR@ 和 ${VAR}替换成VAR的值，若VAR未定义则替换为空字符串
-	config_file(<input> <output>)
+	configure_file(<input> <output>)
 
 	'''
 	#cmakedefine VAR ...
@@ -81,7 +81,7 @@ CMake的使用方法（举例说明）：
 				[item ...])
 				
 	# 安装，可认为软件安装，将文件存放在系统文件夹中
-	intall(TARGETS <target> DESTINATION <dir>)   #可执行文件
+	install(TARGETS <target> DESTINATION <dir>)   #可执行文件
 	install(FILES <file> DESTINATION <dir>)    #静/动态库
 	install(FILES <file> DESTINATION <dir>)    #外部库
 	
