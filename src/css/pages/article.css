@@ -142,7 +142,6 @@
 
 .content-card:hover {
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(122, 240, 173, 0.15) inset;
-  transform: translateY(-2px);
 }
 
 .article-list {
@@ -198,9 +197,8 @@
 .article-item:hover {
   cursor: pointer;
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 100%);
-  transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(122, 240, 173, 0.2), 0 0 0 1px rgba(122, 240, 173, 0.25);
-  border-color: rgba(122, 240, 173, 0.3);
+  box-shadow: 0 8px 32px rgba(122, 240, 173, 0.3), 0 0 0 1px rgba(122, 240, 173, 0.3), 0 0 20px rgba(122, 240, 173, 0.15);
+  border-color: rgba(122, 240, 173, 0.35);
 }
 
 .article-title {
@@ -213,7 +211,7 @@
   font-family: SimSun;
   font-weight: bolder;
   color: #e0e0e0;
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   margin-bottom: 1rem;
   line-height: 1.4;
   letter-spacing: 0.5px;
@@ -221,8 +219,6 @@
 
 .article-title:hover {
   cursor: default;
-  transform: translateY(-2px);
-  font-size: 1.35rem;
   filter: brightness(1.1);
 }
 
@@ -249,7 +245,6 @@
 
 .tag:hover {
   cursor: default;
-  transform: translateY(-3px) scale(1.05);
   box-shadow: 0 6px 16px rgba(122, 240, 173, 0.35);
   background: linear-gradient(145deg, rgba(122, 240, 173, 0.25) 0%, rgba(0, 255, 255, 0.25) 100%);
   border-color: rgba(122, 240, 173, 0.4);
@@ -272,7 +267,7 @@
 
 .article-meta:hover svg {
   opacity: 1;
-  transform: scale(1.1);
+  stroke-width: 2;
 }
 
 .article-image {
@@ -287,10 +282,8 @@
 }
 
 .article-image:hover {
-  width: 160px;
-  height: 140px;
   box-shadow: 0 10px 30px rgba(122, 240, 173, 0.3);
-  transform: translateY(-5px) rotate(1deg);
+  transform: translateY(-5px) rotate(1deg) scale(1.05);
   border-color: rgba(122, 240, 173, 0.4);
 }
 
@@ -325,20 +318,16 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
   font-family: SimSun;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
 }
 
 .page-btn:hover:not(:disabled) {
   background: linear-gradient(145deg, rgba(122, 240, 173, 0.25) 0%, rgba(0, 255, 255, 0.25) 100%);
   border-color: rgba(122, 240, 173, 0.5);
-  box-shadow: 0 6px 16px rgba(122, 240, 173, 0.35);
-  transform: translateY(-2px);
   color: #7af0ad;
 }
 
 .page-btn:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
 .page-btn:disabled {
@@ -405,3 +394,5 @@
     padding: 6px 12px;
   }
 }
+
+

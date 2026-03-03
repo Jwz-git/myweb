@@ -157,6 +157,7 @@ audio {
     display: flex;
     align-items: center;
     width: calc(100% - 24px);
+    margin-left: 9px;
 }
 
 .volume-icon {
@@ -377,6 +378,7 @@ audio {
     .volume-control {
         width: calc(100% - 16px);
         padding: 0 8px 8px;
+        margin-left: 5px;
     }
 
     .volume-slider {

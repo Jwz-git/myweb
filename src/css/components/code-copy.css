@@ -19,24 +19,29 @@
 
 .copy-btn {
     user-select: none;
-    opacity: 1;
+    opacity: 0.7;
     position: absolute;
     right: 12px;
-    top: 12px;
-    width: 36px;
-    height: 36px;
+    top: 10px;
+    width: 32px;
+    height: 32px;
     cursor: pointer;
-    padding: 8px;
-    border-radius: 4px;
+    padding: 6px;
+    border-radius: 6px;
     transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     z-index: 10;
-
-    /* 添加Flex布局实现图标居中 */
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.copy-btn:hover {
+    opacity: 1;
+    background: rgba(122, 240, 173, 0.2);
+    border-color: rgba(122, 240, 173, 0.4);
+    transform: scale(1.05);
 }
 
 .copy-btn:active {
@@ -50,13 +55,6 @@
 }
 
 /* 确保在代码块中正确显示 */
-:deep(pre.hljs) {
-    position: relative !important; /* 强制生效，避免被其他样式覆盖 */
-    padding-top: 40px !important; /* 预留按钮空间（根据按钮大小调整） */
-    border-radius: 8px !important; /* 添加圆角 */
-    overflow: hidden !important; /* 确保圆角生效 */
-}
-
 :deep(pre.hljs .copy-content) {
     position: absolute;
     top: 5px;

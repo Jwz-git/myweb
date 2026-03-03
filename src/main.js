@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import './css/global.css'
 import './css/scroll.css'
+import './css/pages/article-detail.css'
 
 import { createApp } from "vue"
 import App from "./App.vue"

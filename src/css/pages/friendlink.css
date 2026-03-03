@@ -32,7 +32,6 @@
 }
 
 .friend-card:hover {
-    transform: translateY(-8px) scale(1.02);
     box-shadow: 0 12px 30px rgba(93, 178, 235, 0.25), 0 0 50px rgba(93, 178, 235, 0.1);
     border-color: rgba(93, 178, 235, 0.4);
 }
