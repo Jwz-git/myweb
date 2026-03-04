@@ -9,13 +9,12 @@
       </div>
       <div class="content-card">
         <ul class="article-list">
-          <li v-for="article in paginatedArticles" :key="article.id" class="article-item" @click="goToArticle(article.id)"
-            title="阅读本文">
+          <li v-for="article in paginatedArticles" :key="article.id" class="article-item"
+            @click="goToArticle(article.id)" title="阅读本文">
             <div>
-              <h3 class="article-title" @click="stopBubble(event)">
-                {{ article.title }}
+              <h3 class="article-title">
+                <span style="color: #5ac8fa;">[{{ article.type }}]</span> {{ article.title }}
               </h3>
-
               <div class="article-tags" @click="stopBubble(event)">
                 <span v-for="tag in article.tags" :key="tag" class="tag">
                   {{ tag }}
@@ -28,12 +27,13 @@
                     height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
                     stroke-linecap="round" stroke-linejoin="round" data-v-26cf2bfd="">
                     <path stroke="none" d="M0 0h24v24H0z" data-v-26cf2bfd=""></path>
-                    <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" data-v-26cf2bfd=""></path>
-                    <circle cx="18" cy="18" r="4" data-v-26cf2bfd=""></circle>
-                    <path d="M15 3v4" data-v-26cf2bfd=""></path>
-                    <path d="M7 3v4" data-v-26cf2bfd=""></path>
-                    <path d="M3 11h16" data-v-26cf2bfd=""></path>
-                    <path d="M18 16.496v1.504l1 1" data-v-26cf2bfd=""></path>
+                    <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2                     data-v-26cf2bfd=""></path>
+                    <circle cx=" 18" cy="18" r="4" data-v-26cf2bfd="">
+                      </circle>
+                      <path d="M15 3v4" data-v-26cf2bfd=""></path>
+                      <path d="M7 3v4" data-v-26cf2bfd=""></path>
+                      <path d="M3 11h16" data-v-26cf2bfd=""></path>
+                      <path d="M18 16.496v1.504l1 1" data-v-26cf2bfd=""></path>
                   </svg>
                   {{ article.date }}
                 </span>
@@ -42,7 +42,7 @@
             <img :src="article.image" alt="图片加载失败" class="article-image">
           </li>
         </ul>
-        
+
         <!-- 分页组件 -->
         <div class="pagination" v-if="totalPages > 1">
           <button class="page-btn" @click="prevPage" :disabled="currentPage === 1">上一页</button>
@@ -83,14 +83,14 @@ const filteredArticles = computed(() => {
   if (!searchKeyword.value.trim()) {
     return articles
   }
-  
+
   const keyword = searchKeyword.value.toLowerCase().trim()
   return articles.filter(article => {
     // 检查标题是否包含关键字
     const titleMatch = article.title.toLowerCase().includes(keyword)
     // 检查标签是否包含关键字
     const tagMatch = article.tags.some(tag => tag.toLowerCase().includes(keyword))
-    
+
     return titleMatch || tagMatch
   })
 })

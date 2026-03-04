@@ -46,7 +46,7 @@
                 <div v-if="showArticleList && tocExpanded" class="toc-items">
                     <button v-for="item in articles" :key="item.id" class="toc-item"
                         :class="{ active: item.id === article.id }" @click="goToArticle(item.id)">
-                        {{ item.title }}
+                        <span style="color: #5ac8fa;">[{{ item.type }}]</span> {{ item.title }}
                     </button>
                 </div>
             </aside>
@@ -361,84 +361,8 @@ watch(() => route.params.id, async (newId) => {
 
 <style scoped>
 @import '../css/components/back.css';
-
-.prev-next-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.prev-btn, .next-btn {
-    margin: 0;
-}
-
-.next-icon::before {
-    content: '>';
-}
 </style>
 
 <style>
-.article-content pre.hljs {
-    position: relative;
-    margin: 0.75rem 0;
-    padding: 3rem 1rem 1rem 1rem;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #1a1d23 0%, #0d1117 100%);
-    border: 1px solid rgba(122, 240, 173, 0.15);
-    box-shadow: 
-        0 4px 20px rgba(0, 0, 0, 0.3),
-        0 0 40px rgba(122, 240, 173, 0.05),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    overflow-x: auto;
-}
-
-.article-content pre.hljs::before {
-    content: '';
-    position: absolute;
-    top: 12px;
-    left: 16px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #ff5f56;
-    box-shadow: 20px 0 0 #ffbd2e, 40px 0 0 #27c93f;
-}
-
-.article-content pre.hljs code {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-    display: block !important;
-    font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, Monaco, 'Andale Mono', monospace;
-    font-size: 0.9rem;
-    line-height: 1.7;
-    letter-spacing: 0.02em;
-}
-
-.article-content pre.hljs::-webkit-scrollbar {
-    height: 8px;
-}
-
-.article-content pre.hljs::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
-}
-
-.article-content pre.hljs::-webkit-scrollbar-thumb {
-    background: rgba(122, 240, 173, 0.3);
-    border-radius: 4px;
-}
-
-.article-content pre.hljs::-webkit-scrollbar-thumb:hover {
-    background: rgba(122, 240, 173, 0.5);
-}
-
-.article-content .md-link {
-    text-decoration: none;
-}
-
-.article-content .md-link:hover {
-    text-decoration: none;
-}
-</style>
+@import '../css/pages/article-detail.css';
+</style>        

@@ -68,7 +68,7 @@
   transition: all 0.3s ease;
   border-radius: 25px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  
+
 }
 
 .search-input:focus {
@@ -107,7 +107,7 @@
     margin: 1rem auto;
     padding: 0 0.5rem;
   }
-  
+
   .search-input {
     font-size: 0.9rem;
   }
@@ -218,8 +218,16 @@
 }
 
 .article-title:hover {
-  cursor: default;
+  cursor: pointer;
   filter: brightness(1.1);
+}
+
+.article-type {
+  color: #000000;
+  -webkit-text-fill-color: #000000;
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
 }
 
 /* 标签样式 */
@@ -245,7 +253,6 @@
 
 .tag:hover {
   cursor: default;
-  box-shadow: 0 6px 16px rgba(122, 240, 173, 0.35);
   background: linear-gradient(145deg, rgba(122, 240, 173, 0.25) 0%, rgba(0, 255, 255, 0.25) 100%);
   border-color: rgba(122, 240, 173, 0.4);
 }
@@ -263,11 +270,6 @@
 .article-meta svg {
   transition: all 0.3s ease;
   opacity: 0.8;
-}
-
-.article-meta:hover svg {
-  opacity: 1;
-  stroke-width: 2;
 }
 
 .article-image {
@@ -341,7 +343,7 @@
   color: #98f5c4;
   font-size: 1rem;
   font-family: SimSun;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0% rgba(255, 255, 255, 0.03) 100%);
   padding: 8px 16px;
   border-radius: 25px;
   border: 1px solid rgba(122, 240, 173, 0.2);
@@ -394,5 +396,3 @@
     padding: 6px 12px;
   }
 }
-
-

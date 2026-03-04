@@ -1,6 +1,7 @@
 const articles = [
   {
     id: 1,
+    type:"随笔",
     title: '一些想法',
     tags: ['思考', '碎碎念'],
     date: '2025-07-20',
@@ -9,6 +10,7 @@ const articles = [
   },
   {
     id: 2,
+    type:"随笔",
     title: '七夕学习体验(PySide6)',
     tags: ['感想', '"无能"', '碎碎念'],
     date: '2025-08-29',
@@ -17,6 +19,7 @@ const articles = [
   },
   {
     id: 3,
+    type:"随笔",
     title: '为什么会有短学期',
     tags: ['无语', '抱怨', '思考'],
     date: '2025-09-02',
@@ -25,6 +28,7 @@ const articles = [
   },
   {
     id: 4,
+    type:"技术",
     title: 'CMake学习笔记',
     tags: ['学习', '笔记'],
     date: '2025-10-10',
@@ -33,6 +37,7 @@ const articles = [
   },
   {
     id: 5,
+    type:"随笔",
     title: '情人节学习总结',
     tags: ['总结', '"无能"', '碎碎念'],
     date: '2026-02-17',
@@ -41,6 +46,7 @@ const articles = [
   },
   {
     id: 6,
+    type:"随笔",
     title: '反思现状',
     tags: ['总结', '思考'],
     date: '2026-02-26',
@@ -49,6 +55,7 @@ const articles = [
   },
   {
     id: 7,
+    type:"随笔",
     title: '我要完蛋了吗',
     tags: ['思考', '迷茫', '碎碎念'],
     date: '2026-02-28',
