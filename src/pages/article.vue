@@ -13,7 +13,9 @@
             @click="goToArticle(article.id)" title="阅读本文">
             <div>
               <h3 class="article-title">
-                <span style="color: #5ac8fa;">[{{ article.type }}]</span> {{ article.title }}
+                <span class="article-type-1" v-if="article.type === '技术'">[{{ article.type }}]</span>
+                <span class="article-type-2" v-if="article.type === '随笔'">[{{ article.type }}]</span>
+                {{ article.title }}
               </h3>
               <div class="article-tags" @click="stopBubble(event)">
                 <span v-for="tag in article.tags" :key="tag" class="tag">

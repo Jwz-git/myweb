@@ -222,9 +222,17 @@
   filter: brightness(1.1);
 }
 
-.article-type {
-  color: #000000;
-  -webkit-text-fill-color: #000000;
+.article-type-1 {
+  color: #247ef5;
+  -webkit-text-fill-color: #0e7fe8b9;
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+}
+
+.article-type-2 {
+  color: #6ffa19;
+  -webkit-text-fill-color: #eb861a;
   background: none;
   -webkit-background-clip: initial;
   background-clip: initial;

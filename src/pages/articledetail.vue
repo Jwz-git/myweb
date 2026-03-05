@@ -31,65 +31,76 @@
         <div class="article-detail-container">
             <aside class="toc-container" :class="{ collapsed: !tocExpanded }">
                 <h2 class="toc-title" @click="tocExpanded ? null : toggleToc()">
-                    <span class="toc-title-text" @click.stop="toggleArticleList">{{ showArticleList ? '文章目录' : '页内导航' }}</span>
+                    <span class="toc-title-text">
+                        {{ showArticleList ? '文章目录' : '页内导航' }}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-refresh"
+                        width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round" @click.stop="toggleArticleList">
+                        <path stroke="none" d="M0 0h24v24H0z" />
+                        <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                        <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                        </svg>
+                    </span>
                     <span class="toc-toggle-icon toc-collapse-icon" @click.stop="toggleToc">◀</span>
                     <span class="toc-toggle-icon toc-expand-icon" @click.stop="toggleToc">▶</span>
                 </h2>
-                <!-- 页内导航 -->
-                <div v-if="!showArticleList && tocExpanded" class="toc-items toc-headings">
-                    <button v-for="heading in headings" :key="heading.id" class="toc-item toc-heading-item"
-                        :class="`toc-heading-level-${heading.level}`" @click="scrollToHeading(heading.id)">
-                        {{ heading.text }}
-                    </button>
-                </div>
-                <!-- 全部文章列表 -->
-                <div v-if="showArticleList && tocExpanded" class="toc-items">
-                    <button v-for="item in articles" :key="item.id" class="toc-item"
-                        :class="{ active: item.id === article.id }" @click="goToArticle(item.id)">
-                        <span style="color: #5ac8fa;">[{{ item.type }}]</span> {{ item.title }}
-                    </button>
-                </div>
-            </aside>
-
-            <div class="content-card">
-                <div class="article-content" v-html="articleContent"></div>
-            </div>
+        <!-- 页内导航 -->
+        <div v-if="!showArticleList && tocExpanded" class="toc-items toc-headings">
+            <button v-for="heading in headings" :key="heading.id" class="toc-item toc-heading-item"
+                :class="`toc-heading-level-${heading.level}`" @click="scrollToHeading(heading.id)">
+                {{ heading.text }}
+            </button>
         </div>
-
-        <div class="button-container">
-            <div class="prev-next-buttons" v-if="isMobile">
-                <RouterLink v-if="prevArticle" :to="`/article/${prevArticle.id}`" class="custom-btn prev-btn" title="上一篇">
-                    <button class="button">
-                        <div class="state">
-                            <p>
-                                <span style="--i:0"> <i class="btn-icon"></i></span>
-                                <span style="--i:0"><a class="temp">4</a></span>
-                                <span style="--i:1">上</span>
-                                <span style="--i:2">一</span>
-                                <span style="--i:3">篇</span>
-                            </p>
-                        </div>
-                    </button>
-                </RouterLink>
-                <Back text="返回" to="/article" />
-                <RouterLink v-if="nextArticle" :to="`/article/${nextArticle.id}`" class="custom-btn next-btn" title="下一篇">
-                    <button class="button">
-                        <div class="state">
-                            <p>
-                                <span style="--i:0"> <i class="btn-icon next-icon"></i></span>
-                                <span style="--i:0"><a class="temp">4</a></span>
-                                <span style="--i:1">下</span>
-                                <span style="--i:2">一</span>
-                                <span style="--i:3">篇</span>
-                            </p>
-                        </div>
-                    </button>
-                </RouterLink>
-            </div>
-            <div class="desktop-back-btn" v-else>
-                <Back text="返回" to="/article" />
-            </div>
+        <!-- 全部文章列表 -->
+        <div v-if="showArticleList && tocExpanded" class="toc-items">
+            <button v-for="item in articles" :key="item.id" class="toc-item" :class="{ active: item.id === article.id }"
+                @click="goToArticle(item.id)">
+                <span class="article-type-1" v-if="item.type == '技术'">[{{ item.type }}]</span>
+                <span class="article-type-2" v-if="item.type == '随笔'">[{{ item.type }}]</span>
+                {{ item.title }}
+            </button>
         </div>
+        </aside>
+
+        <div class="content-card">
+            <div class="article-content" v-html="articleContent"></div>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <div class="prev-next-buttons" v-if="isMobile">
+            <RouterLink v-if="prevArticle" :to="`/article/${prevArticle.id}`" class="custom-btn prev-btn" title="上一篇">
+                <button class="button">
+                    <div class="state">
+                        <p>
+                            <span style="--i:0"> <i class="btn-icon"></i></span>
+                            <span style="--i:0"><a class="temp">4</a></span>
+                            <span style="--i:1">上</span>
+                            <span style="--i:2">一</span>
+                            <span style="--i:3">篇</span>
+                        </p>
+                    </div>
+                </button>
+            </RouterLink>
+            <Back text="返回" to="/article" />
+            <RouterLink v-if="nextArticle" :to="`/article/${nextArticle.id}`" class="custom-btn next-btn" title="下一篇">
+                <button class="button">
+                    <div class="state">
+                        <p>
+                            <span style="--i:0"> <i class="btn-icon next-icon"></i></span>
+                            <span style="--i:0"><a class="temp">4</a></span>
+                            <span style="--i:1">下</span>
+                            <span style="--i:2">一</span>
+                            <span style="--i:3">篇</span>
+                        </p>
+                    </div>
+                </button>
+            </RouterLink>
+        </div>
+        <div class="desktop-back-btn" v-else>
+            <Back text="返回" to="/article" />
+        </div>
+    </div>
     </div>
 </template>
 
@@ -228,19 +239,19 @@ const md = new MarkdownIt({
 });
 
 // 自定义链接渲染器，添加 target="_blank" 属性
-const defaultLinkRenderer = md.renderer.rules.link_open || function(tokens, idx, options, env, self) {
-  return self.renderToken(tokens, idx, options);
+const defaultLinkRenderer = md.renderer.rules.link_open || function (tokens, idx, options, env, self) {
+    return self.renderToken(tokens, idx, options);
 };
 
-md.renderer.rules.link_open = function(tokens, idx, options, env, self) {
-  // 添加 target="_blank" 和 rel="noopener noreferrer" 属性
-  tokens[idx].attrPush(['target', '_blank']);
-  tokens[idx].attrPush(['rel', 'noopener noreferrer']);
-  
-  // 添加自定义的 class 用于样式控制
-  tokens[idx].attrPush(['class', 'md-link']);
-  
-  return defaultLinkRenderer(tokens, idx, options, env, self);
+md.renderer.rules.link_open = function (tokens, idx, options, env, self) {
+    // 添加 target="_blank" 和 rel="noopener noreferrer" 属性
+    tokens[idx].attrPush(['target', '_blank']);
+    tokens[idx].attrPush(['rel', 'noopener noreferrer']);
+
+    // 添加自定义的 class 用于样式控制
+    tokens[idx].attrPush(['class', 'md-link']);
+
+    return defaultLinkRenderer(tokens, idx, options, env, self);
 };
 
 md.use(markdownItKatex);
@@ -365,4 +376,4 @@ watch(() => route.params.id, async (newId) => {
 
 <style>
 @import '../css/pages/article-detail.css';
-</style>        
+</style>
