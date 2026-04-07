@@ -4,7 +4,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('./pages/Home.vue')
+    component: () => import('./pages/home.vue')
   },
   {
     path: '/article',
@@ -14,17 +14,17 @@ const routes = [
   {
     path: '/article/:id',
     name: 'ArticleDetail',
-    component: () => import('./pages/ArticleDetail.vue')
+    component: () => import('./pages/articledetail.vue')
   },
   {
     path: '/friendlink',
     name: 'FriendLink',
-    component: () => import('./pages/FriendLink.vue')
+    component: () => import('./pages/friendlink.vue')
   },
   {
     path: '/about',
     name: 'About',
-    component: () => import('./pages/About.vue')
+    component: () => import('./pages/about.vue')
   },
   {
     path: '/:pathMatch(.*)*',
