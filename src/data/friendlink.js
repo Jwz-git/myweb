@@ -7,7 +7,7 @@ const friendLinks = [
     },
     {
         name: "Away's Blog",
-        url: "https://awayc.github.io",
+        url: "https://awayfield.top/#/",
         description: "后端开发 | 交互设计 | 技术漫谈",
         avatar: "/myweb/image/Away.jpg"
     },
