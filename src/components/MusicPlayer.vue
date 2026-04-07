@@ -1,436 +1,547 @@
 <template>
-    <div class="music-player" :class="{ 'playing': isPlaying }"
-        :style="{ left: playerPosition.left + 'px', bottom: playerPosition.bottom + 'px' }" @mousedown="startDrag"
-        @touchstart="startDrag">
-        <!-- 播放器内容区 -->
-        <div class="player-content">
-            <div class="top-section">
-                <div class="album-cover">
-                    <img :src="currentSong.cover || '/src/assets/image/icon.png'" alt="专辑封面">
-                </div>
-                <div class="song-info">
-                    <div class="song-title">{{ currentSong.title || '未知' }}</div>
-                    <div class="song-artist">{{ currentSong.artist || '未知' }}</div>
-                </div>
-            </div>
-            <div class="player-controls">
-                <button class="control-btn" @click="prevSong">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height="24"
-                        width="24">
-                        <path clip-rule="evenodd" d="M12 21.6a9.6 9.6 0 1 0 0-19.2 9.6 9.6 0 0 0 0 19.2Zm.848-12.352a1.2 1.2 0 0 
-                        0-1.696-1.696l-3.6 3.6a1.2 1.2 0 0 0 0 1.696l3.6 3.6a1.2 1.2 0 0 0 1.696-1.696L11.297 13.2H15.6a1.2 1.2 
-                        0 1 0 0-2.4h-4.303l1.551-1.552Z" fill-rule="evenodd"></path>
-                    </svg>
-                </button>
-                <button class="control-btn play-btn" @click="togglePlay">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height="24"
-                        width="24" v-if="isPlaying">
-                        <path clip-rule="evenodd"
-                            d="M21.6 12a9.6 9.6 0 1 1-19.2 0 9.6 9.6 0 0 1 19.2 0ZM8.4 9.6a1.2 1.2 0 1 1 2.4 0v4.8a1.2 1.2 0 1 
-                            1-2.4 0V9.6Zm6-1.2a1.2 1.2 0 0 0-1.2 1.2v4.8a1.2 1.2 0 1 0 2.4 0V9.6a1.2 1.2 0 0 0-1.2-1.2Z" fill-rule="evenodd">
-                        </path>
-                    </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24" width="24"
-                        v-if="!isPlaying">
-                        <circle cx="12" cy="12" r="9.5" fill="white" />
-                        <path d="M10 8c0-.5.5-.8 1-.5l4 3.5c.4.3.4.9 0 1.2l-4 3.5c-.5.3-1 0-1-.5V8z" fill="black" />
-                    </svg>
-
-                </button>
-                <button class="control-btn" @click="nextSong">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height="24"
-                        width="24">
-                        <path clip-rule="evenodd" d="M12 21.6a9.6 9.6 0 1 0 0-19.2 9.6 9.6 0 0 0 0 19.2Zm4.448-10.448-3.6-3.6a1.2 1.2 0 0 0-1.696 
-                            1.696l1.551 1.552H8.4a1.2 1.2 0 1 0 0 2.4h4.303l-1.551 1.552a1.2 1.2 0 1 0 1.696 1.696l3.6-3.6a1.2 
-                            1.2 0 0 0 0-1.696Z" fill-rule="evenodd"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <!-- 进度条 -->
-        <div class="progress-container">
-            <span class="time">{{ formatTime(currentTime) }}</span>
-            <div class="progress-bar" @click="setProgress">
-                <div class="progress" :style="{ width: progress + '%' }"></div>
-            </div>
-            <span class="time">{{ formatTime(duration) }}</span>
-        </div>
-
-        <!-- 音量控制 -->
-        <div class="volume-control">
-            <span class="volume-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height="20" width="24"
-                    class="volume_button">
-                    <path clip-rule="evenodd"
-                        d="M11.26 3.691A1.2 1.2 0 0 1 12 4.8v14.4a1.199 1.199 0 0 1-2.048.848L5.503 15.6H2.4a1.2 1.2 0 0 1-1.2-1.2V9.6a1.2 
-                        1.2 0 0 1 1.2-1.2h3.103l4.449-4.448a1.2 1.2 0 0 1 1.308-.26Zm6.328-.176a1.2 1.2 0 0 1 1.697 0A11.967 11.967 0 0 1 
-                        22.8 12a11.966 11.966 0 0 1-3.515 8.485 1.2 1.2 0 0 1-1.697-1.697A9.563 9.563 0 0 0 20.4 12a9.565 9.565 0 0 
-                        0-2.812-6.788 1.2 1.2 0 0 1 0-1.697Zm-3.394 3.393a1.2 1.2 0 0 1 1.698 0A7.178 7.178 0 0 1 18 12a7.18 7.18 0 0 
-                        1-2.108 5.092 1.2 1.2 0 1 1-1.698-1.698A4.782 4.782 0 0 0 15.6 12a4.78 4.78 0 0 0-1.406-3.394 1.2 1.2 0 0 1 0-1.698Z"
-                        fill-rule="evenodd"></path>
-                </svg>
-            </span>
-            <input type="range" class="volume-slider" min="0" max="1" step="0.01" :value="volume" @input="setVolume">
-        </div>
-
-        <!-- 音频元素 -->
-        <audio ref="audioPlayer" :src="currentSong.url" @timeupdate="onTimeUpdate" @loadedmetadata="onLoadedMetadata"
-            @ended="onEnded">
-        </audio>
+  <div
+    class="music-player"
+    :class="{ expanded: isExpanded, playing: isPlaying }"
+    :style="{ right: playerPos.x + 'px', bottom: playerPos.y + 'px' }"
+    @mousedown="onMouseDown"
+    @touchstart.prevent="onTouchStart"
+  >
+    <!-- Compact bar -->
+    <div class="player-bar" @click.stop="handleBarClick">
+      <div class="player-bar-info">
+        <span class="song-name">{{ currentSong.title || '未知' }}</span>
+        <span class="song-artist">{{ currentSong.artist || '' }}</span>
+      </div>
+      <div class="player-bar-controls">
+        <button class="ctrl-btn" @click.stop="prevSong" title="上一首">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/>
+          </svg>
+        </button>
+        <button class="ctrl-btn play-btn" @click.stop="togglePlay" :title="isPlaying ? '暂停' : '播放'">
+          <svg v-if="isPlaying" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 4h4v16H6zM14 4h4v16h-4z"/>
+          </svg>
+          <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </button>
+        <button class="ctrl-btn" @click.stop="nextSong" title="下一首">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+          </svg>
+        </button>
+      </div>
     </div>
+
+    <!-- Expanded panel -->
+    <transition name="slide-up">
+      <div class="player-panel" v-if="isExpanded" @click.stop>
+        <!-- Progress -->
+        <div class="progress-section">
+          <span class="time-label">{{ formatTime(currentTime) }}</span>
+          <div class="progress-track" @click="setProgress" ref="progressTrack">
+            <div class="progress-fill" :style="{ width: progress + '%' }"></div>
+          </div>
+          <span class="time-label">{{ formatTime(duration) }}</span>
+        </div>
+
+        <!-- Volume -->
+        <div class="volume-section">
+          <button class="vol-btn" @click="toggleMute">
+            <svg v-if="volume > 0 && !isMuted" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+            </svg>
+            <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+            </svg>
+          </button>
+          <input
+            type="range"
+            class="volume-slider"
+            min="0"
+            max="1"
+            step="0.01"
+            :value="isMuted ? 0 : volume"
+            @input="setVolume"
+          />
+        </div>
+      </div>
+    </transition>
+
+    <!-- Audio -->
+    <audio
+      ref="audioEl"
+      :src="currentSong.url"
+      @timeupdate="onTimeUpdate"
+      @loadedmetadata="onLoadedMetadata"
+      @ended="onEnded"
+    ></audio>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { songs } from '../data/music.js'
 
-// 播放器状态
 const isPlaying = ref(false)
+const isExpanded = ref(false)
+const isMuted = ref(false)
 const currentTime = ref(0)
 const duration = ref(0)
 const progress = ref(0)
+const volume = ref(0.25)
 
-// 拖动相关
-const isDragging = ref(false)
-const dragStart = ref({ x: 0, y: 0 })
-const playerPosition = ref({ left: 20, bottom: 50 }) // 初始位置改为左下角
-
-// audio元素引用
-const audioPlayer = ref(null)
-
+const audioEl = ref(null)
+const progressTrack = ref(null)
 const currentSongIndex = ref(0)
 const currentSong = ref(songs.value[0])
 
-// 修改prevSong和nextSong函数，确保在音频加载完成后播放
-const prevSong = async () => {
-    currentSongIndex.value = (currentSongIndex.value - 1 + songs.value.length) % songs.value.length
-    currentSong.value = songs.value[currentSongIndex.value]
+// --- Drag system ---
+const isDragging = ref(false)
+const hasMoved = ref(false)
+const dragStartMouse = ref({ x: 0, y: 0 })
+const dragStartPos = ref({ x: 0, y: 0 })
+const playerPos = ref({ x: 20, y: 20 })
 
-    // 等待音频加载完成后播放
-    if (audioPlayer.value) {
-        audioPlayer.value.load()
-        try {
-            await audioPlayer.value.play()
-            isPlaying.value = true
-        } catch (error) {
-            console.error('上一首播放失败:', error)
-            isPlaying.value = false
-        }
+const DRAG_THRESHOLD = 5 // px — below this, treat as click
+
+const getCoords = (e) => {
+  if (e.touches) {
+    const t = e.touches[0] || e.changedTouches[0]
+    return { x: t.clientX, y: t.clientY }
+  }
+  return { x: e.clientX, y: e.clientY }
+}
+
+const clampPos = (x, y) => {
+  const el = document.querySelector('.music-player')
+  const pw = el ? el.offsetWidth : 280
+  const ph = el ? el.offsetHeight : 48
+  const ww = window.innerWidth
+  const wh = window.innerHeight
+  return {
+    x: Math.max(0, Math.min(ww - pw, x)),
+    y: Math.max(0, Math.min(wh - ph, y))
+  }
+}
+
+const onMouseDown = (e) => {
+  // Don't start drag from interactive controls
+  if (e.target.closest('.ctrl-btn') || e.target.closest('.vol-btn') || e.target.closest('.volume-slider') || e.target.closest('.progress-track')) return
+
+  isDragging.value = true
+  hasMoved.value = false
+  const c = getCoords(e)
+  dragStartMouse.value = { x: c.x, y: c.y }
+  dragStartPos.value = { x: playerPos.value.x, y: playerPos.value.y }
+
+  document.addEventListener('mousemove', onMouseMove)
+  document.addEventListener('mouseup', onMouseUp)
+}
+
+const onTouchStart = (e) => {
+  if (e.target.closest('.ctrl-btn') || e.target.closest('.vol-btn') || e.target.closest('.volume-slider') || e.target.closest('.progress-track')) return
+
+  isDragging.value = true
+  hasMoved.value = false
+  const c = getCoords(e)
+  dragStartMouse.value = { x: c.x, y: c.y }
+  dragStartPos.value = { x: playerPos.value.x, y: playerPos.value.y }
+
+  document.addEventListener('touchmove', onTouchMove, { passive: false })
+  document.addEventListener('touchend', onTouchEnd)
+}
+
+const onMouseMove = (e) => {
+  if (!isDragging.value) return
+  const c = getCoords(e)
+  const dx = c.x - dragStartMouse.value.x
+  const dy = c.y - dragStartMouse.value.y
+
+  if (!hasMoved.value && Math.abs(dx) < DRAG_THRESHOLD && Math.abs(dy) < DRAG_THRESHOLD) return
+
+  hasMoved.value = true
+  // right/bottom positioning: moving mouse right → decrease right value; moving mouse down → decrease bottom value
+  const newX = dragStartPos.value.x - dx
+  const newY = dragStartPos.value.y - dy
+  const clamped = clampPos(newX, newY)
+  playerPos.value.x = clamped.x
+  playerPos.value.y = clamped.y
+}
+
+const onTouchMove = (e) => {
+  if (!isDragging.value) return
+  e.preventDefault()
+  onMouseMove(e)
+}
+
+const onMouseUp = () => {
+  isDragging.value = false
+  document.removeEventListener('mousemove', onMouseMove)
+  document.removeEventListener('mouseup', onMouseUp)
+}
+
+const onTouchEnd = () => {
+  isDragging.value = false
+  document.removeEventListener('touchmove', onTouchMove)
+  document.removeEventListener('touchend', onTouchEnd)
+}
+
+const handleBarClick = () => {
+  // Only toggle expand if it was a click, not a drag
+  if (!hasMoved.value) {
+    isExpanded.value = !isExpanded.value
+  }
+}
+
+const togglePlay = async () => {
+  if (!audioEl.value) return
+  try {
+    if (isPlaying.value) {
+      audioEl.value.pause()
+      isPlaying.value = false
+    } else {
+      await audioEl.value.play()
+      isPlaying.value = true
     }
+  } catch (err) {
+    console.error('Play failed:', err)
+    isPlaying.value = false
+  }
+}
+
+const prevSong = async () => {
+  currentSongIndex.value = (currentSongIndex.value - 1 + songs.value.length) % songs.value.length
+  currentSong.value = songs.value[currentSongIndex.value]
+  if (audioEl.value) {
+    audioEl.value.load()
+    try {
+      await audioEl.value.play()
+      isPlaying.value = true
+    } catch (e) {
+      isPlaying.value = false
+    }
+  }
 }
 
 const nextSong = async () => {
-    currentSongIndex.value = (currentSongIndex.value + 1) % songs.value.length
-    currentSong.value = songs.value[currentSongIndex.value]
-
-    // 等待音频加载完成后播放
-    if (audioPlayer.value) {
-        audioPlayer.value.load()
-        try {
-            await audioPlayer.value.play()
-            isPlaying.value = true
-        } catch (error) {
-            console.error('下一首播放失败:', error)
-            isPlaying.value = false
-        }
-    }
-}
-
-// 获取事件坐标（支持鼠标和触摸）
-const getEventCoordinates = (e) => {
-    if (e.type.includes('touch')) {
-        const touch = e.touches[0] || e.changedTouches[0];
-        return { x: touch.clientX, y: touch.clientY };
-    }
-    return { x: e.clientX, y: e.clientY };
-};
-
-// 拖动开始
-const startDrag = (e) => {
-    // 防止默认行为，避免页面滚动
-    if (e.target.closest('.volume-control') || e.target.closest('.progress-container')) {
-        return;
-    }
-
-    isDragging.value = true;
-    const coords = getEventCoordinates(e);
-    dragStart.value = {
-        x: coords.x,
-        y: coords.y
-    };
-
-    // 添加全局事件监听器（同时支持鼠标和触摸）
-    if (e.type.includes('touch')) {
-        document.addEventListener('touchmove', onDrag, { passive: false });
-        document.addEventListener('touchend', stopDrag);
-    } else {
-        document.addEventListener('mousemove', onDrag);
-        document.addEventListener('mouseup', stopDrag);
-    }
-}
-
-// 拖动中
-const onDrag = (e) => {
-    if (!isDragging.value) return;
-
-    // 防止默认行为，避免页面滚动
-    e.preventDefault();
-
-    const coords = getEventCoordinates(e);
-    const dx = coords.x - dragStart.value.x;
-    const dy = coords.y - dragStart.value.y;
-
-    // 获取窗口尺寸
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-
-    // 动态计算播放器尺寸，适应不同屏幕
-    const playerWidth = window.innerWidth < 768 ? Math.min(300, windowWidth * 0.9) : 200;
-    const playerHeight = 180; // 固定高度
-
-    // 更新播放器位置，限制所有边界（使用left定位）
-    playerPosition.value.left = Math.max(
-        10, // 最小左边距，移动端更小
-        Math.min(
-            windowWidth - playerWidth - 10, // 最大左边距（右边界限制）
-            playerPosition.value.left + dx
-        )
-    );
-
-    playerPosition.value.bottom = Math.max(
-        10, // 最小下边距，移动端更小
-        Math.min(
-            windowHeight - playerHeight - 10, // 最大下边距（上边界限制）
-            playerPosition.value.bottom - dy
-        )
-    );
-
-    // 更新起始位置
-    dragStart.value = {
-        x: coords.x,
-        y: coords.y
-    };
-}
-
-// 停止拖动
-const stopDrag = () => {
-    isDragging.value = false;
-
-    // 移除全局事件监听器（同时支持鼠标和触摸）
-    document.removeEventListener('mousemove', onDrag);
-    document.removeEventListener('mouseup', stopDrag);
-    document.removeEventListener('touchmove', onDrag);
-    document.removeEventListener('touchend', stopDrag);
-}
-
-// 实际播放控制
-const togglePlay = async () => {
-    if (!audioPlayer.value) return;
-
+  currentSongIndex.value = (currentSongIndex.value + 1) % songs.value.length
+  currentSong.value = songs.value[currentSongIndex.value]
+  if (audioEl.value) {
+    audioEl.value.load()
     try {
-        if (isPlaying.value) {
-            audioPlayer.value.pause();
-            isPlaying.value = false;
-        } else {
-            // 尝试播放音频
-            await audioPlayer.value.play();
-            isPlaying.value = true;
-        }
-    } catch (error) {
-        console.error('播放失败:', error);
-        // 如果自动播放失败，重置状态
-        isPlaying.value = false;
-        // 可以尝试重新加载音频
-        if (audioPlayer.value) {
-            audioPlayer.value.load();
-        }
+      await audioEl.value.play()
+      isPlaying.value = true
+    } catch (e) {
+      isPlaying.value = false
     }
+  }
 }
 
-// 歌曲播放结束时自动播放下一首
-const onEnded = async () => {
-    nextSong()
-    // 自动播放下一首
-    if (audioPlayer.value) {
-        try {
-            await audioPlayer.value.play()
-        } catch (error) {
-            console.error('自动播放下一首失败:', error)
-        }
-    }
+const onEnded = () => {
+  nextSong()
 }
 
-onMounted(() => {
-    // 添加全局事件监听器（同时支持鼠标和触摸）
-    document.addEventListener('mousemove', onDrag);
-    document.addEventListener('mouseup', stopDrag);
-    document.addEventListener('touchmove', onDrag, { passive: false });
-    document.addEventListener('touchend', stopDrag);
-
-    // 初始化音量滑块样式
-    updateVolumeSliderProgress();
-
-    // 初始化音频设置
-    if (audioPlayer.value) {
-        audioPlayer.value.volume = volume.value;
-        audioPlayer.value.load();
-
-        // 尝试自动播放
-        audioPlayer.value.oncanplay = async () => {
-            console.log('音频加载完成，尝试自动播放');
-            try {
-                await audioPlayer.value.play();
-                isPlaying.value = true;
-                console.log('自动播放成功');
-            } catch (error) {
-                console.log('自动播放失败，等待用户交互:', error);
-                isPlaying.value = false;
-                // 如果自动播放失败，可以设置静音后重试
-                try {
-                    audioPlayer.value.muted = true;
-                    await audioPlayer.value.play();
-                    isPlaying.value = true;
-                    console.log('静音自动播放成功');
-                    // 延迟取消静音
-                    setTimeout(() => {
-                        audioPlayer.value.muted = false;
-                    }, 1000);
-                } catch (mutedError) {
-                    console.log('静音自动播放也失败，完全等待用户交互');
-                    isPlaying.value = false;
-                    audioPlayer.value.muted = false;
-                    // 监听第一次用户交互来触发播放
-                    setupUserInteractionPlay();
-                }
-            }
-        };
-
-        // 监听音频错误
-        audioPlayer.value.onerror = (e) => {
-            console.error('音频加载错误:', e);
-            isPlaying.value = false;
-        };
-    }
-})
-
-// 设置用户交互监听器，在第一次交互时尝试播放
-const setupUserInteractionPlay = () => {
-    const tryPlayOnInteraction = async () => {
-        if (audioPlayer.value && !isPlaying.value) {
-            try {
-                await audioPlayer.value.play();
-                isPlaying.value = true;
-                console.log('用户交互触发放播成功');
-                // 移除监听器
-                removeInteractionListeners();
-            } catch (error) {
-                console.log('用户交互触发放播失败:', error);
-            }
-        }
-    };
-
-    // 添加各种用户交互事件监听器
-    document.addEventListener('click', tryPlayOnInteraction, { once: true });
-    document.addEventListener('touchstart', tryPlayOnInteraction, { once: true });
-    document.addEventListener('keydown', tryPlayOnInteraction, { once: true });
-};
-
-// 移除用户交互监听器
-const removeInteractionListeners = () => {
-    document.removeEventListener('click', setupUserInteractionPlay);
-    document.removeEventListener('touchstart', setupUserInteractionPlay);
-    document.removeEventListener('keydown', setupUserInteractionPlay);
-};
-
-
-
-const setProgress = (e) => {
-    if (!audioPlayer.value) return;
-
-    const progressBar = e.target.closest('.progress-bar')
-    const rect = progressBar.getBoundingClientRect()
-    
-    // 获取正确的触摸或鼠标位置
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX
-    const percent = (clientX - rect.left) / rect.width
-
-    // 限制百分比在0-1之间
-    const clampedPercent = Math.max(0, Math.min(1, percent))
-
-    // 设置音频播放位置
-    const newTime = clampedPercent * duration.value
-    audioPlayer.value.currentTime = newTime
-
-    // 更新状态
-    currentTime.value = newTime
-    progress.value = clampedPercent * 100
-}
-
-// 音频事件处理
 const onTimeUpdate = () => {
-    if (audioPlayer.value) {
-        currentTime.value = audioPlayer.value.currentTime
-        // 只有在播放时才更新进度条
-        if (isPlaying.value) {
-            progress.value = (currentTime.value / duration.value) * 100
-        }
+  if (audioEl.value) {
+    currentTime.value = audioEl.value.currentTime
+    if (duration.value > 0) {
+      progress.value = (currentTime.value / duration.value) * 100
     }
+  }
 }
 
 const onLoadedMetadata = () => {
-    if (audioPlayer.value) {
-        duration.value = audioPlayer.value.duration
-    }
+  if (audioEl.value) {
+    duration.value = audioEl.value.duration
+  }
 }
 
-const formatTime = (seconds) => {
-    const mins = Math.floor(seconds / 60)
-    const secs = Math.floor(seconds % 60)
-    return `${mins}:${secs < 10 ? '0' : ''}${secs}`
+const setProgress = (e) => {
+  if (!progressTrack.value || !audioEl.value) return
+  const rect = progressTrack.value.getBoundingClientRect()
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX
+  const pct = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width))
+  audioEl.value.currentTime = pct * duration.value
+  currentTime.value = pct * duration.value
+  progress.value = pct * 100
 }
 
-const volume = ref(0.25) // 初始音量为0.25
-
-// 更新音量滑块的CSS变量
-const updateVolumeSliderProgress = () => {
-    const volumeSlider = document.querySelector('.volume-slider')
-    if (volumeSlider) {
-        const progressPercent = volume.value * 100
-        volumeSlider.style.setProperty('--volume-progress', `${progressPercent}%`)
-    }
+const toggleMute = () => {
+  isMuted.value = !isMuted.value
+  if (audioEl.value) {
+    audioEl.value.volume = isMuted.value ? 0 : volume.value
+  }
 }
 
 const setVolume = (e) => {
-    const newVolume = parseFloat(e.target.value)
-    volume.value = newVolume
-    if (audioPlayer.value) {
-        audioPlayer.value.volume = volume.value
-    }
-    // 更新滑块进度样式
-    updateVolumeSliderProgress()
+  const v = parseFloat(e.target.value)
+  volume.value = v
+  isMuted.value = v === 0
+  if (audioEl.value) {
+    audioEl.value.volume = v
+  }
 }
 
-onUnmounted(() => {
-    // 移除全局事件监听器
-    document.removeEventListener('mousemove', onDrag);
-    document.removeEventListener('mouseup', stopDrag);
-    document.removeEventListener('touchmove', onDrag);
-    document.removeEventListener('touchend', stopDrag);
+const formatTime = (s) => {
+  if (!s || isNaN(s)) return '0:00'
+  const m = Math.floor(s / 60)
+  const sec = Math.floor(s % 60)
+  return `${m}:${sec < 10 ? '0' : ''}${sec}`
+}
 
-    // 移除用户交互监听器
-    removeInteractionListeners();
-
-
-    // 清理音频资源
-    if (audioPlayer.value) {
-        audioPlayer.value.pause();
-        audioPlayer.value = null;
-    }
+onMounted(() => {
+  if (audioEl.value) {
+    audioEl.value.volume = volume.value
+    audioEl.value.load()
+  }
 })
 
+onUnmounted(() => {
+  document.removeEventListener('mousemove', onMouseMove)
+  document.removeEventListener('mouseup', onMouseUp)
+  document.removeEventListener('touchmove', onTouchMove)
+  document.removeEventListener('touchend', onTouchEnd)
+  if (audioEl.value) {
+    audioEl.value.pause()
+  }
+})
 </script>
 
 <style scoped>
-@import '../css/components/music-player.css';
+.music-player {
+  position: fixed;
+  z-index: 900;
+  user-select: none;
+  width: 280px;
+  transition: box-shadow var(--transition-normal);
+}
+
+.music-player:hover {
+  z-index: 901;
+}
+
+/* Compact Bar */
+.player-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-md);
+}
+
+.player-bar:hover {
+  border-color: var(--border-primary);
+  background: var(--bg-surface-hover);
+}
+
+.player-bar-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  flex: 1;
+  margin-right: 12px;
+}
+
+.song-name {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.song-artist {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-bar-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.ctrl-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.ctrl-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+}
+
+.ctrl-btn.play-btn {
+  color: var(--accent);
+  width: 32px;
+  height: 32px;
+}
+
+.ctrl-btn.play-btn:hover {
+  background: var(--accent-muted);
+  color: var(--accent-hover);
+}
+
+/* Expanded Panel */
+.player-panel {
+  margin-top: 8px;
+  padding: 12px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.progress-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.time-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  min-width: 32px;
+  text-align: center;
+}
+
+.progress-track {
+  flex: 1;
+  height: 4px;
+  background: var(--bg-elevated);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+.progress-track:hover .progress-fill {
+  background: var(--accent-hover);
+}
+
+.volume-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vol-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--text-muted);
+  transition: color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.vol-btn:hover {
+  color: var(--text-primary);
+}
+
+.volume-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  background: var(--bg-elevated);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: none;
+}
+
+/* Playing indicator */
+.music-player.playing .player-bar {
+  border-color: rgba(201, 169, 110, 0.3);
+}
+
+/* Slide transition */
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.25s ease;
+  overflow: hidden;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(8px);
+  max-height: 0;
+  margin-top: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.slide-up-enter-to,
+.slide-up-leave-from {
+  max-height: 100px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .music-player {
+    width: 240px;
+  }
+
+  .player-bar {
+    padding: 8px 12px;
+  }
+
+  .song-name {
+    font-size: 0.78rem;
+  }
+}
 </style>

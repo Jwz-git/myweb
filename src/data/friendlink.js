@@ -1,9 +1,9 @@
 const friendLinks = [
     {
-        name: "ℱluorine's Blog",
+        name: "\u212Fluorine's Blog",
         url: "https://lemoon1206.github.io",
         description: "技术笔记 | 学习感悟 | 心得分享",
-        avatar: "/myweb/image/ℱluorine.jpg"
+        avatar: "/myweb/image/\u2131luorine.jpg"
     },
     {
         name: "Away's Blog",
@@ -17,6 +17,6 @@ const friendLinks = [
         description: "音乐制作 | 游戏开发 | 学习记录",
         avatar: "/myweb/image/Reyar.png"
     }
-] 
+]
 
 export { friendLinks }

@@ -2,21 +2,20 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 
-export default defineConfig(({ mode }) => {
-  const isProd = mode === 'production'
-
+export default defineConfig(({ command }) => {
+  const isProd = command === 'build'
   return {
     plugins: [vue()],
     base: '/myweb/',
     resolve: {
       alias: {
-        '@': resolve(__dirname, 'src'),
-      },
+        '@': resolve(__dirname, 'src')
+      }
     },
     server: {
       port: 4000,
       open: true,
-      hot: true,
+      hot: true
     },
     build: {
       minify: isProd ? 'esbuild' : 'terser',
@@ -25,14 +24,14 @@ export default defineConfig(({ mode }) => {
         output: {
           manualChunks(id) {
             if (id.includes('node_modules')) {
-              return id.split('node_modules/')[1].split('/')[0];
+              return id.split('node_modules/')[1].split('/')[0]
             }
-          },
-        },
-      },
+          }
+        }
+      }
     },
     css: {
-      devSourcemap: true,
-    },
+      devSourcemap: true
+    }
   }
 })

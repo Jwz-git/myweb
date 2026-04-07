@@ -75,13 +75,13 @@ add_subdirectory(dir)
 
 # 用指定的源文件生成库
 add_library(<name(想生成的库的名字)>
-			<STATIC|SHARED|MODULE(库的类型)>
-			[SOURCE ...(使用的文件)])
+		<STATIC|SHARED|MODULE(库的类型)>
+		[SOURCE ...(使用的文件)])
 			
 # 连接内/外部库，其实很少用到
 target_link_libraries(<target>
-			<STATIC|SHARED|MODULE>
-			[item ...])
+		<STATIC|SHARED|MODULE>
+		[item ...])
 			
 # 安装，可认为软件安装，将文件存放在系统文件夹中
 install(TARGETS <target> DESTINATION <dir>)   #可执行文件
