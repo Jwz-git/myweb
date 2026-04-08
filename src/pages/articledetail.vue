@@ -95,7 +95,7 @@
 
 <script setup>
 import { ref, watch, nextTick, onMounted, onUnmounted, createApp } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
 import markdownItKatex from '@iktakahiro/markdown-it-katex'
@@ -107,6 +107,7 @@ import 'katex/dist/katex.min.css'
 import '@/styles/article.css'
 
 const route = useRoute()
+const router = useRouter()
 
 const article = ref({ title: '', date: '', tags: [], type: '', id: -1 })
 const articleContent = ref('')
@@ -296,12 +297,23 @@ const handleScroll = () => {
   })
 }
 
+// Handle keyboard navigation
+const handleKeyDown = (event) => {
+  if (event.key === 'ArrowLeft' && prevArticle.value) {
+    router.push(`/article/${prevArticle.value.id}`)
+  } else if (event.key === 'ArrowRight' && nextArticle.value) {
+    router.push(`/article/${nextArticle.value.id}`)
+  }
+}
+
 onMounted(() => {
   window.addEventListener('scroll', handleScroll, { passive: true })
+  window.addEventListener('keydown', handleKeyDown)
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('keydown', handleKeyDown)
 })
 </script>
 
@@ -480,7 +492,9 @@ onUnmounted(() => {
 }
 
 .article-body .article-content {
-  /* keep original width */
+  flex: 0 0 auto;
+  width: 675px;
+  min-width: 0;
 }
 
 /* TOC Sidebar — right of content */
@@ -611,6 +625,10 @@ onUnmounted(() => {
 
   .article-body {
     display: block;
+  }
+
+  .article-body .article-content {
+    width: 100%;
   }
 
   .header-cover {
