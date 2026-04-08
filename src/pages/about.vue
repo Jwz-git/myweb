@@ -63,7 +63,7 @@
             <span>GitHub</span>
           </a>
           <a href="https://space.bilibili.com/454733262" target="_blank" rel="noopener noreferrer" class="contact-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
               <path data-v-2b0eee96="" fill-rule="evenodd" clip-rule="evenodd"
                 d="M3.73252 2.67094C3.33229 
                                         2.28484 3.33229 1.64373 3.73252 1.25764C4.11291 0.890684 4.71552 0.890684 5.09591 1.25764L7.21723 3.30403C7.27749 3.36218 7.32869 3.4261 7.37081 3.49407H10.5789C10.6211 3.4261 10.6723 3.36218 

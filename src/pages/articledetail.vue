@@ -94,12 +94,13 @@
 </template>
 
 <script setup>
-import { ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
+import { ref, watch, nextTick, onMounted, onUnmounted, createApp } from 'vue'
 import { useRoute } from 'vue-router'
 import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
 import markdownItKatex from '@iktakahiro/markdown-it-katex'
 import { articles } from '../data/articles.js'
+import CodeCopyButton from '@/components/CodeCopyButton.vue'
 
 import 'highlight.js/styles/github-dark.css'
 import 'katex/dist/katex.min.css'
@@ -173,30 +174,25 @@ const extractHeadings = (html) => {
 // Add copy buttons to code blocks
 const addCopyButtons = () => {
   const pres = document.querySelectorAll('.article-content pre.hljs:not(.copy-added)')
+
   pres.forEach((pre) => {
     const code = pre.querySelector('code')
     const text = code ? code.innerText : pre.innerText
 
-    const btn = document.createElement('button')
-    btn.className = 'code-copy-btn'
-    btn.textContent = '复制'
-    btn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(text)
-        btn.textContent = '已复制'
-        btn.classList.add('copied')
-        setTimeout(() => {
-          btn.textContent = '复制'
-          btn.classList.remove('copied')
-        }, 2000)
-      } catch {
-        btn.textContent = '失败'
-        setTimeout(() => { btn.textContent = '复制' }, 2000)
-      }
+    // 创建Vue组件容器
+    const buttonContainer = document.createElement('div')
+    buttonContainer.className = 'copy-btn-container'
+
+    // 创建Vue应用实例并挂载组件
+    const app = createApp(CodeCopyButton, {
+      codeContent: text
     })
 
+    app.mount(buttonContainer)
+
+    // 设置代码块样式并添加按钮
     pre.style.position = 'relative'
-    pre.appendChild(btn)
+    pre.appendChild(buttonContainer)
     pre.classList.add('copy-added')
   })
 }
@@ -264,7 +260,8 @@ const loadArticle = async (id) => {
     headings.value = extractedHeadings
 
     await nextTick()
-    addCopyButtons()
+    // 添加一个小延迟确保DOM完全渲染
+    setTimeout(addCopyButtons, 100)
   } catch (err) {
     console.error('Failed to load article:', err)
     articleContent.value = `<div style="padding: 2rem; color: var(--text-muted);">加载文章失败：${err.message}</div>`
@@ -404,8 +401,8 @@ onUnmounted(() => {
 }
 
 .header-cover {
-  width: 160px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   flex-shrink: 0;
   border-radius: var(--radius-md);
   overflow: hidden;

@@ -327,39 +327,6 @@
   color: var(--text-secondary);
 }
 
-/* ==================== Code Copy Button ==================== */
-.code-copy-btn {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  padding: 4px 10px;
-  font-size: 12px;
-  font-family: var(--font-sans);
-  color: var(--text-muted);
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-primary);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  opacity: 0;
-  z-index: 2;
-}
-
-.article-content pre:hover .code-copy-btn {
-  opacity: 1;
-}
-
-.code-copy-btn:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: var(--accent-muted);
-}
-
-.code-copy-btn.copied {
-  color: #98c379;
-  border-color: #98c379;
-}
-
 /* ==================== Responsive ==================== */
 @media (max-width: 768px) {
   .article-content pre {
@@ -372,11 +339,13 @@
     overflow-x: auto;
   }
 
-  .code-copy-btn {
-    opacity: 1;
+  .code-copy-btn-enhanced {
+    opacity: 1 !important; /* 移动端始终完全可见 */
+    transform: translateY(0) !important;
     top: 6px;
     right: 6px;
-    padding: 3px 8px;
+    padding: 5px 8px;
     font-size: 11px;
+    gap: 4px;
   }
 }
