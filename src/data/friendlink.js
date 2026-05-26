@@ -1,9 +1,9 @@
 const friendLinks = [
     {
-        name: "\u212Fluorine's Blog",
+        name: "ℱluorine's Blog",
         url: "https://lemoon1206.github.io",
         description: "技术笔记 | 学习感悟 | 心得分享",
-        avatar: "/myweb/image/\u2131luorine.jpg"
+        avatar: "/myweb/image/ℱluorine.jpg"
     },
     {
         name: "Away's Blog",
