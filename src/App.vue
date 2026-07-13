@@ -19,19 +19,6 @@ import Footer from './components/Footer.vue'
 import MusicPlayer from './components/MusicPlayer.vue'
 </script>
 
-<style>
-@import './styles/global.css';
-</style>
+<style src="./styles/app-global.css"></style>
 
-<style scoped>
-.app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.main-content {
-  flex: 1;
-  padding-top: var(--nav-height);
-}
-</style>
+<style scoped src="./styles/app.css"></style>

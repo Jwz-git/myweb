@@ -15,15 +15,29 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--bg-primary);
+  background:
+    radial-gradient(circle at 14% 8%, rgba(129, 155, 144, 0.10), transparent 26rem),
+    radial-gradient(circle at 88% 26%, rgba(213, 170, 94, 0.07), transparent 30rem),
+    var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.7;
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .18;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
 }
 
 a {
@@ -134,13 +148,13 @@ p {
 
 /* Wider container for article detail (TOC + content) */
 .container-wide {
-  max-width: 960px;
+  max-width: 1120px;
   margin: 0 auto;
   padding: 0 24px;
 }
 
 .page-enter {
-  animation: fadeInUp 0.5s ease forwards;
+  animation: fadeInUp 0.7s cubic-bezier(.2,.75,.25,1) forwards;
 }
 
 @keyframes fadeInUp {
@@ -194,6 +208,17 @@ p {
   h3 { font-size: 1.2rem; }
 
   .container {
-    padding: 0 16px;
+    padding: 0 20px;
+  }
+
+  .container-wide { padding: 0 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

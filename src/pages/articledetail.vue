@@ -24,7 +24,7 @@
 
       <!-- Article -->
       <template v-else>
-        <!-- Header: title left, cover right -->
+        <!-- Header -->
         <header class="article-header" :class="{ 'has-cover': article.cover }">
           <div class="header-text">
             <span class="type-badge" :class="article.type === '技术' ? 'type-tech' : 'type-essay'">
@@ -39,15 +39,20 @@
             </div>
           </div>
           <div class="header-cover" v-if="article.cover">
-            <img :src="article.cover" :alt="article.title" />
+            <img
+              :src="article.cover"
+              :alt="article.title"
+              :style="{ objectPosition: article.coverPosition || 'center' }"
+            />
+            <span class="cover-caption">FEATURED IMAGE · {{ article.date }}</span>
           </div>
         </header>
 
         <!-- Content + TOC -->
-        <div class="article-body">
+        <div class="article-body" :class="{ 'has-toc': headings.length > 0 }">
           <article class="article-content" v-html="articleContent"></article>
 
-          <!-- TOC: right of content area -->
+          <!-- TOC: visually placed on the left of content -->
           <aside class="toc-sidebar" v-if="headings.length > 0">
             <div class="toc-header">目录</div>
             <nav class="toc-nav">
@@ -265,7 +270,7 @@ const loadArticle = async (id) => {
     setTimeout(addCopyButtons, 100)
   } catch (err) {
     console.error('Failed to load article:', err)
-    articleContent.value = `<div style="padding: 2rem; color: var(--text-muted);">加载文章失败：${err.message}</div>`
+    articleContent.value = `<div class="article-load-error">加载文章失败：${err.message}</div>`
   }
 
   loading.value = false
@@ -317,369 +322,4 @@ onUnmounted(() => {
 })
 </script>
 
-<style scoped>
-.article-detail {
-  padding: 32px 0 80px;
-}
-
-/* Back Link */
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  margin-bottom: 32px;
-  transition: color var(--transition-fast);
-}
-
-.back-link:hover {
-  color: var(--accent);
-}
-
-/* Loading */
-.loading-state {
-  text-align: center;
-  padding: 80px 0;
-}
-
-.loading-spinner {
-  width: 32px;
-  height: 32px;
-  border: 2px solid var(--border-primary);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin: 0 auto 16px;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.loading-state p {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-
-/* Error */
-.error-state {
-  text-align: center;
-  padding: 80px 0;
-}
-
-.error-state h2 {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-}
-
-.error-state p {
-  color: var(--text-muted);
-  margin-bottom: 24px;
-}
-
-.back-home-link {
-  display: inline-block;
-  padding: 8px 20px;
-  font-size: 0.88rem;
-  color: var(--accent);
-  border: 1px solid var(--accent);
-  border-radius: var(--radius-sm);
-  transition: all var(--transition-normal);
-}
-
-.back-home-link:hover {
-  background: var(--accent);
-  color: var(--bg-primary);
-}
-
-/* Article Header */
-.article-header {
-  margin-bottom: 36px;
-  display: flex;
-  align-items: flex-start;
-  gap: 28px;
-}
-
-.article-header.has-cover {
-  align-items: center;
-}
-
-.header-text {
-  flex: 1;
-  min-width: 0;
-}
-
-.header-cover {
-  width: 140px;
-  height: 140px;
-  flex-shrink: 0;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  border: 1px solid var(--border-subtle);
-}
-
-.header-cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.type-badge {
-  display: inline-block;
-  font-size: 0.72rem;
-  padding: 3px 10px;
-  border-radius: 4px;
-  font-weight: 500;
-  margin-bottom: 16px;
-}
-
-.type-tech {
-  background: var(--accent-muted);
-  color: var(--accent);
-}
-
-.type-essay {
-  background: rgba(120, 140, 200, 0.12);
-  color: #8b9dc3;
-}
-
-.article-title {
-  font-family: var(--font-serif);
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  line-height: 1.35;
-  margin-bottom: 16px;
-}
-
-.article-meta {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.article-tags {
-  display: flex;
-  gap: 6px;
-}
-
-.tag-pill {
-  font-size: 0.72rem;
-  padding: 2px 8px;
-  background: var(--bg-elevated);
-  color: var(--text-muted);
-  border-radius: 4px;
-  border: 1px solid var(--border-subtle);
-}
-
-.article-date {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-}
-
-/* Article Body: content + TOC side by side */
-.article-body {
-  position: relative;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 24px;
-}
-
-.article-body .article-content {
-  flex: 0 0 auto;
-  width: 675px;
-  min-width: 0;
-}
-
-/* TOC Sidebar — right of content */
-.toc-sidebar {
-  width: 200px;
-  flex-shrink: 0;
-  padding: 20px;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  height: fit-content;
-  position: sticky;
-  top: 80px;
-}
-
-.toc-header {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 12px;
-}
-
-.toc-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.toc-link {
-  display: block;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  padding: 6px 0;
-  border-left: 2px solid var(--border-subtle);
-  transition: all var(--transition-fast);
-  line-height: 1.5;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.toc-link:hover {
-  color: var(--text-secondary);
-  border-left-color: var(--text-muted);
-}
-
-.toc-link.active {
-  color: var(--accent);
-  border-left-color: var(--accent);
-}
-
-.toc-level-3 {
-  font-size: 0.8rem;
-}
-
-.toc-level-4 {
-  font-size: 0.78rem;
-}
-
-/* Article Navigation */
-.article-nav {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-top: 48px;
-  padding-top: 32px;
-  border-top: 1px solid var(--border-subtle);
-}
-
-.nav-card {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 16px 20px;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-normal);
-}
-
-.nav-card:hover {
-  border-color: var(--border-primary);
-  background: var(--bg-surface-hover);
-}
-
-.nav-prev:hover {
-  transform: translateX(-4px);
-}
-
-.nav-next:hover {
-  transform: translateX(4px);
-  text-align: right;
-}
-
-.nav-next {
-  text-align: right;
-}
-
-.nav-label {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-.nav-title {
-  font-family: var(--font-serif);
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  transition: color var(--transition-fast);
-}
-
-.nav-card:hover .nav-title {
-  color: var(--accent);
-}
-
-.nav-empty {
-  pointer-events: none;
-  opacity: 0;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-  .toc-sidebar {
-    display: none;
-  }
-
-  .article-body {
-    display: block;
-  }
-
-  .article-body .article-content {
-    width: 100%;
-  }
-
-  .header-cover {
-    width: 120px;
-    height: 90px;
-  }
-}
-
-@media (max-width: 768px) {
-  .article-detail {
-    padding: 24px 0 60px;
-  }
-
-  .article-title {
-    font-size: 1.5rem;
-  }
-
-  .article-header {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .header-cover {
-    display: none;
-  }
-
-  .type-badge {
-    display: block;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .article-title {
-    text-align: center;
-  }
-
-  .article-meta {
-    justify-content: center;
-  }
-
-  .article-nav {
-    grid-template-columns: 1fr;
-  }
-
-  .nav-next {
-    text-align: left;
-  }
-
-  .nav-next:hover {
-    transform: translateX(4px);
-  }
-}
-</style>
+<style scoped src="../styles/article-detail.css"></style>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 46">
+  <g
+    fill="none"
+    stroke="#d5aa5e"
+    stroke-width="5"
+    stroke-linecap="square"
+    stroke-linejoin="miter"
+  >
+    <path d="M7 11 17 35 29 18 39 35 57 11" />
+    <path d="M18 11 29 35 44 11" opacity=".72" />
+  </g>
+</svg>

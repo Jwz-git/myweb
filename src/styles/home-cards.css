@@ -1,0 +1,5 @@
+.recent-card,
+.recent-card:hover {
+  transform: none;
+  box-shadow: none;
+}

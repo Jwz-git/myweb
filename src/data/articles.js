@@ -6,6 +6,8 @@ const articles = [
     tags: ['思考', '碎碎念'],
     date: '2025-07-20',
     cover: '/myweb/image/1.jpg',
+    // 可选：调整阅读页封面的取景位置，例如 'center 30%'、'left center'
+    coverPosition: 'center',
     mdPath: '/myweb/md/一些想法.md'
   },
   {
