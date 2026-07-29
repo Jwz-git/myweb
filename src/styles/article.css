@@ -111,7 +111,7 @@
   background: var(--code-bg);
   color: var(--accent);
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid #8b6a35;
 }
 
 /* Code Blocks */
@@ -196,6 +196,7 @@
 /* Image */
 .article-content img {
   margin: 1.5em auto;
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   max-width: 100%;
 }

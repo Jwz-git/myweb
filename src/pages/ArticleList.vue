@@ -53,7 +53,7 @@
         >
           <div class="article-card-body">
             <div class="article-card-top">
-              <span class="type-badge" :class="article.type === '技术' ? 'type-tech' : 'type-essay'">
+              <span class="type-badge" :class="article.type === '知识' ? 'type-tech' : 'type-essay'">
                 {{ article.type }}
               </span>
               <span class="article-card-date">{{ article.date }}</span>

@@ -27,7 +27,7 @@
         <!-- Header -->
         <header class="article-header" :class="{ 'has-cover': article.cover }">
           <div class="header-text">
-            <span class="type-badge" :class="article.type === '技术' ? 'type-tech' : 'type-essay'">
+            <span class="type-badge" :class="article.type === '知识' ? 'type-tech' : 'type-essay'">
               {{ article.type }}
             </span>
             <h1 class="article-title">{{ article.title }}</h1>
@@ -44,7 +44,6 @@
               :alt="article.title"
               :style="{ objectPosition: article.coverPosition || 'center' }"
             />
-            <span class="cover-caption">FEATURED IMAGE · {{ article.date }}</span>
           </div>
         </header>
 

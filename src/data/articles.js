@@ -30,7 +30,7 @@ const articles = [
   },
   {
     id: 4,
-    type: "技术",
+    type: "知识",
     title: 'CMake学习笔记',
     tags: ['学习', '笔记'],
     date: '2025-10-10',
