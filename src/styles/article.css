@@ -330,6 +330,28 @@
 
 /* ==================== Responsive ==================== */
 @media (max-width: 768px) {
+  .article-content {
+    font-size: .96rem;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+  }
+
+  .article-content h1 { font-size: 1.55rem; }
+  .article-content h2 { font-size: 1.35rem; }
+  .article-content h3 { font-size: 1.17rem; }
+
+  .article-content table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .article-content th,
+  .article-content td {
+    padding: .6em .75em;
+  }
+
   .article-content pre {
     padding: 1em;
     font-size: 0.82em;
@@ -348,5 +370,23 @@
     padding: 5px 8px;
     font-size: 11px;
     gap: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .article-content blockquote {
+    padding: .7em .9em;
+  }
+
+  .article-content ul,
+  .article-content ol {
+    padding-left: 1.35em;
+  }
+
+  .article-content pre,
+  .article-content pre.hljs {
+    margin-inline: -4px;
+    padding: 1em .9em;
+    border-radius: var(--radius-sm);
   }
 }

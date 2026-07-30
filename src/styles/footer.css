@@ -47,3 +47,23 @@
   color: var(--text-muted);
   letter-spacing: 0.02em;
 }
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 48px 20px calc(112px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding-inline: 16px;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+  }
+
+  .footer-copyright {
+    font-size: .72rem;
+  }
+}

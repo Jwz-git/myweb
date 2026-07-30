@@ -48,7 +48,7 @@
         <router-link
           v-for="article in pagedArticles"
           :key="article.id"
-          :to="`/article/${article.id}`"
+          :to="`/articles/${article.id}`"
           class="article-card"
         >
           <div class="article-card-body">

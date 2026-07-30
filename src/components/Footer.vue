@@ -5,7 +5,7 @@
       <div class="footer-links">
         <router-link to="/">首页</router-link>
         <span class="footer-divider">/</span>
-        <router-link to="/article">文章</router-link>
+        <router-link to="/articles">文章</router-link>
         <span class="footer-divider">/</span>
         <router-link to="/friendlink">友链</router-link>
         <span class="footer-divider">/</span>

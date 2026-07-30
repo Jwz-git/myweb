@@ -16,6 +16,7 @@ html {
   text-rendering: optimizeLegibility;
   scroll-behavior: smooth;
   overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -28,6 +29,10 @@ body {
   line-height: 1.7;
   min-height: 100vh;
   overflow-x: clip;
+}
+
+body.menu-open {
+  overflow: hidden;
 }
 
 body::before {
@@ -72,6 +77,12 @@ ul, ol {
 input, textarea {
   font-family: inherit;
   font-size: inherit;
+}
+
+button,
+a,
+input {
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* ==================== Scrollbar ==================== */
@@ -141,6 +152,7 @@ p {
 
 /* ==================== Utility Classes ==================== */
 .container {
+  width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 24px;
@@ -148,6 +160,7 @@ p {
 
 /* Wider container for article detail (TOC + content) */
 .container-wide {
+  width: 100%;
   max-width: 1120px;
   margin: 0 auto;
   padding: 0 24px;
@@ -212,6 +225,13 @@ p {
   }
 
   .container-wide { padding: 0 20px; }
+}
+
+@media (max-width: 480px) {
+  .container,
+  .container-wide {
+    padding-inline: 16px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

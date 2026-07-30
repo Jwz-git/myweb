@@ -166,3 +166,38 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 480px) {
+  .friendlink-page {
+    padding-top: 30px;
+  }
+
+  .page-title {
+    font-size: 2.2rem;
+  }
+
+  .friend-grid {
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+
+  .friend-card {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .friend-desc {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .friend-arrow {
+    display: none;
+  }
+
+  .exchange-section {
+    padding-top: 32px;
+  }
+}

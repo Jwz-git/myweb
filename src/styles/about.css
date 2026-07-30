@@ -203,3 +203,29 @@
     flex-direction: column;
   }
 }
+
+@media (max-width: 480px) {
+  .about-page {
+    padding-top: 30px;
+  }
+
+  .page-title {
+    font-size: 2.2rem;
+  }
+
+  .page-desc {
+    margin-bottom: 32px;
+  }
+
+  .about-section {
+    margin-bottom: 34px;
+  }
+
+  .tech-item {
+    padding: 13px 14px;
+  }
+
+  .contact-item {
+    min-height: 48px;
+  }
+}

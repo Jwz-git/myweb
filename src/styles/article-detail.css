@@ -355,6 +355,7 @@
 
   .article-title {
     font-size: 1.5rem;
+    overflow-wrap: anywhere;
   }
 
   .article-header {
@@ -366,11 +367,7 @@
   }
 
   .header-cover {
-    display: block;
-    height: 176px;
-    max-height: none;
-    margin-top: 26px;
-    border-radius: var(--radius-md);
+    display: none;
   }
 
   .type-badge {
@@ -388,6 +385,11 @@
     justify-content: center;
   }
 
+  .article-tags {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
   .article-nav {
     grid-template-columns: 1fr;
   }
@@ -398,6 +400,31 @@
 
   .nav-next:hover {
     transform: translateX(4px);
+  }
+}
+
+@media (max-width: 480px) {
+  .article-detail {
+    padding-top: 20px;
+  }
+
+  .back-link {
+    min-height: 40px;
+    margin-bottom: 24px;
+  }
+
+  .article-title {
+    font-size: 1.4rem;
+  }
+
+  .article-nav {
+    gap: 10px;
+    margin-top: 36px;
+    padding-top: 24px;
+  }
+
+  .nav-card {
+    padding: 14px 16px;
   }
 }
 .article-content :deep(.article-load-error) {

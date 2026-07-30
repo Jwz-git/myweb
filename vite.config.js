@@ -6,7 +6,7 @@ export default defineConfig(({ command }) => {
   const isProd = command === 'build'
   return {
     plugins: [vue()],
-    base: '/myweb/',
+    base: '/Blog/',
     resolve: {
       alias: {
         '@': resolve(__dirname, 'src')

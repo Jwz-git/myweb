@@ -3,7 +3,9 @@
   z-index: 900;
   user-select: none;
   width: 280px;
+  max-width: calc(100vw - 32px);
   transition: box-shadow var(--transition-normal);
+  touch-action: none;
 }
 
 .music-player:hover {
@@ -223,7 +225,7 @@
 /* Mobile */
 @media (max-width: 768px) {
   .music-player {
-    width: 240px;
+    width: min(260px, calc(100vw - 32px));
   }
 
   .player-bar {
@@ -232,5 +234,21 @@
 
   .song-name {
     font-size: 0.78rem;
+  }
+
+  .ctrl-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .ctrl-btn.play-btn {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+@media (max-width: 380px) {
+  .player-bar-info {
+    margin-right: 6px;
   }
 }

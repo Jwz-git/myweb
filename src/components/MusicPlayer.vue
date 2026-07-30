@@ -73,6 +73,11 @@
     <audio
       ref="audioEl"
       :src="currentSong.url"
+      autoplay
+      preload="auto"
+      playsinline
+      @play="onPlay"
+      @pause="onPause"
       @timeupdate="onTimeUpdate"
       @loadedmetadata="onLoadedMetadata"
       @ended="onEnded"
@@ -81,7 +86,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { nextTick, ref, onMounted, onUnmounted } from 'vue'
 import { songs } from '../data/music.js'
 
 const isPlaying = ref(false)
@@ -96,6 +101,8 @@ const audioEl = ref(null)
 const progressTrack = ref(null)
 const currentSongIndex = ref(0)
 const currentSong = ref(songs.value[0])
+let retryAutoplayOnInteraction = false
+let playRequestInFlight = false
 
 // --- Drag system ---
 const isDragging = ref(false)
@@ -115,7 +122,7 @@ const getCoords = (e) => {
 }
 
 const clampPos = (x, y) => {
-  const el = document.querySelector('.music-player')
+  const el = audioEl.value?.closest('.music-player')
   const pw = el ? el.offsetWidth : 280
   const ph = el ? el.offsetHeight : 48
   const ww = window.innerWidth
@@ -128,7 +135,7 @@ const clampPos = (x, y) => {
 
 const onMouseDown = (e) => {
   // Don't start drag from interactive controls
-  if (e.target.closest('.ctrl-btn') || e.target.closest('.vol-btn') || e.target.closest('.volume-slider') || e.target.closest('.progress-track')) return
+  if (e.target.closest('button, input, .progress-track')) return
 
   isDragging.value = true
   hasMoved.value = false
@@ -141,7 +148,7 @@ const onMouseDown = (e) => {
 }
 
 const onTouchStart = (e) => {
-  if (e.target.closest('.ctrl-btn') || e.target.closest('.vol-btn') || e.target.closest('.volume-slider') || e.target.closest('.progress-track')) return
+  if (e.target.closest('button, input, .progress-track')) return
 
   isDragging.value = true
   hasMoved.value = false
@@ -188,6 +195,11 @@ const onTouchEnd = () => {
   document.removeEventListener('touchend', onTouchEnd)
 }
 
+const keepPlayerInViewport = () => {
+  const clamped = clampPos(playerPos.value.x, playerPos.value.y)
+  playerPos.value = clamped
+}
+
 const handleBarClick = () => {
   // Only toggle expand if it was a click, not a drag
   if (!hasMoved.value) {
@@ -197,50 +209,88 @@ const handleBarClick = () => {
 
 const togglePlay = async () => {
   if (!audioEl.value) return
-  try {
-    if (isPlaying.value) {
-      audioEl.value.pause()
-      isPlaying.value = false
-    } else {
-      await audioEl.value.play()
-      isPlaying.value = true
-    }
-  } catch (err) {
-    console.error('Play failed:', err)
-    isPlaying.value = false
+  if (!audioEl.value.paused) {
+    audioEl.value.pause()
+    return
   }
+  await playCurrentSong()
+}
+
+const playCurrentSong = async ({ retryOnInteraction = false } = {}) => {
+  if (!audioEl.value || playRequestInFlight) return false
+  playRequestInFlight = true
+  try {
+    await audioEl.value.play()
+    clearAutoplayFallback()
+    return true
+  } catch (err) {
+    if (retryOnInteraction && err?.name === 'NotAllowedError') {
+      armAutoplayFallback()
+    } else {
+      console.warn('Playback failed:', err)
+    }
+    return false
+  } finally {
+    playRequestInFlight = false
+  }
+}
+
+const armAutoplayFallback = () => {
+  if (retryAutoplayOnInteraction) return
+  retryAutoplayOnInteraction = true
+  document.addEventListener('pointerdown', retryAutoplay, { once: true, capture: true })
+  document.addEventListener('keydown', retryAutoplay, { once: true, capture: true })
+}
+
+const clearAutoplayFallback = () => {
+  retryAutoplayOnInteraction = false
+  document.removeEventListener('pointerdown', retryAutoplay, true)
+  document.removeEventListener('keydown', retryAutoplay, true)
+}
+
+const retryAutoplay = (event) => {
+  if (!retryAutoplayOnInteraction) return
+  if (event?.type === 'pointerdown' && event.target?.closest('.music-player button, .music-player input')) {
+    document.addEventListener('pointerdown', retryAutoplay, { once: true, capture: true })
+    return
+  }
+  if (event?.type === 'keydown' && !['Enter', ' ', 'Spacebar'].includes(event.key)) {
+    document.addEventListener('keydown', retryAutoplay, { once: true, capture: true })
+    return
+  }
+  clearAutoplayFallback()
+  playCurrentSong()
 }
 
 const prevSong = async () => {
   currentSongIndex.value = (currentSongIndex.value - 1 + songs.value.length) % songs.value.length
   currentSong.value = songs.value[currentSongIndex.value]
-  if (audioEl.value) {
-    audioEl.value.load()
-    try {
-      await audioEl.value.play()
-      isPlaying.value = true
-    } catch (e) {
-      isPlaying.value = false
-    }
-  }
+  // Wait for Vue to update :src before loading and playing the new song.
+  await nextTick()
+  audioEl.value?.load()
+  await playCurrentSong()
 }
 
 const nextSong = async () => {
   currentSongIndex.value = (currentSongIndex.value + 1) % songs.value.length
   currentSong.value = songs.value[currentSongIndex.value]
-  if (audioEl.value) {
-    audioEl.value.load()
-    try {
-      await audioEl.value.play()
-      isPlaying.value = true
-    } catch (e) {
-      isPlaying.value = false
-    }
-  }
+  // Wait for Vue to update :src before loading and playing the new song.
+  await nextTick()
+  audioEl.value?.load()
+  await playCurrentSong()
 }
 
 const onEnded = () => {
   nextSong()
+}
+
+const onPlay = () => {
+  isPlaying.value = true
+  clearAutoplayFallback()
+}
+
+const onPause = () => {
+  isPlaying.value = false
 }
 
 const onTimeUpdate = () => {
@@ -291,18 +341,23 @@ const formatTime = (s) => {
   return `${m}:${sec < 10 ? '0' : ''}${sec}`
 }
 
-onMounted(() => {
+onMounted(async () => {
+  window.addEventListener('resize', keepPlayerInViewport, { passive: true })
   if (audioEl.value) {
     audioEl.value.volume = volume.value
     audioEl.value.load()
+    await playCurrentSong({ retryOnInteraction: true })
   }
 })
 
 onUnmounted(() => {
+  window.removeEventListener('resize', keepPlayerInViewport)
   document.removeEventListener('mousemove', onMouseMove)
   document.removeEventListener('mouseup', onMouseUp)
   document.removeEventListener('touchmove', onTouchMove)
   document.removeEventListener('touchend', onTouchEnd)
+  document.removeEventListener('pointerdown', retryAutoplay, true)
+  document.removeEventListener('keydown', retryAutoplay, true)
   if (audioEl.value) {
     audioEl.value.pause()
   }

@@ -7,7 +7,7 @@
           <h1 class="hero-title">在代码与生活的<br><em>缝隙里写字。</em></h1>
           <p class="hero-subtitle">你好，我是 Jwz。这里收集学习途中留下的技术笔记，也保存那些不太好归类的想法。</p>
           <div class="hero-actions">
-            <router-link to="/article" class="primary-action">翻阅文章 <span>↗</span></router-link>
+            <router-link to="/articles" class="primary-action">翻阅文章 <span>↗</span></router-link>
             <router-link to="/about" class="text-action">认识我 <span>→</span></router-link>
           </div>
         </div>
@@ -35,14 +35,14 @@
             <span class="section-index">01 / RECENT</span>
             <h2 class="section-title">最近文章</h2>
           </div>
-          <router-link to="/article" class="view-all-link">全部文章 <span>↗</span></router-link>
+          <router-link to="/articles" class="view-all-link">全部文章 <span>↗</span></router-link>
         </header>
 
         <div class="recent-grid">
           <router-link
             v-for="(article, index) in recentArticles"
             :key="article.id"
-            :to="`/article/${article.id}`"
+            :to="`/articles/${article.id}`"
             class="recent-card"
             :class="{ featured: index === 0 }"
           >
@@ -84,8 +84,8 @@
 import { computed } from 'vue'
 import { articles } from '../data/articles.js'
 
-// 修改这里即可更换首页头像，例如：'/myweb/image/avatar.jpg'
-const profileImage = '/myweb/image/avatar.jpg'
+// 修改这里即可更换首页头像，例如：'/Blog/image/avatar.jpg'
+const profileImage = '/Blog/image/avatar.jpg'
 const recentArticles = computed(() => articles.slice(0, 3))
 const uniqueTagsCount = computed(() => new Set(articles.flatMap(article => article.tags)).size)
 const formatDate = date => date.replaceAll('-', '.')

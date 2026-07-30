@@ -2,7 +2,7 @@
   <div class="article-detail page-enter">
     <div class="container detail-container">
       <!-- Back Button -->
-      <router-link to="/article" class="back-link">
+      <router-link to="/articles" class="back-link">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
         </svg>
@@ -19,13 +19,20 @@
       <div class="error-state" v-else-if="notFound">
         <h2>文章不存在</h2>
         <p>该文章已被移除或不存在。</p>
-        <router-link to="/article" class="back-home-link">返回文章列表</router-link>
+        <router-link to="/articles" class="back-home-link">返回文章列表</router-link>
       </div>
 
       <!-- Article -->
       <template v-else>
         <!-- Header -->
         <header class="article-header" :class="{ 'has-cover': article.cover }">
+          <div class="header-cover" v-if="article.cover">
+            <img
+              :src="article.cover"
+              :alt="article.title"
+              :style="{ objectPosition: article.coverPosition || 'center' }"
+            />
+          </div>
           <div class="header-text">
             <span class="type-badge" :class="article.type === '知识' ? 'type-tech' : 'type-essay'">
               {{ article.type }}
@@ -37,13 +44,6 @@
               </div>
               <span class="article-date">{{ article.date }}</span>
             </div>
-          </div>
-          <div class="header-cover" v-if="article.cover">
-            <img
-              :src="article.cover"
-              :alt="article.title"
-              :style="{ objectPosition: article.coverPosition || 'center' }"
-            />
           </div>
         </header>
 
@@ -74,7 +74,7 @@
         <nav class="article-nav">
           <router-link
             v-if="prevArticle"
-            :to="`/article/${prevArticle.id}`"
+            :to="`/articles/${prevArticle.id}`"
             class="nav-card nav-prev"
           >
             <span class="nav-label">上一篇</span>
@@ -84,7 +84,7 @@
 
           <router-link
             v-if="nextArticle"
-            :to="`/article/${nextArticle.id}`"
+            :to="`/articles/${nextArticle.id}`"
             class="nav-card nav-next"
           >
             <span class="nav-label">下一篇</span>
@@ -304,9 +304,9 @@ const handleScroll = () => {
 // Handle keyboard navigation
 const handleKeyDown = (event) => {
   if (event.key === 'ArrowLeft' && prevArticle.value) {
-    router.push(`/article/${prevArticle.value.id}`)
+    router.push(`/articles/${prevArticle.value.id}`)
   } else if (event.key === 'ArrowRight' && nextArticle.value) {
-    router.push(`/article/${nextArticle.value.id}`)
+    router.push(`/articles/${nextArticle.value.id}`)
   }
 }
 
