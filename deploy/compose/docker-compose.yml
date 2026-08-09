@@ -1,0 +1,20 @@
+services:
+  web:
+    build: { context: ../.., dockerfile: apps/web/Dockerfile }
+    restart: unless-stopped
+    ports: ["80:80"]
+    depends_on: { api: { condition: service_healthy } }
+  api:
+    build: { context: ../.., dockerfile: apps/api/Dockerfile }
+    restart: unless-stopped
+    env_file: ../../.env
+    environment: { DATABASE_URL: "postgres://blog:${POSTGRES_PASSWORD}@db:5432/blog" }
+    depends_on: { db: { condition: service_healthy } }
+    healthcheck: { test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/v1/health"], interval: 30s, timeout: 5s, retries: 3 }
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment: { POSTGRES_DB: blog, POSTGRES_USER: blog, POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}" }
+    volumes: ["postgres_data:/var/lib/postgresql/data", "../../apps/api/migrations/001_initial.sql:/docker-entrypoint-initdb.d/001.sql:ro"]
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U blog"], interval: 10s, timeout: 5s, retries: 5 }
+volumes: { postgres_data: {} }
