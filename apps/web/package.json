@@ -6,7 +6,7 @@
   "dependencies": {
     "@iktakahiro/markdown-it-katex": "^4.0.1",
     "highlight.js": "^11.11.1",
-    "katex": "^0.16.22",
+    "katex": "^0.18.1",
     "jszip": "^3.10.1",
     "markdown-it": "^14.1.0",
     "vue": "^3.5.29",
