@@ -98,10 +98,11 @@
 .recent-date { margin-bottom: 10px; color: var(--text-muted); font: .62rem/1 var(--font-mono); letter-spacing: .1em; }
 .recent-title { min-height: 2.7em; margin-bottom: 22px; font-size: 1.13rem; line-height: 1.45; }
 .featured .recent-title { font-size: 1.42rem; }
-.card-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.recent-summary { display: -webkit-box; min-height: 3.5em; margin: -10px 0 18px; overflow: hidden; color: var(--text-secondary); font-size: .74rem; line-height: 1.75; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.featured .recent-summary { -webkit-line-clamp: 3; }
+.card-bottom { display: flex; align-items: flex-end; gap: 12px; }
 .recent-tags { display: flex; flex-wrap: wrap; gap: 5px 10px; }
 .recent-tags span { color: var(--text-muted); font-size: .66rem; }
-.card-arrow { flex: 0 0 auto; width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--border-primary); border-radius: 50%; color: var(--accent); }
 
 .closing-section { display: grid; grid-template-columns: 1.2fr 1fr auto; align-items: end; gap: 60px; padding: 64px 0; border-top: 1px solid var(--border-primary); border-bottom: 1px solid var(--border-primary); }
 .closing-copy h2 { margin-top: 16px; font-size: 2.35rem; line-height: 1.4; }

@@ -9,6 +9,7 @@ tags:
   - "笔记"
 cover: /image/4.png
 coverPosition: center
+summary: "从项目目录、CMakeLists.txt 编写和构建命令入手，整理 CMake 常用变量、目标、库与子目录等基础语法。"
 draft: false
 featured: false
 series: null

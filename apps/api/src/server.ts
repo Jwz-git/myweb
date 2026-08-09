@@ -70,7 +70,18 @@ app.get('/api/v1/articles/:slug/stats', async (request: any) => {
   const { slug } = request.params; const uid = request.user?.id || 0
   const result=await query<any>(`SELECT (SELECT count(*) FROM article_views WHERE article_slug=$1)::int views,(SELECT count(*) FROM likes WHERE article_slug=$1)::int likes,EXISTS(SELECT 1 FROM likes WHERE article_slug=$1 AND user_id=$2) liked`,[slug,uid]); return {slug,...result.rows[0]}
 })
-app.post('/api/v1/articles/:slug/views', async (request: any) => { const visitor=sha(`${request.ip}:${request.headers['user-agent']||''}`).slice(0,32); await query(`INSERT INTO article_views(article_slug,visitor_hash) VALUES($1,$2) ON CONFLICT DO NOTHING`,[request.params.slug,visitor]); return {ok:true} })
+app.post('/api/v1/articles/:slug/views', async (request: any, reply) => {
+  // 同一浏览器在同一天内只为同一文章计数一次。visitor_id 比 IP 更稳定，
+  // 同时仅把哈希写入数据库，不保存原始标识或完整 IP。
+  let visitorId = request.cookies.visitor_id
+  if (!visitorId) {
+    visitorId = randomBytes(24).toString('base64url')
+    reply.setCookie('visitor_id', visitorId, { httpOnly: true, secure: secureCookies, sameSite: 'lax', path: '/', maxAge: 31536000 })
+  }
+  const visitor=sha(visitorId).slice(0,32)
+  const result=await query(`INSERT INTO article_views(article_slug,visitor_hash) VALUES($1,$2) ON CONFLICT DO NOTHING`,[request.params.slug,visitor])
+  return {ok:true,counted:result.rowCount===1}
+})
 app.put('/api/v1/articles/:slug/like',{preHandler:requireUser},async(request:any)=>{await query(`INSERT INTO likes(article_slug,user_id) VALUES($1,$2) ON CONFLICT DO NOTHING`,[request.params.slug,request.user.id]);return{ok:true}})
 app.delete('/api/v1/articles/:slug/like',{preHandler:requireUser},async(request:any)=>{await query(`DELETE FROM likes WHERE article_slug=$1 AND user_id=$2`,[request.params.slug,request.user.id]);return{ok:true}})
 

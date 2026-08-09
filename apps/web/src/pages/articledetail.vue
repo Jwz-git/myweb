@@ -34,11 +34,12 @@
               {{ article.type }}
             </span>
             <h1 class="article-title">{{ article.title }}</h1>
+            <p class="article-summary">{{ article.summary }}</p>
             <div class="article-meta">
               <div class="article-tags">
                 <span v-for="tag in article.tags" :key="tag" class="tag-pill">{{ tag }}</span>
               </div>
-              <span class="article-date">{{ article.date }}</span>
+              <span class="article-date">发布于 {{ article.date }} · 最后修改于 {{ article.updated || article.date }}</span>
             </div>
           </div>
         </header>

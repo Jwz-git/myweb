@@ -10,6 +10,7 @@ tags:
   - "碎碎念"
 cover: /image/2.png
 coverPosition: center
+summary: "一次七夕限定的 PySide6 学习记录：从 Qt Designer 设计界面、绑定功能，到使用打包工具生成桌面程序。"
 draft: false
 featured: false
 series: null

@@ -61,7 +61,7 @@
               <span class="type-badge" :class="article.type === '知识' ? 'type-tech' : 'type-essay'">
                 {{ article.type }}
               </span>
-              <span class="article-card-date">{{ article.date }}</span>
+              <span class="article-card-date">发布 {{ article.date }} · 修改 {{ article.updated || article.date }}</span>
             </div>
             <h3 class="article-card-title">{{ article.title }}</h3>
             <p class="article-card-summary">{{ article.summary }}</p>

@@ -54,11 +54,11 @@
             <div class="card-content">
               <div class="recent-date">{{ formatDate(article.date) }}</div>
               <h3 class="recent-title">{{ article.title }}</h3>
+              <p class="recent-summary">{{ article.summary }}</p>
               <div class="card-bottom">
                 <div class="recent-tags">
                   <span v-for="tag in article.tags" :key="tag"># {{ tag }}</span>
                 </div>
-                <span class="card-arrow">↗</span>
               </div>
             </div>
           </router-link>

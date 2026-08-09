@@ -167,6 +167,7 @@
   flex-wrap: wrap;
   min-height: 28px;
 }
+.article-summary { max-width: 760px; margin: 14px 0 20px; color: var(--text-secondary); font-size: .92rem; line-height: 1.85; }
 
 .article-tags {
   display: flex;

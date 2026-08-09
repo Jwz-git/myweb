@@ -12,6 +12,7 @@ const fromStatic = (article, index) => ({
   id: `static-${article.slug}`,
   status: 'published',
   draftOrder: index,
+  createdAt: `${article.date}T00:00:00.000Z`,
   publishedAt: `${article.date}T00:00:00.000Z`,
   updatedAt: `${article.updated || article.date}T00:00:00.000Z`,
   content: {
@@ -23,9 +24,23 @@ const fromStatic = (article, index) => ({
 
 const initial = serverFeaturesEnabled ? read() : []
 if (serverFeaturesEnabled) {
+  initial.forEach(item => {
+    if (item.status === 'published') {
+      item.createdAt ||= item.publishedAt || (item.content?.date ? `${item.content.date}T00:00:00.000Z` : item.updatedAt) || now()
+      item.publishedAt ||= item.createdAt
+    }
+  })
   const existingSlugs = new Set(initial.map(item => item.content?.slug))
   staticArticles.forEach((article, index) => {
     if (!existingSlugs.has(article.slug)) initial.push(fromStatic(article, index))
+    else {
+      // 将仓库中新增的人工摘要一次性同步给已缓存在浏览器中的静态文章。
+      const existing = initial.find(item => item.content?.slug === article.slug)
+      if (existing?.id?.startsWith('static-') && existing.summaryRevision !== 1) {
+        existing.content.summary = article.summary || existing.content.summary
+        existing.summaryRevision = 1
+      }
+    }
   })
 }
 export const managedArticleRecords = ref(initial)
@@ -56,12 +71,14 @@ export const publishedArticles = computed(() => {
   if (!serverFeaturesEnabled) return staticArticles
   return managedArticleRecords.value
     .filter(item => item.status === 'published')
-    .sort((a, b) => (b.updatedAt || b.publishedAt).localeCompare(a.updatedAt || a.publishedAt))
+    .sort((a, b) => (b.createdAt || b.publishedAt || b.content.date).localeCompare(a.createdAt || a.publishedAt || a.content.date))
     .map(toPublicArticle)
 })
 
 export const createManagedArticle = content => {
-  const record = { id: crypto.randomUUID(), status: 'draft', draftOrder: -Date.now(), publishedAt: null, updatedAt: now(), content }
+  // randomUUID 只在安全上下文可用；内网 HTTP 调试时使用兼容 ID。
+  const id = globalThis.crypto?.randomUUID?.() || `draft-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`
+  const record = { id, status: 'draft', draftOrder: -Date.now(), createdAt: null, publishedAt: null, updatedAt: now(), content }
   managedArticleRecords.value.unshift(record)
   persistManagedArticles()
   return record

@@ -1,13 +1,15 @@
 <template>
   <div class="write-page page-enter">
-    <header class="write-toolbar">
-      <div><span class="eyebrow">WRITING STUDIO</span><h1>写文章</h1></div>
+    <nav class="write-navbar" aria-label="写作工具栏">
+      <div class="studio-title"><span class="eyebrow">WRITING STUDIO</span><strong>{{ draft.title || '未命名文章' }}</strong></div>
+      <div class="document-actions"><button type="button" title="撤销" @click="editorCommand('undo')">↶</button><button type="button" title="重做" @click="editorCommand('redo')">↷</button><button type="button" @click="formattingOpen = !formattingOpen">写作工具 {{ formattingOpen ? '▴' : '▾' }}</button><button type="button" @click="copyMarkdown">复制 Markdown</button><button type="button" @click="draftCollapsed = !draftCollapsed">{{ draftCollapsed ? '显示列表' : '隐藏列表' }}</button><button type="button" @click="metaCollapsed = !metaCollapsed">{{ metaCollapsed ? '显示设置' : '隐藏设置' }}</button></div>
       <div class="toolbar-actions"><span class="save-state">{{ saveState }}</span><button type="button" @click="createDraft">新建</button><button type="button" @click="saveDraft">保存</button><button v-if="currentRecord?.status === 'draft'" class="primary" type="button" @click="publishDraft">发布</button></div>
-    </header>
+      <div v-show="formattingOpen" class="navbar-format-bar"><span>格式</span><button v-for="tool in tools" :key="tool.label" type="button" :title="tool.title" @click="applyFormat(tool)">{{ tool.label }}</button></div>
+    </nav>
 
-    <div class="write-layout" :class="{ 'draft-collapsed': draftCollapsed }">
-      <aside class="draft-panel" :class="{ collapsed: draftCollapsed }">
-        <div class="draft-panel-head"><div><span>内容管理</span><h2>文章</h2></div><div class="draft-head-actions"><button type="button" title="新建文章" @click="createDraft">＋</button><button type="button" :title="draftCollapsed ? '展开文章列表' : '收起文章列表'" @click="draftCollapsed = !draftCollapsed">{{ draftCollapsed ? '›' : '‹' }}</button></div></div>
+    <div class="write-layout" :class="{ 'draft-collapsed': draftCollapsed, 'meta-collapsed': metaCollapsed }">
+      <aside v-show="!draftCollapsed" class="draft-panel">
+        <div class="draft-panel-head"><div><span>内容管理</span><h2>文章</h2></div><div class="draft-head-actions"><button type="button" title="新建文章" @click="createDraft">＋</button></div></div>
         <div class="draft-list">
           <div v-for="item in articleRecords" :key="item.id" class="draft-item" :class="{ active: item.id === draftId, published: item.status === 'published' }" @dragover.prevent @drop="dropDraft(item)">
             <span v-if="item.status === 'draft'" class="drag-handle" title="拖动排序" draggable="true" @dragstart="startDrag(item)">⠿</span>
@@ -23,7 +25,7 @@
           <p v-else>垃圾箱为空</p>
         </div>
       </aside>
-      <aside class="meta-panel">
+      <aside v-show="!metaCollapsed" class="meta-panel">
         <label>标题<input v-model="draft.title" placeholder="输入文章标题" @input="syncSlug" /></label>
         <label>Slug<input v-model="draft.slug" placeholder="article-slug" /></label>
         <div class="field-row"><label>日期<input v-model="draft.date" type="date" /></label><label>类型<select v-model="draft.type"><option>随笔</option><option>知识</option></select></label></div>
@@ -65,7 +67,6 @@
         <div class="editor-tabs"><button :class="{active:mobileTab==='edit'}" @click="mobileTab='edit'">正文</button><button :class="{active:mobileTab==='preview'}" @click="mobileTab='preview'">预览</button><span>{{ wordCount }} 字 · 约 {{ readingMinutes }} 分钟</span></div>
         <div class="editor-split">
           <section class="markdown-editor" :class="{mobileHidden:mobileTab!=='edit'}">
-            <div class="format-bar"><button v-for="tool in tools" :key="tool.label" type="button" :title="tool.title" @click="applyFormat(tool)">{{ tool.label }}</button></div>
             <textarea ref="editor" v-model="draft.body" spellcheck="false" placeholder="# 从这里开始写作…"></textarea>
           </section>
           <section class="preview-pane" :class="{mobileHidden:mobileTab!=='preview'}">
@@ -109,13 +110,13 @@ const today=()=>new Date().toISOString().slice(0,10)
 const emptyDraft=()=>({title:'',slug:'',date:today(),type:'随笔',series:'',summary:'',cover:'',coverPosition:'center',body:'# 开始写作\n\n'})
 const draftRecords=managedArticleRecords
 if(!draftRecords.value.length)createManagedArticle({...emptyDraft(),tags:[]})
-const articleRecords=computed(()=>draftRecords.value.filter(item=>item.status!=='trash').sort((a,b)=>{if(a.status!==b.status)return a.status==='draft'?-1:1;if(a.status==='draft')return (a.draftOrder??0)-(b.draftOrder??0);return (b.updatedAt||b.publishedAt).localeCompare(a.updatedAt||a.publishedAt)}))
+const articleRecords=computed(()=>draftRecords.value.filter(item=>item.status!=='trash').sort((a,b)=>{if(a.status!==b.status)return a.status==='draft'?-1:1;if(a.status==='draft')return (a.draftOrder??0)-(b.draftOrder??0);return (b.createdAt||b.publishedAt||b.content.date).localeCompare(a.createdAt||a.publishedAt||a.content.date)}))
 const trashedRecords=computed(()=>draftRecords.value.filter(item=>item.status==='trash').sort((a,b)=>(b.deletedAt||'').localeCompare(a.deletedAt||'')))
 const firstRecord=articleRecords.value[0]
 const draftId=ref(firstRecord.id)
 const draft=reactive({...emptyDraft(),...firstRecord.content})
 const tagsInput=ref((firstRecord.content.tags||[]).join(', '))
-const editor=ref(null),coverPreview=ref(draft.cover||''),bodyImages=ref([]),mobileTab=ref('edit'),saveState=ref('已保存'),draftCollapsed=ref(false),trashOpen=ref(false),trashPreview=ref(null)
+const editor=ref(null),coverPreview=ref(draft.cover||''),bodyImages=ref([]),mobileTab=ref('edit'),saveState=ref('已保存'),draftCollapsed=ref(false),metaCollapsed=ref(false),formattingOpen=ref(true),trashOpen=ref(false),trashPreview=ref(null)
 const currentRecord=computed(()=>draftRecords.value.find(item=>item.id===draftId.value))
 const tags=computed(()=>tagsInput.value.split(/[,，]/).map(tag=>tag.trim()).filter(Boolean))
 const wordCount=computed(()=>draft.body.replace(/[`#>*_~|\[\]()!-]/g,'').replace(/\s/g,'').length)
@@ -132,7 +133,7 @@ const renderedBody=computed(()=>renderMarkdownBody(draft.body)
     .replace(/(<img[^>]+src=")([^"\s]+)(")/g,(_,a,src,c)=>`${a}${imageLookup.value[src]||src}${c}`)
 )
 const trashPreviewHtml=computed(()=>renderMarkdownBody(trashPreview.value?.content.body))
-const tools=[{label:'H2',title:'二级标题',before:'## ',after:''},{label:'B',title:'粗体',before:'**',after:'**'},{label:'I',title:'斜体',before:'*',after:'*'},{label:'`',title:'行内代码',before:'`',after:'`'},{label:'<>',title:'代码块',before:'```js\n',after:'\n```'},{label:'—',title:'分隔线',before:'\n---\n',after:''},{label:'🔗',title:'链接',before:'[',after:'](https://)'}]
+const tools=[{label:'H2',title:'二级标题',before:'## ',after:''},{label:'H3',title:'三级标题',before:'### ',after:''},{label:'B',title:'粗体',before:'**',after:'**'},{label:'I',title:'斜体',before:'*',after:'*'},{label:'❝',title:'引用',before:'> ',after:''},{label:'•',title:'无序列表',before:'- ',after:''},{label:'☑',title:'任务列表',before:'- [ ] ',after:''},{label:'`',title:'行内代码',before:'`',after:'`'},{label:'<>',title:'代码块',before:'```js\n',after:'\n```'},{label:'▦',title:'表格',before:'| 列一 | 列二 |\n| --- | --- |\n| 内容 | 内容 |\n',after:''},{label:'—',title:'分隔线',before:'\n---\n',after:''},{label:'🔗',title:'链接',before:'[',after:'](https://)'}]
 const slugify=value=>value.trim().toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'')
 const syncSlug=()=>{if(!draft.slug||draft.slug.startsWith('article-'))draft.slug=slugify(draft.title)||`article-${draft.date}`}
 const replacePreview=(target,file)=>{if(target.value)URL.revokeObjectURL(target.value);target.value=URL.createObjectURL(file)}
@@ -147,13 +148,15 @@ const insertImage=image=>insertText(`\n![${image.name.replace(/\.[^.]+$/,'')}](/
 const renameBodyImage=image=>{const oldName=image.name;const name=normalizedImageName(prompt('输入新的图片文件名',oldName),oldName);if(!name||name===oldName)return;if(bodyImages.value.some(item=>item!==image&&item.name===name))return alert('图片文件名已存在');replaceImageReference(oldName,name);image.name=name}
 const removeImage=image=>{const escaped=image.name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');draft.body=draft.body.replace(new RegExp(`\\n?!\\[[^\\]]*\\]\\(/image/${escaped}\\)\\n?`,'g'),'\n').replace(/\n{3,}/g,'\n\n');URL.revokeObjectURL(image.url);bodyImages.value=bodyImages.value.filter(item=>item!==image)}
 const applyFormat=tool=>insertText(tool.before,tool.after)
+const editorCommand=command=>{editor.value?.focus();document.execCommand(command)}
+const copyMarkdown=async()=>{await navigator.clipboard.writeText(draft.body);saveState.value='正文已复制'}
 watch([draft,tagsInput],()=>{saveState.value='未保存'},{deep:true})
 const persistRecords=persistManagedArticles
 const saveDraft=()=>{syncSlug();const record=currentRecord.value;if(!record)return;record.content={...JSON.parse(JSON.stringify(draft)),tags:tags.value};record.updatedAt=new Date().toISOString();persistRecords();saveState.value='已保存'}
 const clearTransientImages=()=>{if(coverPreview.value.startsWith('blob:'))URL.revokeObjectURL(coverPreview.value);bodyImages.value.forEach(image=>URL.revokeObjectURL(image.url));bodyImages.value=[]}
 const openDraft=item=>{if(item.id===draftId.value)return;saveDraft();clearTransientImages();draftId.value=item.id;Object.assign(draft,emptyDraft(),item.content);tagsInput.value=(item.content.tags||[]).join(', ');coverPreview.value=draft.cover||'';saveState.value='已保存'}
 const createDraft=()=>{saveDraft();clearTransientImages();const record=createManagedArticle({...emptyDraft(),tags:[]});draftId.value=record.id;Object.assign(draft,record.content);tagsInput.value='';coverPreview.value='';saveState.value='已保存'}
-const publishDraft=()=>{if(!draft.title.trim())return alert('请先填写标题');saveDraft();const record=currentRecord.value;record.status='published';record.publishedAt=record.publishedAt||new Date().toISOString();record.updatedAt=new Date().toISOString();persistRecords();saveState.value='已发布'}
+const publishDraft=()=>{if(!draft.title.trim())return alert('请先填写标题');saveDraft();const record=currentRecord.value;const publishedNow=new Date().toISOString();record.status='published';record.createdAt=publishedNow;record.publishedAt=publishedNow;record.updatedAt=publishedNow;record.content.date=publishedNow.slice(0,10);draft.date=record.content.date;persistRecords();saveState.value='已发布'}
 const deleteDraft=item=>{if(!confirm(`将文章“${item.content.title||'未命名文章'}”移入垃圾箱？`))return;const wasActive=item.id===draftId.value;item.previousStatus=item.status;item.status='trash';item.deletedAt=new Date().toISOString();if(wasActive){clearTransientImages();let next=articleRecords.value[0];if(!next)next=createManagedArticle({...emptyDraft(),tags:[]});draftId.value=next.id;Object.assign(draft,emptyDraft(),next.content);tagsInput.value=(next.content.tags||[]).join(', ');coverPreview.value=draft.cover||'';saveState.value='已保存'}persistRecords()}
 const restoreArticle=item=>{item.status=item.previousStatus==='published'?'published':'draft';delete item.previousStatus;delete item.deletedAt;persistRecords()}
 const previewTrash=item=>{trashPreview.value=item}
@@ -226,4 +229,11 @@ onBeforeUnmount(()=>{clearTransientImages()})
 @media(max-width:1180px) and (min-width:901px){.write-layout{grid-template-columns:190px 250px minmax(0,1fr)}.write-layout.draft-collapsed{grid-template-columns:48px 250px minmax(0,1fr)}}
 @media(max-width:900px){.write-layout.draft-collapsed{grid-template-columns:1fr}.draft-panel.collapsed{width:48px}.write-toolbar{align-items:flex-start;flex-direction:column}.write-layout{grid-template-columns:1fr}.draft-panel{padding:12px}.draft-list{grid-template-columns:repeat(2,minmax(0,1fr));max-height:220px}.meta-panel{max-height:none}.editor-panel{height:760px}.editor-split{display:block}.markdown-editor,.preview-pane{height:100%;border:0}.mobileHidden{display:none}.toolbar-actions{width:100%;flex-wrap:wrap}.save-state{margin-right:auto}}
 @media(max-width:520px){.write-page{padding-inline:12px}.write-toolbar h1{font-size:1.8rem}.write-layout{min-height:0}.editor-panel{height:680px}.preview-pane{padding:18px}.field-row{grid-template-columns:1fr}.toolbar-actions .primary{flex:1}.editor-tabs span{display:none}}
+.write-page{padding-top:0}
+.write-navbar{position:sticky;z-index:20;top:var(--nav-height);display:grid;grid-template-columns:minmax(180px,1fr) auto auto;align-items:center;gap:18px;margin:0 calc(clamp(18px,3vw,46px) * -1) 18px;padding:10px clamp(18px,3vw,46px);border-bottom:1px solid var(--border-subtle);background:color-mix(in srgb,var(--bg-primary) 92%,transparent);backdrop-filter:blur(16px)}
+.studio-title{display:grid;min-width:0}.studio-title strong{overflow:hidden;font:.9rem var(--font-serif);text-overflow:ellipsis;white-space:nowrap}.document-actions{display:flex;align-items:center;gap:7px}.document-actions button{padding:8px 11px;border:1px solid var(--border-primary);border-radius:8px;background:var(--bg-surface);color:var(--text-secondary)}
+.write-layout.draft-collapsed{grid-template-columns:270px minmax(0,1fr)}.write-layout.meta-collapsed{grid-template-columns:210px minmax(0,1fr)}.write-layout.draft-collapsed.meta-collapsed{grid-template-columns:minmax(0,1fr)}
+.meta-panel textarea{height:126px;min-height:126px;max-height:126px;resize:none}
+.write-navbar{row-gap:8px}.navbar-format-bar{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;padding-top:8px;border-top:1px solid var(--border-subtle);overflow-x:auto;scrollbar-width:thin}.navbar-format-bar>span{margin-right:5px;color:var(--text-muted);font:.62rem var(--font-mono);letter-spacing:.12em}.navbar-format-bar button{flex:0 0 auto;min-width:34px;height:30px;padding:0 9px;border:1px solid var(--border-subtle);border-radius:6px;background:var(--bg-surface);color:var(--text-secondary);font:.72rem var(--font-mono)}.navbar-format-bar button:hover{color:var(--accent);border-color:var(--border-primary);background:var(--accent-muted)}
+@media(max-width:900px){.write-navbar{grid-template-columns:1fr auto}.document-actions{grid-row:2;grid-column:1/-1;overflow-x:auto}.toolbar-actions{justify-self:end}.write-layout.draft-collapsed,.write-layout.meta-collapsed,.write-layout.draft-collapsed.meta-collapsed{grid-template-columns:1fr}.navbar-format-bar{justify-content:flex-start}.studio-title .eyebrow{display:none}}
 </style>
