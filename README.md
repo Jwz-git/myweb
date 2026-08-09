@@ -7,6 +7,11 @@
 
 文章长期保存在 Git 仓库中。构建脚本负责校验 Front Matter，并生成文章数据、搜索索引、RSS、站点地图和 SEO 文件。项目未集成 AI、向量检索或问答功能。
 
+## 在线访问
+
+- **GitHub Pages（纯静态版）**：[https://jwz-git.github.io/Blog](https://jwz-git.github.io/Blog)
+- **VPS（完整功能版）**：[https://blog.jwzlab.com/](https://blog.jwzlab.com/)
+
 ## 技术栈
 
 | 模块 | 技术 |

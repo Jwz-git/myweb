@@ -137,17 +137,15 @@ p {
 /* ==================== Page Transition ==================== */
 .fade-slide-enter-active,
 .fade-slide-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.14s ease;
 }
 
 .fade-slide-enter-from {
   opacity: 0;
-  transform: translateY(12px);
 }
 
 .fade-slide-leave-to {
   opacity: 0;
-  transform: translateY(-8px);
 }
 
 /* ==================== Utility Classes ==================== */
@@ -167,13 +165,13 @@ p {
 }
 
 .page-enter {
-  animation: fadeInUp 0.7s cubic-bezier(.2,.75,.25,1) forwards;
+  animation: fadeInUp 0.24s cubic-bezier(.2,.75,.25,1) forwards;
 }
 
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;

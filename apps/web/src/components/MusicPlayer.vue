@@ -73,7 +73,7 @@
     <audio
       ref="audioEl"
       :src="currentSong.url"
-      preload="metadata"
+      preload="none"
       playsinline
       @play="onPlay"
       @pause="onPause"
@@ -344,7 +344,6 @@ onMounted(() => {
   window.addEventListener('resize', keepPlayerInViewport, { passive: true })
   if (audioEl.value) {
     audioEl.value.volume = volume.value
-    audioEl.value.load()
   }
 })
 

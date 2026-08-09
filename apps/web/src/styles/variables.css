@@ -11,6 +11,8 @@
   --accent: #d5aa5e;
   --accent-hover: #e4bd78;
   --accent-muted: rgba(213, 170, 94, 0.13);
+  --reading-progress: #d5aa5e;
+  --nav-scroll-shadow: 0 12px 40px rgba(0, 0, 0, 0.16);
   --accent-cool: #819b90;
   --code-bg: #171918;
   --code-text: #d7dce2;
@@ -55,6 +57,8 @@
   --accent: #8d6428;
   --accent-hover: #6f4c1b;
   --accent-muted: rgba(141, 100, 40, 0.12);
+  --reading-progress: #4f2f08;
+  --nav-scroll-shadow: none;
   --accent-cool: #55766a;
   --code-bg: #eee9df;
   --code-text: #30352f;

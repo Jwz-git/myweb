@@ -1,7 +1,7 @@
 <template>
   <div class="article-detail page-enter">
     <Teleport to="body">
-      <div class="reading-progress" :style="{ width: readingProgress + '%' }" role="progressbar" aria-label="文章阅读进度" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="Math.round(readingProgress)"></div>
+      <div v-if="headings.length === 0" class="reading-progress" :style="{ width: readingProgress + '%' }" role="progressbar" aria-label="文章阅读进度" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="Math.round(readingProgress)"></div>
     </Teleport>
     <div class="container detail-container">
       <!-- Back Button -->
@@ -50,8 +50,10 @@
 
           <!-- TOC: visually placed on the left of content -->
           <aside class="toc-sidebar" v-if="headings.length > 0">
-            <div class="toc-header">目录</div>
-            <nav class="toc-nav">
+            <div class="toc-header">
+              <span>目录</span>
+            </div>
+            <nav class="toc-nav" :style="{ '--toc-progress': readingProgress + '%' }">
               <a
                 v-for="heading in headings"
                 :key="heading.id"

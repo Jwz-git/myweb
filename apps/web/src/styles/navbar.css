@@ -15,7 +15,7 @@
 .navbar.scrolled {
   border-bottom-color: var(--border-subtle);
   background: var(--nav-bg-scrolled);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.16);
+  box-shadow: none;
 }
 
 .navbar-inner {

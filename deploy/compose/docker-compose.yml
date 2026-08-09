@@ -4,13 +4,21 @@ services:
     build:
       context: ../..
       dockerfile: deploy/monolith/Dockerfile
+      args:
+        SITE_URL: "${SITE_URL:-https://blog.jwzlab.com}"
+        VITE_SITE_URL: "${VITE_SITE_URL:-https://blog.jwzlab.com}"
     restart: unless-stopped
     env_file: ../../.env
     environment:
       DATABASE_URL: "postgres://blog:${POSTGRES_PASSWORD}@127.0.0.1:5432/blog"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-    ports: ["80:80"]
-    volumes: ["postgres_data:/var/lib/postgresql/data"]
+    ports: ["80:80", "443:443"]
+    volumes:
+      - "postgres_data:/var/lib/postgresql/data"
+      - "caddy_data:/data/caddy"
+      - "caddy_config:/config/caddy"
 
 volumes:
   postgres_data: {}
+  caddy_data: {}
+  caddy_config: {}

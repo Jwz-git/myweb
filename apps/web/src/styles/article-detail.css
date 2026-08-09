@@ -231,26 +231,54 @@
 }
 
 .toc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .toc-nav {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1px;
 }
 
+.toc-nav::before,
+.toc-nav::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 2px;
+  pointer-events: none;
+}
+
+.toc-nav::before {
+  bottom: 0;
+  background: var(--border-subtle);
+}
+
+.toc-nav::after {
+  height: var(--toc-progress);
+  background: var(--accent);
+  transition: height .1s linear;
+}
+
 .toc-link {
+  position: relative;
+  z-index: 2;
   display: block;
   font-size: 0.85rem;
   color: var(--text-muted);
   padding: 6px 0;
-  border-left: 2px solid var(--border-subtle);
+  border-left: 2px solid transparent;
   transition: all var(--transition-fast);
   line-height: 1.5;
   white-space: nowrap;
@@ -445,7 +473,7 @@
   padding: 2rem;
   color: var(--text-muted);
 }
-.reading-progress{position:fixed;z-index:1200;top:var(--nav-height);left:0;height:2px;min-width:0;background:linear-gradient(90deg,var(--accent),var(--accent-hover));box-shadow:0 1px 6px var(--accent-muted);pointer-events:none;transition:width .1s linear}
+.reading-progress{position:fixed;z-index:1200;top:var(--nav-height);left:0;height:1px;min-width:0;background:var(--reading-progress);pointer-events:none;transition:width .1s linear}
 .related{display:grid;gap:10px;margin:36px 0}.related a{color:var(--text-secondary)}
 .share-button{border:1px solid var(--border-primary);border-radius:999px;background:var(--bg-surface);color:var(--text-primary);padding:10px 18px;cursor:pointer}
 .lightbox{position:fixed;z-index:2000;inset:0;background:rgba(0,0,0,.88);display:grid;place-items:center;padding:32px}.lightbox img{max-width:95vw;max-height:90vh}.lightbox button{position:absolute;right:22px;top:14px;font-size:36px;background:none;border:0;color:white;cursor:pointer}
