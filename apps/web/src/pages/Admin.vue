@@ -1,15 +1,15 @@
 <template>
   <div class="admin-page page-enter">
     <div class="container">
-      <header><span class="eyebrow">VPS / CONTROL PANEL</span><h1>管理后台</h1><p>管理互动数据、评论和用户状态。</p></header>
-      <div v-if="loading" class="state">正在加载服务端数据…</div>
+      <header><span class="eyebrow">VPS / CONTROL PANEL</span><h1>????</h1><p>???????????????</p></header>
+      <div v-if="loading" class="state">??????????</div>
       <div v-else-if="error" class="state error">{{ error }}</div>
       <template v-else-if="currentUser?.role === 'admin'">
         <section class="stats"><article v-for="(value,key) in overview" :key="key"><strong>{{ value }}</strong><span>{{ labels[key] || key }}</span></article></section>
-        <section><h2>评论管理</h2><div class="table-wrap"><table><thead><tr><th>用户</th><th>文章</th><th>内容</th><th>状态</th><th>操作</th></tr></thead><tbody><tr v-for="item in comments" :key="item.id"><td>{{ item.author.login }}</td><td>{{ item.articleSlug }}</td><td class="comment-body">{{ item.body }}</td><td>{{ item.status }}</td><td><button @click="moderate(item,'visible')">显示</button><button @click="moderate(item,'hidden')">隐藏</button><button class="danger" @click="moderate(item,'deleted')">删除</button></td></tr></tbody></table></div></section>
-        <section><h2>用户管理</h2><div class="users"><article v-for="user in users" :key="user.id"><img :src="user.avatarUrl" alt=""><div><strong>{{ user.login }}</strong><small>{{ user.role }} · {{ user.bannedAt ? '已封禁' : '正常' }}</small></div><button v-if="!user.bannedAt && user.role !== 'admin'" class="danger" @click="ban(user)">封禁</button></article></div></section>
+        <section><h2>????</h2><div class="table-wrap"><table><thead><tr><th>??</th><th>??</th><th>??</th><th>??</th><th>??</th></tr></thead><tbody><tr v-for="item in comments" :key="item.id"><td>{{ item.author.login }}</td><td>{{ item.articleSlug }}</td><td class="comment-body">{{ item.body }}</td><td>{{ statusLabels[item.status] || item.status }}</td><td><button @click="moderate(item,'visible')">??</button><button @click="moderate(item,'hidden')">??</button><button v-if="item.status !== 'deleted'" class="danger" @click="moderate(item,'deleted')">??</button><button v-else class="danger" @click="permanentlyDelete(item)">????</button></td></tr></tbody></table></div></section>
+        <section><h2>????</h2><div class="users"><article v-for="user in users" :key="user.id"><img :src="user.avatarUrl" alt=""><div><strong>{{ user.login }}</strong><small>{{ user.role }} ? {{ user.bannedAt ? '???' : '??' }}</small></div><button v-if="!user.bannedAt && user.role !== 'admin'" class="danger" @click="ban(user)">??</button></article></div></section>
       </template>
-      <div v-else class="state">此页面仅对管理员开放。</div>
+      <div v-else class="state">???????????</div>
     </div>
   </div>
 </template>
@@ -18,10 +18,12 @@ import { onMounted, ref } from 'vue'
 import { apiBase, serverFeaturesEnabled } from '../config/server.js'
 import { currentUser, loadSession } from '../composables/useSession.js'
 const loading=ref(true),error=ref(''),overview=ref({}),comments=ref([]),users=ref([])
-const labels={users:'用户',comments:'可见评论',likes:'点赞',views:'浏览记录'}
-const request=async(path,options={})=>{const response=await fetch(apiBase+path,{credentials:'include',headers:{'content-type':'application/json'},...options});if(!response.ok)throw new Error(response.status===403?'管理员权限校验失败':`服务请求失败 (${response.status})`);return response.json()}
-const reload=async()=>{loading.value=true;error.value='';try{if(!serverFeaturesEnabled)throw new Error('当前是静态部署，管理后台未启用');await loadSession(true);if(currentUser.value?.role!=='admin')return;[overview.value,comments.value,users.value]=await Promise.all([request('/admin/overview'),request('/admin/comments'),request('/admin/users')])}catch(err){error.value=err.message}finally{loading.value=false}}
+const labels={users:'??',comments:'????',likes:'??',views:'????'}
+const statusLabels={visible:'??',hidden:'??',deleted:'???'}
+const request=async(path,options={})=>{const response=await fetch(apiBase+path,{credentials:'include',headers:{'content-type':'application/json'},...options});if(!response.ok)throw new Error(response.status===403?'?????????':`?????? (${response.status})`);return response.json()}
+const reload=async()=>{loading.value=true;error.value='';try{if(!serverFeaturesEnabled)throw new Error('???????????????');await loadSession(true);if(currentUser.value?.role!=='admin')return;[overview.value,comments.value,users.value]=await Promise.all([request('/admin/overview'),request('/admin/comments'),request('/admin/users')])}catch(err){error.value=err.message}finally{loading.value=false}}
 const moderate=async(item,status)=>{await request(`/admin/comments/${item.id}/moderation`,{method:'PATCH',body:JSON.stringify({status})});item.status=status}
+const permanentlyDelete=async item=>{if(!confirm(`???? ${item.author.login} ??????`))return;await request(`/admin/comments/${item.id}`,{method:'DELETE',body:'{}'});comments.value=comments.value.filter(comment=>comment.id!==item.id)}
 const ban=async user=>{await request(`/admin/users/${user.id}/ban`,{method:'POST',body:'{}'});user.bannedAt=new Date().toISOString()}
 onMounted(reload)
 </script>
