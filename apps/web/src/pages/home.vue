@@ -47,7 +47,7 @@
             :class="{ featured: index === 0 }"
           >
             <div class="card-cover">
-              <img :src="assetUrl(article.cover)" :alt="article.title" loading="lazy" />
+              <img :src="assetUrl(article.cover)" :alt="article.title" loading="lazy" decoding="async" />
               <span class="card-number">0{{ index + 1 }}</span>
               <span class="type-badge">{{ article.type }}</span>
             </div>

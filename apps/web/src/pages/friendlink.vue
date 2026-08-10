@@ -14,7 +14,7 @@
           class="friend-card"
         >
           <div class="friend-avatar">
-            <img :src="link.avatar" :alt="link.name" loading="lazy" />
+            <img :src="link.avatar" :alt="link.name" loading="lazy" decoding="async" />
           </div>
           <div class="friend-info">
             <h3 class="friend-name">{{ link.name }}</h3>
