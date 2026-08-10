@@ -13,13 +13,14 @@ test('light theme keeps code blocks readable', async ({ page }) => {
   await expect(code).toHaveCSS('color', 'rgb(48, 53, 47)')
   await expect(page.locator('.article-content pre').first()).toHaveCSS('background-color', 'rgb(238, 233, 223)')
 })
-test('reading progress follows article content and stays fixed', async ({ page }) => {
+test('articles with a table of contents use vertical reading progress', async ({ page }) => {
   await page.goto('/articles/cmake-notes')
-  const progress = page.getByRole('progressbar', { name: '文章阅读进度' })
-  await expect(progress).toHaveAttribute('aria-valuenow', '0')
+  await expect(page.getByRole('progressbar')).toHaveCount(0)
+  const progress = page.locator('.toc-nav')
+  await expect(progress).toHaveCSS('--toc-progress', '0%')
   await page.locator('.article-content').evaluate(element => window.scrollTo(0, element.offsetTop + element.offsetHeight))
-  await expect.poll(async () => Number(await progress.getAttribute('aria-valuenow'))).toBeGreaterThan(95)
-  await expect(progress).toHaveCSS('position', 'fixed')
+  await expect.poll(async () => Number((await progress.evaluate(element => getComputedStyle(element).getPropertyValue('--toc-progress'))).replace('%', ''))).toBeGreaterThan(95)
+  await expect(page.locator('.toc-sidebar')).toHaveCSS('position', 'sticky')
 })
 test('article covers live on list cards, not detail headers', async ({ page }) => {
   await page.goto('/articles')
